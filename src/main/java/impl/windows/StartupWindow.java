@@ -5,11 +5,14 @@ import core.OptionPanel;
 import core.Window;
 import impl.listeners.ComboBoxListener;
 import impl.graphOptionPanels.RandomGraphOptionPanel;
+import impl.listeners.StartupListener;
 import impl.tools.Tools;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeListener;
 
 import static impl.tools.Tools.getBoldFont;
 import static javax.swing.UIManager.getFont;
@@ -72,6 +75,7 @@ public class StartupWindow extends Window {
     
         contButton = new JButton("Continue");
         contButton.setBounds(200, 500, 100, 35);
+        contButton.addActionListener(new StartupListener(this));
         this.panel.add(contButton);
         
         // test

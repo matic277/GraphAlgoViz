@@ -10,12 +10,12 @@ public class Main {
     public static void main(String[] args) {
         
         // intro win
-//        SwingUtilities.invokeLater(StartupWindow::new);
+        SwingUtilities.invokeLater(StartupWindow::new);
         
         // sim win
-        SwingUtilities.invokeLater(() -> {
-            new SimulationWindow(new Dimension(1000, 800));
-        });
+//        SwingUtilities.invokeLater(() -> {
+//            new SimulationWindow(new Dimension(1000, 800));
+//        });
         
         
         // TESTS
