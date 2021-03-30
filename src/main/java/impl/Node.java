@@ -13,6 +13,7 @@ public class Node implements Drawable, Selectable {
     
     int id;
     int rad;
+    
     public int x, y;
     
     List<Node> neighbors;
@@ -59,6 +60,10 @@ public class Node implements Drawable, Selectable {
         x = (int)newLocation.getX();
         y = (int)newLocation.getY();
     }
+    
+    public int getRad() { return rad; }
+    
+    public void setRad(int rad) { this.rad = rad; }
     
     @Override
     public Point2D getLocation() { return new Point2D.Double(x, y); }

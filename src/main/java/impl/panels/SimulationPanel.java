@@ -4,14 +4,15 @@ import core.Selectable;
 import impl.Node;
 import impl.tools.Pair;
 import impl.tools.Tools;
+import impl.tools.Vector;
 import impl.windows.SimulationWindow;
 import org.graphstream.graph.Edge;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,6 +29,9 @@ public class SimulationPanel extends JPanel {
     
     Map<Node, Edge> graph; // unused
     
+    int zoomLevel = 100;
+    boolean zoom;
+    double zoomFactor = 1;
     
     public static Point2D mouse = new Point2D.Double();
     
@@ -54,11 +58,26 @@ public class SimulationPanel extends JPanel {
         
         graph = new HashMap<>();
         
+//        JLabel ly = new JLabel("TEST");
+//        ly.setOpaque(true);
+//        ly.setBackground(Color.red);
+//        ly.setBounds(50, 50, 50, 50);
+//        this.add(ly);
         
-        Listener l = new Listener();
+        var l = new Listener();
         this.addMouseMotionListener(l);
         this.addMouseListener(l);
+        this.addMouseWheelListener(l);
+    
+        try {
+            r = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
     }
+    
+    AffineTransform atx = new AffineTransform();
+    Robot r;
     
     @Override
     public void paintComponent(Graphics g) {
@@ -69,18 +88,41 @@ public class SimulationPanel extends JPanel {
         
         gr.setColor(Color.PINK);
         gr.fillRect(0, 0, getWidth(), getHeight());
+    
+        gr.transform(atx);
+    
+        // mouse
+        gr.setColor(Color.red);
+        gr.fillRect((int)mouse.getX()-2, (int)mouse.getY()-2, 4, 4);
+        gr.setColor(Color.BLACK);
+        g.drawString("["+(int)mouse.getX()+","+(int)mouse.getY()+"]", (int)mouse.getX() + 3, (int)mouse.getY()-6);
+    
+        // + lines
+        gr.setColor(Color.BLACK);
+        gr.drawLine(0, (int)SimulationPanel.mouse.getY(), getWidth(), (int)SimulationPanel.mouse.getY());
+        gr.drawLine((int)SimulationPanel.mouse.getX(), 0, (int)SimulationPanel.mouse.getX(), getHeight());
+    
+        
+        gr.drawString("Zoom: " + zoomLevel, getWidth() - 80, getHeight() - 20);
+    
+    
+        // bad zooming
+        // mouse de-sync and speed problems
+        // https://stackoverflow.com/questions/6543453/zooming-in-and-zooming-out-within-a-panel
+        {
+//            var affine = new AffineTransform();
+////            affine.translate(mouse.getX()/2, mouse.getY()/2);
+//            affine.translate(getWidth()/2, getHeight()/2);
+//            affine.scale(zoomFactor, zoomFactor);
+////            affine.translate(-mouse.getX()/2, -mouse.getY()/2);
+//            affine.translate(-getWidth()/2, -getHeight()/2);
+//            gr.transform(affine);
+        }
+        // draw components after affine transformations!
+        
         
         drawComponents(gr);
         
-        // mouse
-        g.setColor(Color.red);
-        g.fillRect((int)mouse.getX()-2, (int)mouse.getY()-2, 4, 4);
-    
-        // + lines
-        g.setColor(Color.BLACK);
-        g.drawLine(0, (int)SimulationPanel.mouse.getY(), getWidth(), (int)SimulationPanel.mouse.getY());
-        g.drawLine((int)SimulationPanel.mouse.getX(), 0, (int)SimulationPanel.mouse.getX(), getHeight());
-    
 //        Tools.sleep(1000/60);
 //        super.repaint();
     }
@@ -96,7 +138,7 @@ public class SimulationPanel extends JPanel {
     }
     
     // TODO move to separate class
-    class Listener implements MouseListener, MouseMotionListener {
+    class Listener implements MouseListener, MouseMotionListener, MouseWheelListener {
         
         boolean dragging = false;
         Double dx, dy;
@@ -158,8 +200,55 @@ public class SimulationPanel extends JPanel {
                 SimulationPanel.this.repaint();
             }
         }
+        
+        double scale = 1;
+        
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+//            // scroll down, zoom in
+//            if (e.getWheelRotation() < 0) {
+//                if (zoomLevel >= 150) return;
+//                zoomLevel += 5;
+//                zoomFactor += 0.1;
+//                zoom = true;
+//            }
+//
+//            // scroll up, zoom out
+//            else {
+//                if (zoomLevel <= 70) return;
+//                zoomLevel -= 5;
+//                zoomFactor -= 0.1;
+//                zoom = true;
+//            }
     
-        @Override public void mouseMoved(MouseEvent e) { mouse.setLocation(e.getPoint()); }
+    
+            // bad zooming
+            // mouse de-sync and speed problems
+            
+            Point2D p1 = e.getPoint();
+            Point2D p2 = null;
+            try {
+                p2 = atx.inverseTransform(p1, null);
+            } catch (NoninvertibleTransformException ex) {
+                ex.printStackTrace();
+                return;
+            }
+    
+            scale -= (0.1 * e.getWheelRotation());
+            scale = Math.max(0.1, scale);
+    
+            atx.setToIdentity();
+            atx.translate(p1.getX(), p1.getY());
+            atx.scale(scale, scale);
+            atx.translate(-p2.getX(), -p2.getY());
+            
+            SimulationPanel.this.repaint();
+        }
+        
+        @Override public void mouseMoved(MouseEvent e) {
+            mouse.setLocation(e.getPoint());
+            SimulationPanel.this.repaint();
+        }
         @Override public void mouseEntered(MouseEvent e) { }
         @Override public void mouseClicked(MouseEvent e) { }
         @Override public void mouseExited(MouseEvent e) { }
