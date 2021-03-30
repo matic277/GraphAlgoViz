@@ -35,6 +35,8 @@ public class MenuPanel extends JPanel {
         this.add(b3);
         JButton b4 = new JButton("B4");
         this.add(b4);
+        JButton b5 = new JButton("B5");
+        this.add(b5);
         
 //        Listener l = new Listener();
 //        this.addMouseMotionListener(l);

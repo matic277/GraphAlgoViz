@@ -3,6 +3,7 @@ package impl.panels;
 import core.Selectable;
 import impl.Node;
 import impl.tools.Pair;
+import impl.tools.Tools;
 import impl.windows.SimulationWindow;
 import org.graphstream.graph.Edge;
 
@@ -25,7 +26,7 @@ public class SimulationPanel extends JPanel {
     Set<Node> nodes;
     Set<Pair<Node>> edges;
     
-    Map<Node, Edge> graph;
+    Map<Node, Edge> graph; // unused
     
     
     public static Point2D mouse = new Point2D.Double();
@@ -79,6 +80,9 @@ public class SimulationPanel extends JPanel {
         g.setColor(Color.BLACK);
         g.drawLine(0, (int)SimulationPanel.mouse.getY(), getWidth(), (int)SimulationPanel.mouse.getY());
         g.drawLine((int)SimulationPanel.mouse.getX(), 0, (int)SimulationPanel.mouse.getX(), getHeight());
+    
+//        Tools.sleep(1000/60);
+//        super.repaint();
     }
     
     public void drawComponents(Graphics2D g) {
@@ -91,15 +95,12 @@ public class SimulationPanel extends JPanel {
         nodes.forEach(n -> n.draw(g));
     }
     
+    // TODO move to separate class
     class Listener implements MouseListener, MouseMotionListener {
         
         boolean dragging = false;
         Double dx, dy;
         Selectable selectedItem;
-        
-        @Override
-        public void mouseClicked(MouseEvent e) {
-        }
         
         @Override
         public void mousePressed(MouseEvent e) {
@@ -111,14 +112,13 @@ public class SimulationPanel extends JPanel {
                     return;
                 }
             }
-            
             // distance to mouse for all draggables/selectables
             for (Node n : SimulationPanel.this.nodes) {
                 n.dx = e.getPoint().getX() - n.x;
                 n.dy = e.getPoint().getY() - n.y;
             }
         }
-        
+    
         @Override
         public void mouseReleased(MouseEvent e) {
             selectedItem = null;
@@ -130,21 +130,12 @@ public class SimulationPanel extends JPanel {
                 n.dy = 0;
             }
         }
-        
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-        
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
-        
+    
         @Override
         public void mouseDragged(MouseEvent e) {
 //            System.out.println("dragging");
             mouse.setLocation(e.getPoint());
-
-            
+        
             if (selectedItem != null) {
                 Point2D itemLocation = selectedItem.getLocation();
                 if (dx == null) dx = e.getPoint().getX() - itemLocation.getX();
@@ -155,22 +146,7 @@ public class SimulationPanel extends JPanel {
                 SimulationPanel.this.repaint();
                 return;
             }
-            
-//            boolean someNodeWasSelected = false;
-//            for (Node n : SimulationPanel.this.nodes) {
-//                if (n.isSelected(e.getPoint())) {
-//                    someNodeWasSelected = true;
-//                    if (dx == null) dx = e.getPoint().getX() - n.x;
-//                    if (dy == null) dy = e.getPoint().getY() - n.y;
-//                    n.moveTo(new Point2D.Double(
-//                            e.getPoint().getX() - dx,
-//                            e.getPoint().getY() - dy));
-//                    SimulationPanel.this.repaint();
-//                    break;
-//                }
-//            }
-//            if (someNodeWasSelected) return;
-            
+        
             // nothing was selected, so drag all elements
             for (Node n : SimulationPanel.this.nodes) {
                 Point2D itemLocation = n.getLocation();
@@ -182,11 +158,10 @@ public class SimulationPanel extends JPanel {
                 SimulationPanel.this.repaint();
             }
         }
-        
-        @Override
-        public void mouseMoved(MouseEvent e) {
-//            System.out.println("mov");
-            mouse.setLocation(e.getPoint());
-        }
+    
+        @Override public void mouseMoved(MouseEvent e) { mouse.setLocation(e.getPoint()); }
+        @Override public void mouseEntered(MouseEvent e) { }
+        @Override public void mouseClicked(MouseEvent e) { }
+        @Override public void mouseExited(MouseEvent e) { }
     }
 }

@@ -9,12 +9,16 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
         
+        // intro win
 //        SwingUtilities.invokeLater(StartupWindow::new);
         
+        // sim win
         SwingUtilities.invokeLater(() -> {
             new SimulationWindow(new Dimension(1000, 800));
         });
         
+        
+        // TESTS
 //        JFrame f = new JFrame();
 //        f.setLayout(new BorderLayout());
 //        JPanel p1 = new JPanel();
