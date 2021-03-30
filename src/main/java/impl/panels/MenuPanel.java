@@ -64,39 +64,30 @@ public class MenuPanel extends JPanel {
         
         @Override
         public void mouseClicked(MouseEvent e) {
-        
         }
     
         @Override
         public void mousePressed(MouseEvent e) {
-//            System.out.println("pressed in menu: " + e.getPoint());
-//            Menu.this.parent.menuMousePressed(e.getPoint());
         }
     
         @Override
         public void mouseReleased(MouseEvent e) {
-//            System.out.println("released: " + e.getPoint());
-//            Menu.this.parent.menuMouseReleased(e.getPoint());
         }
     
         @Override
         public void mouseEntered(MouseEvent e) {
-        
         }
     
         @Override
         public void mouseExited(MouseEvent e) {
-        
         }
     
         @Override
         public void mouseDragged(MouseEvent e) {
-//            System.out.println("dragging " + e.getPoint());
         }
     
         @Override
         public void mouseMoved(MouseEvent e) {
-        
         }
     }
 }

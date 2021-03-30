@@ -3,7 +3,7 @@ package impl.windows;
 import core.GraphType;
 import core.OptionPanel;
 import core.Window;
-import impl.ComboBoxListener;
+import impl.listeners.ComboBoxListener;
 import impl.graphOptionPanels.RandomGraphOptionPanel;
 import impl.tools.Tools;
 

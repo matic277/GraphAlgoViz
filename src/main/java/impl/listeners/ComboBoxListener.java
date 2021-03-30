@@ -1,4 +1,4 @@
-package impl;
+package impl.listeners;
 
 import core.GraphType;
 import core.OptionPanel;
