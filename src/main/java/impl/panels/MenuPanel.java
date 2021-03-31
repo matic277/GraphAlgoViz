@@ -1,7 +1,9 @@
 package impl.panels;
 
+import impl.Node;
 import impl.tools.Tools;
 import impl.windows.SimulationWindow;
+import impl.Button;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +15,16 @@ public class MenuPanel extends JPanel {
     
     Dimension panelSize;
     SimulationWindow parent;
+    SimulationPanel simPanel;
     
-    public MenuPanel(SimulationWindow parent, Dimension panelSize) {
+    Button addNodeBtn;
+    JButton undoBtn;
+    JButton redoBtn;
+    
+    public MenuPanel(SimulationWindow parent, SimulationPanel simPanel, Dimension panelSize) {
         this.parent = parent;
         this.panelSize = panelSize;
+        this.simPanel = simPanel;
         
         this.setPreferredSize(panelSize);
         this.setSize(panelSize);
@@ -24,19 +32,30 @@ public class MenuPanel extends JPanel {
         this.setOpaque(true);
         this.setVisible(true);
         this.setBackground(Color.blue);
+    
+        undoBtn = new JButton("<");
+        undoBtn.setToolTipText("Undo");
+        undoBtn.setPreferredSize(Tools.menuButtonSize);
+        this.add(undoBtn);
+    
+        redoBtn = new JButton(">");
+        redoBtn.setToolTipText("Redo");
+        redoBtn.setPreferredSize(Tools.menuButtonSize);
+        this.add(redoBtn);
         
+        // spacer
+        this.add(Tools.getDumyPlaceholder());
         
-        JButton b1 = new JButton("B1");
-        b1.setPreferredSize(new Dimension(100, 50));
-        this.add(b1);
-        JButton b2 = new JButton("B2");
-        this.add(b2);
-        JButton b3 = new JButton("B3");
-        this.add(b3);
-        JButton b4 = new JButton("B4");
-        this.add(b4);
-        JButton b5 = new JButton("B5");
-        this.add(b5);
+        addNodeBtn = new Button("new node");
+        addNodeBtn.setToolTipText("Add new node");
+//        addNodeBtn.setMargin(new Insets(-0,-10,0,0));
+//        addNodeBtn.setPreferredSize(Tools.menuButtonSize);
+//        addNodeBtn.setSize(Tools.menuButtonSize);
+        addNodeBtn.setOnClickAction(() -> {
+            simPanel.addNode(new Node(50, 50, 5));
+        });
+        this.add(addNodeBtn);
+        
         
 //        Listener l = new Listener();
 //        this.addMouseMotionListener(l);

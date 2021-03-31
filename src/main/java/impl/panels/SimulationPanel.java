@@ -137,6 +137,11 @@ public class SimulationPanel extends JPanel {
         nodes.forEach(n -> n.draw(g));
     }
     
+    public void addNode(Node node) {
+        System.out.println("new node added");
+        this.nodes.add(node);
+    }
+    
     // TODO move to separate class
     class Listener implements MouseListener, MouseMotionListener, MouseWheelListener {
         

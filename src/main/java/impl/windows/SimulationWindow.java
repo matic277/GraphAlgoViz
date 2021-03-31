@@ -21,7 +21,7 @@ public class SimulationWindow extends Window {
         Dimension simSize = new Dimension(windowSize.width-menuWidth, windowSize.height);
         
         this.simPanel = new SimulationPanel(this, simSize);
-        this.menuPanel = new MenuPanel(this, menuSize);
+        this.menuPanel = new MenuPanel(this, simPanel, menuSize);
         
         this.frame.add(menuPanel, BorderLayout.WEST);
         this.frame.add(simPanel, BorderLayout.CENTER);
