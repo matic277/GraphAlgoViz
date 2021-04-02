@@ -1,5 +1,6 @@
 package impl.panels;
 
+import core.Algorithm;
 import core.Selectable;
 import impl.Node;
 import impl.tools.Pair;
@@ -14,10 +15,7 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class SimulationPanel extends JPanel {
     
@@ -49,12 +47,24 @@ public class SimulationPanel extends JPanel {
         edges = new HashSet<>();
         Node n1 = new Node(100, 100, 0);
         Node n2 = new Node(101, 170, 1);
-        Node n3 = new Node(200, 250, 3);
+        Node n3 = new Node(150, 250, 3);
+        Node n4 = new Node(270, 280, 4);
         nodes.add(n1);
         nodes.add(n2);
         nodes.add(n3);
+        nodes.add(n4);
         edges.add(new Pair<>(n1, n2));
         edges.add(new Pair<>(n2, n3));
+        edges.add(new Pair<>(n2, n4));
+        
+        n1.neighbors.add(n2);
+        n2.neighbors.add(n1);
+        
+        n2.neighbors.add(n3);
+        n3.neighbors.add(n2);
+        
+        n2.neighbors.add(n4);
+        n4.neighbors.add(n2);
         
         graph = new HashMap<>();
         
@@ -74,6 +84,32 @@ public class SimulationPanel extends JPanel {
         } catch (AWTException e) {
             e.printStackTrace();
         }
+        
+        n1.info = 1;
+        
+        
+        
+        Thread controller = new Thread(() -> {
+            while (true) {
+                Tools.sleep(500);
+                for (Node n : nodes) {
+                    getAlgorithm().run(n);
+                }
+            }
+        });
+        controller.start();
+        
+        
+    }
+    
+    public Algorithm getAlgorithm() {
+        final Random r = new Random();
+        return (node) -> {
+            int i = r.nextInt(node.neighbors.size());
+            Node randNode = node.neighbors.get(i);
+            int info = randNode.info;
+            node.info += info;
+        };
     }
     
     AffineTransform atx = new AffineTransform();
@@ -123,8 +159,8 @@ public class SimulationPanel extends JPanel {
         
         drawComponents(gr);
         
-//        Tools.sleep(1000/60);
-//        super.repaint();
+        Tools.sleep(1000/60);
+        super.repaint();
     }
     
     public void drawComponents(Graphics2D g) {

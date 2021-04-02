@@ -1,17 +1,23 @@
 package core;
 
+import impl.graphOptionPanels.CustomGraphOptionPanel;
+import impl.graphOptionPanels.RandomGraphOptionPanel;
+import impl.graphOptionPanels.UserGraphOptionPanel;
+
 public enum GraphType {
     
-    RANDOM(0, "Random graph"),
-    CUSTOM(1, "Load from file"),
-    USER(2, "Create your own");
+    RANDOM(0, "Random graph", RandomGraphOptionPanel.getInstance()),
+    CUSTOM(1, "Load from file", CustomGraphOptionPanel.getInstance()),
+    USER(2, "Create your own", UserGraphOptionPanel.getInstance());
     
     private int id;
     private String description;
+    private OptionPanel panel;
     
-    GraphType(int id, String desc) {
+    GraphType(int id, String desc, OptionPanel panel) {
         this.id = id;
         this.description = desc;
+        this.panel = panel;
     }
     
     public static GraphType getByDescription(String desc) {
@@ -19,6 +25,10 @@ public enum GraphType {
             if (value.description.equals(desc)) return value;
         }
         throw new RuntimeException("Unknown graph type " + desc + ".");
+    }
+    
+    public OptionPanel getPanel() {
+        return this.panel;
     }
     
     @Override

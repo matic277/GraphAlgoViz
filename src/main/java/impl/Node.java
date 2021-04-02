@@ -16,9 +16,11 @@ public class Node implements Drawable, Selectable {
     
     public int x, y;
     
-    List<Node> neighbors;
+    public List<Node> neighbors;
     
     public double dx, dy;
+    
+    public int info = 0;
     
     public Node(int x, int y, int id) {
         this.x = x; this.y = y;
@@ -30,7 +32,7 @@ public class Node implements Drawable, Selectable {
     
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(Color.BLACK);
+        g.setColor(info == 0 ? Color.BLACK : Color.green);
         g.drawOval(x-rad/2, y-rad/2, rad, rad);
         
         // center

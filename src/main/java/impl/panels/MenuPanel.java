@@ -53,6 +53,7 @@ public class MenuPanel extends JPanel {
 //        addNodeBtn.setSize(Tools.menuButtonSize);
         addNodeBtn.setOnClickAction(() -> {
             simPanel.addNode(new Node(50, 50, 5));
+            simPanel.repaint();
         });
         this.add(addNodeBtn);
         

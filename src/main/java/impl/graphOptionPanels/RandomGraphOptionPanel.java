@@ -11,6 +11,8 @@ public class RandomGraphOptionPanel extends OptionPanel {
     JLabel nodesText, edgedText;
     JTextField nodesInput, edgesInput;
     
+    private static final RandomGraphOptionPanel instance = new RandomGraphOptionPanel();
+    
     public RandomGraphOptionPanel() {
         super();
         this.setOpaque(true);
@@ -37,6 +39,10 @@ public class RandomGraphOptionPanel extends OptionPanel {
         edgesInput.setFont(Tools.getFont(12));
         
         this.addComponents(nodesText, edgedText, edgesInput, nodesInput);
+    }
+    
+    public static OptionPanel getInstance() {
+        return instance;
     }
     
     @Override

@@ -1,24 +1,23 @@
 package impl;
 
-import core.ClickAction;
 import impl.tools.Tools;
 
 import javax.swing.*;
 
 public class Button extends JButton {
     
-    ClickAction action;
+    Runnable action;
     
     public Button(String text) {
         super(text);
         this.addActionListener(Tools.buttonListener);
     }
     
-    public void setOnClickAction(ClickAction action) {
+    public void setOnClickAction(Runnable action) {
         this.action = action;
     }
     
-    public ClickAction getOnClickAction() {
+    public Runnable getOnClickAction() {
         return action;
     }
 }

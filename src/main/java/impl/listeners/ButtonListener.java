@@ -10,7 +10,7 @@ public class ButtonListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof Button btn) {
-            btn.getOnClickAction().executeAction();
+            btn.getOnClickAction().run();
         } else {
             System.out.println("Unrecognized command");
         }
