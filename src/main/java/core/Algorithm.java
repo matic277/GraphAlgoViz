@@ -1,5 +1,6 @@
 package core;
 
+import impl.Communicator;
 import impl.Node;
 
 import java.util.List;

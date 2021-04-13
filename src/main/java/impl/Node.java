@@ -6,6 +6,7 @@ import impl.tools.Tools;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.awt.geom.Point2D;
 
@@ -21,6 +22,8 @@ public class Node implements Drawable, Selectable {
     public double dx, dy;
     
     public int info = 0;
+    
+    public Deque<Message> msgs;
     
     public Node(int x, int y, int id) {
         this.x = x; this.y = y;
@@ -44,7 +47,13 @@ public class Node implements Drawable, Selectable {
         Font f = g.getFont();
         g.setFont(Tools.getFont(8));
         g.drawString("["+x+","+y+"]", x-15, y-6);
+        // id
+        g.setFont(Tools.getFont(16));
+        g.fillRect(x-6, y+3, 15, 15);
+        g.setColor(Color.white);
+        g.drawString(id+"", x-3, y+16);
         g.setFont(f);
+        
         
 //        g.drawLine(x, y, (int)dx, (int)dy);
 //        g.drawLine((int)SimulationPanel.mouse.getX(), (int)SimulationPanel.mouse.getY(), x, y);
@@ -69,4 +78,8 @@ public class Node implements Drawable, Selectable {
     
     @Override
     public Point2D getLocation() { return new Point2D.Double(x, y); }
+    
+    public void receiveMessage(Deque<Message> messages) {
+        this.msgs = messages;
+    }
 }

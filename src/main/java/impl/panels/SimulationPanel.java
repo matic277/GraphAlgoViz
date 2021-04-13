@@ -2,6 +2,7 @@ package impl.panels;
 
 import core.Algorithm;
 import core.Selectable;
+import impl.AlgorithmController;
 import impl.Node;
 import impl.tools.Pair;
 import impl.tools.Tools;
@@ -86,31 +87,35 @@ public class SimulationPanel extends JPanel {
         }
         
         n1.info = 1;
-        
-        
-        
-        Thread controller = new Thread(() -> {
-            while (true) {
-                Tools.sleep(500);
-                for (Node n : nodes) {
-                    getAlgorithm().run(n);
-                }
-            }
-        });
+    
+        AlgorithmController ac = new AlgorithmController(this, nodes);
+        Thread controller = new Thread(ac);
         controller.start();
+        
+        
+//        Thread controller = new Thread(() -> {
+//            while (true) {
+//                Tools.sleep(500);
+//                for (Node n : nodes) {
+//                    getAlgorithm().run(n);
+//                }
+//            }
+//        });
+//        controller.start();
         
         
     }
     
-    public Algorithm getAlgorithm() {
-        final Random r = new Random();
-        return (node) -> {
-            int i = r.nextInt(node.neighbors.size());
-            Node randNode = node.neighbors.get(i);
-            int info = randNode.info;
-            node.info += info;
-        };
-    }
+//    public Algorithm getAlgorithm() {
+//        final Random r = new Random();
+//        return (node) -> {
+//            int i = r.nextInt(node.neighbors.size());
+//            System.out.println(i);
+//            Node randNode = node.neighbors.get(i);
+//            int info = randNode.info;
+//            node.info += info;
+//        };
+//    }
     
     AffineTransform atx = new AffineTransform();
     Robot r;
@@ -159,7 +164,7 @@ public class SimulationPanel extends JPanel {
         
         drawComponents(gr);
         
-        Tools.sleep(1000/60);
+        Tools.sleep(1000/144);
         super.repaint();
     }
     
@@ -226,7 +231,7 @@ public class SimulationPanel extends JPanel {
                 selectedItem.moveTo(new Point2D.Double(
                         e.getPoint().getX() - dx,
                         e.getPoint().getY() - dy));
-                SimulationPanel.this.repaint();
+//                SimulationPanel.this.repaint();
                 return;
             }
         
@@ -238,7 +243,7 @@ public class SimulationPanel extends JPanel {
                 n.moveTo(new Point2D.Double(
                         e.getPoint().getX() - n.dx,
                         e.getPoint().getY() - n.dy));
-                SimulationPanel.this.repaint();
+//                SimulationPanel.this.repaint();
             }
         }
         
@@ -283,7 +288,7 @@ public class SimulationPanel extends JPanel {
             atx.scale(scale, scale);
             atx.translate(-p2.getX(), -p2.getY());
             
-            SimulationPanel.this.repaint();
+//            SimulationPanel.this.repaint();
         }
         
         @Override public void mouseMoved(MouseEvent e) {
