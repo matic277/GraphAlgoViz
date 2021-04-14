@@ -9,13 +9,11 @@ import java.util.Random;
 
 public class AlgorithmController implements Runnable {
     
-    SimulationPanel panel;
     Collection<Node> nodes;
     
     Algorithm algo;
     
-    public AlgorithmController(SimulationPanel panel, Collection<Node> nodes) {
-        this.panel = panel;
+    public AlgorithmController(Collection<Node> nodes) {
         this.nodes = nodes;
         this.algo = getAlgorithm();
     }

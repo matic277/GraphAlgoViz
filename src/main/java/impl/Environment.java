@@ -1,8 +1,11 @@
 package impl;
 
+
+import java.util.Set;
+
 public class Environment {
     
-    public static int numOfNodes = 4;
+
     
     public Environment() {
     

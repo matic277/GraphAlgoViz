@@ -10,7 +10,7 @@ import java.util.concurrent.CyclicBarrier;
 public class Communicator<G> {
     
     static final Map<Node, Deque<Message>> messages = new ConcurrentHashMap<>();
-    static final CyclicBarrier barrier = new CyclicBarrier(Environment.numOfNodes); // transfer this to env
+    static final CyclicBarrier barrier = new CyclicBarrier(Graph.numOfNodes); // transfer this to env
     
     public Communicator(int numOfNodes) {
     

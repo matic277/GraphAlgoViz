@@ -1,5 +1,6 @@
 package impl.listeners;
 
+import impl.SimulationManager;
 import impl.windows.SimulationWindow;
 import impl.windows.StartupWindow;
 
@@ -20,8 +21,8 @@ public class StartupListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         parent.getFrame().removeAll();
         parent.getFrame().dispose();
-        SwingUtilities.invokeLater(() -> {
-            new SimulationWindow(new Dimension(1000, 800));
-        });
+        
+        // TODO pass some params here, like graph type
+        new SimulationManager();
     }
 }

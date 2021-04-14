@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
 
 public class Node implements Drawable, Selectable {
     
-    int id;
+    public int id;
     int rad;
     
     public int x, y;
