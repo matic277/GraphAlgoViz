@@ -32,12 +32,12 @@ public class MenuPanel extends JPanel {
         this.setOpaque(true);
         this.setVisible(true);
         this.setBackground(Color.blue);
-    
+        
         undoBtn = new JButton("<");
         undoBtn.setToolTipText("Undo");
         undoBtn.setPreferredSize(Tools.menuButtonSize);
         this.add(undoBtn);
-    
+        
         redoBtn = new JButton(">");
         redoBtn.setToolTipText("Redo");
         redoBtn.setPreferredSize(Tools.menuButtonSize);
@@ -51,9 +51,13 @@ public class MenuPanel extends JPanel {
 //        addNodeBtn.setMargin(new Insets(-0,-10,0,0));
 //        addNodeBtn.setPreferredSize(Tools.menuButtonSize);
 //        addNodeBtn.setSize(Tools.menuButtonSize);
+        
+        final var ref = new Object() {
+            int idCounter = 5;
+        };
         addNodeBtn.setOnClickAction(() -> {
-            simPanel.getGraph().addNode(new Node(50, 50, 5));
-            simPanel.repaint();
+            simPanel.getGraph().addNode(new Node(50, 50, ref.idCounter++));
+//            simPanel.repaint();
         });
         this.add(addNodeBtn);
         
@@ -74,11 +78,11 @@ public class MenuPanel extends JPanel {
         gr.fillRect(0, 0, getWidth(), getHeight());
         
         gr.setColor(Color.BLACK);
-        gr.drawString("MENU", 10,20);
+        gr.drawString("MENU", getWidth()/2, getHeight()/2);
 //        gr.drawRect(0, 0, this.getWidth(), this.getHeight());
 //        System.out.println(this.getBounds());
         
-        Tools.sleep(1000/60);
+        Tools.sleep(1000/144);
         super.repaint();
     }
     

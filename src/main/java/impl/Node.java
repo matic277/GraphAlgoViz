@@ -33,9 +33,11 @@ public class Node implements Drawable, Selectable {
         neighbors = new ArrayList<>(5);
     }
     
+    static final Color NODE_COLOR_NORMAL = Color.DARK_GRAY;
+    
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(info == 0 ? Color.BLACK : Color.green);
+        g.setColor(info == 0 ? NODE_COLOR_NORMAL : Color.green);
         g.drawOval(x-rad/2, y-rad/2, rad, rad);
         
         // center

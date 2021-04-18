@@ -19,7 +19,7 @@ public class RandomGraphOptionPanel extends OptionPanel {
         this.setBackground(Color.blue);
         this.repaint();
         
-        nodesText = new JLabel("Number of nodes:");
+        nodesText = new JLabel(" Number of nodes:");
         nodesText.setBounds(50, 80, 110, 30);
         nodesText.setOpaque(true);
         nodesText.setFont(Tools.getFont(12));
@@ -28,7 +28,7 @@ public class RandomGraphOptionPanel extends OptionPanel {
         nodesInput = new JTextField();
         nodesInput.setBounds(170, 82, 70, 30);
         
-        edgedText = new JLabel("Edge probability:");
+        edgedText = new JLabel(" Edge probability:");
         edgedText.setBounds(50, 130, 110, 30);
         edgedText.setOpaque(true);
         edgedText.setFont(Tools.getFont(12));

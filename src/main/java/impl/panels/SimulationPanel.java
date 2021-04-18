@@ -29,8 +29,9 @@ public class SimulationPanel extends JPanel {
     boolean zoom;
     double zoomFactor = 1;
     
-    Point2D mouse = new Point2D.Double();
+    private Point2D mouse;
     AffineTransform atx = new AffineTransform();
+    SimulationPanelListener listener;
     
     // potential edge drawing
     Node edgeSourceNode;
@@ -47,10 +48,12 @@ public class SimulationPanel extends JPanel {
         this.setVisible(true);
         this.setBackground(Color.red);
     
-        var l = new SimulationPanelListener(this);
-        this.addMouseMotionListener(l);
-        this.addMouseListener(l);
-        this.addMouseWheelListener(l);
+        listener = new SimulationPanelListener(this);
+        this.addMouseMotionListener(listener);
+        this.addMouseListener(listener);
+        this.addMouseWheelListener(listener);
+        
+        mouse = listener.getMouse();
         
 //        JLabel ly = new JLabel("TEST");
 //        ly.setOpaque(true);

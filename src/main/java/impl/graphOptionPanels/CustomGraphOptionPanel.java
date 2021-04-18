@@ -15,7 +15,7 @@ public class CustomGraphOptionPanel extends OptionPanel {
     
     private CustomGraphOptionPanel() {
         super();
-        text = new JLabel("Input path to graph file:");
+        text = new JLabel(" Input path to graph file:");
         text.setBounds(50, 100, 170, 30);
         text.setOpaque(true);
         text.setFont(Tools.getFont(12));
