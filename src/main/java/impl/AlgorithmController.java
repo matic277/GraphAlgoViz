@@ -15,6 +15,7 @@ public class AlgorithmController implements Runnable {
     public AlgorithmController(Collection<Node> nodes) {
         this.nodes = nodes;
         this.algo = getAlgorithm();
+        // master commit
     }
     
     @Override
