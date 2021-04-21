@@ -7,17 +7,14 @@ import impl.Graph;
 import impl.Node;
 import impl.listeners.SimulationPanelListener;
 import impl.tools.Tools;
-import impl.tools.Vector;
 import impl.windows.SimulationWindow;
-import org.graphstream.graph.Edge;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
-import java.util.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class SimulationPanel extends JPanel {
     
@@ -57,6 +54,10 @@ public class SimulationPanel extends JPanel {
 //        this.add(ly);
     }
     
+    NumberFormat formatter = new DecimalFormat(); {
+        formatter.setMaximumFractionDigits(2);
+    }
+    
     @Override
     public void paintComponent(Graphics g) {
         // anti-aliasing
@@ -77,6 +78,7 @@ public class SimulationPanel extends JPanel {
         gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
         gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
         
+        gr.drawString("scale: " + formatter.format(listener.scale), getWidth()-80, getHeight()-30);
         drawComponents(gr);
         
         Tools.sleep(1000/144);

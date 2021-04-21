@@ -20,9 +20,9 @@ public class SimulationManager {
             simWindow = new SimulationWindow(new Dimension(1000, 800), graph);
         });
         
-//        algoController = new AlgorithmController(graph.nodes);
-//        Thread controller = new Thread(algoController);
-//        controller.start();
+        algoController = new AlgorithmController(graph.nodes);
+        Thread controller = new Thread(algoController);
+        controller.start();
     }
     
 }

@@ -37,11 +37,12 @@ public class Graph implements Drawable {
     @Override
     public void draw(Graphics2D g, AffineTransform at) {
         g.setColor(Color.BLACK);
-//        for (Edge e : edges) {
-//            Node n1 = e.getN1();
-//            Node n2 = e.getN2();
-//            g.drawLine(n1.x, n1.y, n2.x, n2.y);
-//        }
+        for (Edge e : edges) {
+            Node n1 = e.getN1();
+            Node n2 = e.getN2();
+            g.drawLine((int)n1.ts.getBounds().getCenterX(), (int)n1.ts.getBounds().getCenterY(),
+                    (int)n2.ts.getBounds().getCenterX(), (int)n2.ts.getBounds().getCenterY());
+        }
         nodes.forEach(n -> n.draw(g, at));
     }
     

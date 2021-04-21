@@ -1,6 +1,5 @@
 package impl.listeners;
 
-import core.Selectable;
 import impl.Graph;
 import impl.Node;
 import impl.panels.SimulationPanel;
@@ -32,6 +31,9 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     AffineTransform initialTransform;
     public Point2D XFormedPoint;
     
+    Node selectedItem;
+    Double dx, dy;
+    
     public SimulationPanelListener(SimulationPanel panel) {
         this.panel = panel;
         this.graph = panel.getGraph();
@@ -41,6 +43,16 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     @Override
     public void mousePressed(MouseEvent e) {
         mouse.setLocation(e.getPoint().x, e.getPoint().y);
+    
+        System.out.println(mouse);
+    
+        selectedItem = getHoveredOverNode();
+        if (selectedItem != null) {
+            dx = (mouse.getX() - selectedItem.x);
+            dy = (mouse.getY() - selectedItem.y);
+            return;
+        }
+        
         
         try {
             XFormedPoint = panel.atx.inverseTransform(e.getPoint(), null);
@@ -56,12 +68,19 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     
     @Override
     public void mouseReleased(MouseEvent e) {
-    
+        selectedItem = null;
     }
     
     @Override
     public void mouseDragged(MouseEvent e) {
         mouse.setLocation(e.getPoint().x, e.getPoint().y);
+    
+        if (selectedItem != null) {
+            selectedItem.moveTo((int)(mouse.getX() - dx), (int)(mouse.getY() - dy));
+            return;
+        }
+        
+        
         
         try {
             XFormedPoint = initialTransform.inverseTransform(e.getPoint(), null);
@@ -127,10 +146,11 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         mouse.setLocation(e.getPoint().x, e.getPoint().y);
     }
     
-    private Optional<Node> getHoveredOverNode() {
+    private Node getHoveredOverNode() {
         return graph.getNodes().stream()
                 .filter(n -> n.isSelected(mouse))
-                .findAny();
+                .findAny()
+                .orElse(null);
     }
     
     public Point getMouse() {

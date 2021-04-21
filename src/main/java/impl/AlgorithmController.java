@@ -1,7 +1,6 @@
 package impl;
 
 import core.Algorithm;
-import impl.panels.SimulationPanel;
 import impl.tools.Tools;
 
 import java.util.Collection;
@@ -38,7 +37,6 @@ public class AlgorithmController implements Runnable {
     public Algorithm getAlgorithm() {
         Random r = new Random();
         return node -> {
-            System.out.println("yello");
             if (node.info == 0) {
                 Communicator.receiveMessage(node);
                 if (node.msgs != null) {
