@@ -25,18 +25,13 @@ public class SimulationPanel extends JPanel {
     
     Graph graph;
     
-    int zoomLevel = 100;
-    boolean zoom;
-    double zoomFactor = 1;
-    
-    private Point2D mouse;
-    AffineTransform atx = new AffineTransform();
+    private final Point2D mouse;
+    public AffineTransform atx = new AffineTransform();
     SimulationPanelListener listener;
     
     // potential edge drawing
     Node edgeSourceNode;
     
-
     public SimulationPanel(SimulationWindow parent, Graph g, Dimension panelSize) {
         this.parent = parent;
         this.graph = g;
@@ -69,40 +64,18 @@ public class SimulationPanel extends JPanel {
         gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         
-        gr.setColor(Color.PINK);
+        gr.setColor(Tools.bgColor);
         gr.fillRect(0, 0, getWidth(), getHeight());
-        
-        gr.transform(atx);
         
         // mouse
         gr.setColor(Color.red);
         gr.fillRect((int)mouse.getX()-2, (int)mouse.getY()-2, 4, 4);
         gr.setColor(Color.BLACK);
         g.drawString("["+(int)mouse.getX()+","+(int)mouse.getY()+"]", (int)mouse.getX() + 3, (int)mouse.getY()-6);
-        
         // mouse + lines
         gr.setColor(Color.BLACK);
         gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
         gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
-        
-        gr.setColor(Color.RED);
-        gr.drawRect(3, 3, getWidth()-6, getHeight()-6);
-        
-        
-        // bad zooming
-        // mouse de-sync and speed problems
-        // https://stackoverflow.com/questions/6543453/zooming-in-and-zooming-out-within-a-panel
-        {
-//            var affine = new AffineTransform();
-////            affine.translate(mouse.getX()/2, mouse.getY()/2);
-//            affine.translate(getWidth()/2, getHeight()/2);
-//            affine.scale(zoomFactor, zoomFactor);
-////            affine.translate(-mouse.getX()/2, -mouse.getY()/2);
-//            affine.translate(-getWidth()/2, -getHeight()/2);
-//            gr.transform(affine);
-        }
-        // draw components after affine transformations!
-        
         
         drawComponents(gr);
         
@@ -119,15 +92,14 @@ public class SimulationPanel extends JPanel {
     }
     
     public void drawComponents(Graphics2D g) {
-        graph.draw(g);
+        graph.draw(g, atx);
         
-        if (edgeSourceNode != null) {
-            Stroke oldStr = g.getStroke();
-            g.setStroke(new BasicStroke(2));
-            g.setColor(Color.BLACK);
-            g.drawLine(edgeSourceNode.x, edgeSourceNode.y, (int)mouse.getX(), (int)mouse.getY());
-            g.setStroke(oldStr);
-        }
+//        if (edgeSourceNode != null) {
+//            g.setStroke(Tools.BOLD_STROKE);
+//            g.setColor(Color.BLACK);
+//            g.drawLine(edgeSourceNode.x, edgeSourceNode.y, (int)mouse.getX(), (int)mouse.getY());
+//            g.setStroke(Tools.PLAIN_STROKE);
+//        }
     }
     
     public void setGraph(Graph g) {

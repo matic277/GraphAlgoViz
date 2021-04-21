@@ -5,71 +5,76 @@ import core.Selectable;
 import impl.tools.Tools;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.awt.geom.Point2D;
 
-public class Node implements Drawable, Selectable {
+public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
     public int id;
     int rad;
-    
-    public int x, y;
-    
-    public List<Node> neighbors;
-    
-    public double dx, dy;
+    Shape ts;
     
     public int info = 0;
-    
+    public List<Node> neighbors;
     public Deque<Message> msgs;
     
     public Node(int x, int y, int id) {
-        this.x = x; this.y = y;
-        this.rad = 40;
+        this.x = x;
+        this.y = y;
+        this.rad = 45;
+        this.width = rad;
+        this.height = rad;
+        
         this.id = id;
         
         neighbors = new ArrayList<>(5);
     }
     
-    static final Color NODE_COLOR_NORMAL = Color.DARK_GRAY;
+    static final Color NODE_COLOR_NORMAL = Color.BLACK;
     
     @Override
-    public void draw(Graphics2D g) {
-        g.setColor(info == 0 ? NODE_COLOR_NORMAL : Color.green);
-        g.drawOval(x-rad/2, y-rad/2, rad, rad);
+    public void draw(Graphics2D g, AffineTransform at) {
+        ts = at.createTransformedShape(this);
         
-        // center
-        g.setColor(Color.blue);
-        g.fillOval(x-2, y-2, 4, 4);
+        g.setStroke(Tools.BOLD_STROKE);
+        g.setColor(Color.black);
         
-        // pos
-        g.setColor(Color.BLACK);
-        Font f = g.getFont();
-        g.setFont(Tools.getFont(8));
-        g.drawString("["+x+","+y+"]", x-15, y-6);
-        // id
-        g.setFont(Tools.getFont(16));
-        g.fillRect(x-6, y+3, 15, 15);
+        // circle & center
+        g.draw(ts);
+        g.setColor(Color.red);
+        g.fillOval((int)ts.getBounds().getCenterX()-3, (int)ts.getBounds().getCenterY()-3, 6, 6);
+        
+        g.setColor(Color.black);
+        // position coordinates
+        g.drawString(
+                "["+(int)ts.getBounds().getCenterX()+", "+(int)ts.getBounds().getCenterY()+"]",
+                (int)ts.getBounds().getCenterX()-30,
+                (int)(ts.getBounds().getCenterY()+ts.getBounds().getHeight()));
+        
+        
+        // id in box
+        Font oldFont = g.getFont();
+        g.setFont(Tools.getBoldFont(16));
+        g.fillRect((int)ts.getBounds().getCenterX()-8, (int)ts.getBounds().getCenterY()+3, 17, 17);
         g.setColor(Color.white);
-        g.drawString(id+"", x-3, y+16);
-        g.setFont(f);
-        
-        
-//        g.drawLine(x, y, (int)dx, (int)dy);
-//        g.drawLine((int)SimulationPanel.mouse.getX(), (int)SimulationPanel.mouse.getY(), x, y);
+        g.drawString(id+"", (int)ts.getBounds().getCenterX()-4, (int)ts.getBounds().getCenterY()+18);
+        g.setFont(oldFont);
     }
     
+    // TODO: fix, use ts variable (transformed shape)
     @Override
     public boolean isSelected(Point2D mouse) {
         // is distance to center equal or less than radius?
         return mouse.distance(x, y) <= rad/2;
     }
     
+    // TODO: fix, use ts variable (transformed shape) ??
     @Override
     public void moveTo(Point2D newLocation) {
-//        System.out.println("moving"+id);
         x = (int)newLocation.getX();
         y = (int)newLocation.getY();
     }

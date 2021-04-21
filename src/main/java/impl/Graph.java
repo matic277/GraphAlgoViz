@@ -4,6 +4,7 @@ import core.Drawable;
 import impl.tools.Edge;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,14 +35,14 @@ public class Graph implements Drawable {
     }
     
     @Override
-    public void draw(Graphics2D g) {
+    public void draw(Graphics2D g, AffineTransform at) {
         g.setColor(Color.BLACK);
-        for (Edge e : edges) {
-            Node n1 = e.getN1();
-            Node n2 = e.getN2();
-            g.drawLine(n1.x, n1.y, n2.x, n2.y);
-        }
-        nodes.forEach(n -> n.draw(g));
+//        for (Edge e : edges) {
+//            Node n1 = e.getN1();
+//            Node n2 = e.getN2();
+//            g.drawLine(n1.x, n1.y, n2.x, n2.y);
+//        }
+        nodes.forEach(n -> n.draw(g, at));
     }
     
     public void addNode(Node n) {

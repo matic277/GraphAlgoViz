@@ -28,6 +28,9 @@ public class Edge {
     
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(n1.id).append(n2.id).toHashCode();
+        return new HashCodeBuilder()
+                .append(Math.max(n1.id, n2.id))
+                .append(Math.min(n1.id, n2.id))
+                .toHashCode();
     }
 }

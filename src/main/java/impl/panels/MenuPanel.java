@@ -33,6 +33,11 @@ public class MenuPanel extends JPanel {
         this.setVisible(true);
         this.setBackground(Color.blue);
         
+        // spacers
+        this.add(Tools.getDumyPlaceholder());
+//        this.add(Tools.getDumyPlaceholder());
+//        this.add(Tools.getDumyPlaceholder());
+        
         undoBtn = new JButton("<");
         undoBtn.setToolTipText("Undo");
         undoBtn.setPreferredSize(Tools.menuButtonSize);
@@ -43,14 +48,11 @@ public class MenuPanel extends JPanel {
         redoBtn.setPreferredSize(Tools.menuButtonSize);
         this.add(redoBtn);
         
-        // spacer
-        this.add(Tools.getDumyPlaceholder());
-        
         addNodeBtn = new Button("new node");
         addNodeBtn.setToolTipText("Add new node");
 //        addNodeBtn.setMargin(new Insets(-0,-10,0,0));
 //        addNodeBtn.setPreferredSize(Tools.menuButtonSize);
-//        addNodeBtn.setSize(Tools.menuButtonSize);
+        addNodeBtn.setSize(Tools.menuButtonSize);
         
         final var ref = new Object() {
             int idCounter = 5;
