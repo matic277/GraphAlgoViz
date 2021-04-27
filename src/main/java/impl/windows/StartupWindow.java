@@ -10,9 +10,7 @@ import impl.tools.Tools;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
-import java.beans.PropertyChangeListener;
 
 import static impl.tools.Tools.getBoldFont;
 import static javax.swing.UIManager.getFont;
@@ -23,6 +21,7 @@ public class StartupWindow extends Window {
     JLabel titleText2;
     JLabel selectGraphText;
     JComboBox<GraphType> dropdown;
+    GraphType selectedGraphType;
     
     OptionPanel optionPanel;
     Point2D optionPanelStartCoordinates;
@@ -68,6 +67,7 @@ public class StartupWindow extends Window {
         dropdown.setEnabled(true);
         dropdown.addActionListener(new ComboBoxListener(this));
         this.panel.add(dropdown);
+        selectedGraphType = GraphType.RANDOM;
         
         optionPanel = new RandomGraphOptionPanel();
         optionPanel.setStartingCoordiantes(optionPanelStartCoordinates);
@@ -98,6 +98,8 @@ public class StartupWindow extends Window {
         this.panel.updateUI();
     }
     
+    public GraphType getSelectedGraphType() { return this.selectedGraphType; }
+    public void setSelectedGraphType(GraphType type) { this.selectedGraphType = type; }
     public Frame getFrame() { return this.frame; }
     
 }

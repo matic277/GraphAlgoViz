@@ -24,8 +24,9 @@ public class ComboBoxListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String text = String.valueOf(((JComboBox) e.getSource()).getSelectedItem());
-        GraphType selected = GraphType.getByDescription(text);
+        GraphType selectedType = GraphType.getByDescription(text);
 //        selectedType = selected;
-        parent.setNewOptionPanel(selected.getPanel());
+        parent.setSelectedGraphType(selectedType);
+        parent.setNewOptionPanel(selectedType.getPanel());
     }
 }

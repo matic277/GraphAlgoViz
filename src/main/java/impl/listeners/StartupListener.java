@@ -23,6 +23,6 @@ public class StartupListener implements ActionListener {
         parent.getFrame().dispose();
         
         // TODO pass some params here, like graph type
-        new SimulationManager();
+        new SimulationManager(parent.getSelectedGraphType().getGraphBuilder());
     }
 }
