@@ -4,8 +4,6 @@ import core.GraphType;
 import core.OptionPanel;
 import core.Window;
 import impl.listeners.ComboBoxListener;
-import impl.graphOptionPanels.RandomGraphOptionPanel;
-import impl.listeners.StartupListener;
 import impl.tools.Tools;
 
 import javax.swing.*;
@@ -67,15 +65,22 @@ public class StartupWindow extends Window {
         dropdown.setEnabled(true);
         dropdown.addActionListener(new ComboBoxListener(this));
         this.panel.add(dropdown);
-        selectedGraphType = GraphType.RANDOM;
+        selectedGraphType = GraphType.STATIC_TEST;
         
-        optionPanel = new RandomGraphOptionPanel();
+        optionPanel = selectedGraphType.getPanel();
         optionPanel.setStartingCoordiantes(optionPanelStartCoordinates);
         this.panel.add(optionPanel);
     
+        // TODO continue button
         contButton = new JButton("Continue");
         contButton.setBounds(200, 500, 100, 35);
-        contButton.addActionListener(new StartupListener(this));
+        contButton.addActionListener(a -> {
+            // default behaviour
+            this.getFrame().removeAll();
+            this.getFrame().dispose();
+        });
+        contButton.addActionListener(optionPanel.getButtonAction(selectedGraphType));
+        
         this.panel.add(contButton);
         
         // test
@@ -93,6 +98,9 @@ public class StartupWindow extends Window {
         optionPanel = panel;
         optionPanel.setStartingCoordiantes(optionPanelStartCoordinates);
         optionPanel.repaint();
+//        System.out.println("listeners: " + contButton.getActionListeners().length);
+        this.contButton.removeActionListener(contButton.getActionListeners()[0]);
+        this.contButton.addActionListener(panel.getButtonAction(selectedGraphType));
         this.panel.add(optionPanel);
         this.panel.repaint();
         this.panel.updateUI();

@@ -1,10 +1,14 @@
 package impl.graphOptionPanels;
 
+import core.GraphBuilder;
+import core.GraphType;
 import core.OptionPanel;
+import impl.SimulationManager;
 import impl.tools.Tools;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class RandomGraphOptionPanel extends OptionPanel {
     
@@ -39,6 +43,19 @@ public class RandomGraphOptionPanel extends OptionPanel {
         edgesInput.setFont(Tools.getFont(12));
         
         this.addComponents(nodesText, edgedText, edgesInput, nodesInput);
+    }
+    
+    @Override
+    public ActionListener getButtonAction(GraphType type) {
+        // read edge probability and number of nodes
+        return a -> {
+            System.out.println("Hello from " + this.getClass().getSimpleName());
+    
+            GraphBuilder builder = type.getGraphBuilder()
+                    .setEdgeProbability(Double.parseDouble(edgesInput.getText()))
+                    .setNumberOfNodes(Integer.parseInt(nodesInput.getText()));
+            new SimulationManager(builder);
+        };
     }
     
     public static OptionPanel getInstance() {

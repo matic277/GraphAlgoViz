@@ -1,8 +1,11 @@
 package impl.graphOptionPanels;
 
+import core.GraphType;
 import core.OptionPanel;
+import impl.SimulationManager;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class UserGraphOptionPanel extends OptionPanel {
     
@@ -13,6 +16,15 @@ public class UserGraphOptionPanel extends OptionPanel {
         this.setOpaque(true);
         this.setBackground(Color.red);
         
+    }
+    
+    @Override
+    public ActionListener getButtonAction(GraphType type) {
+        // do nothing, create empty graph
+        return a -> {
+            System.out.println("Hello from " + this.getClass().getSimpleName());
+            new SimulationManager(type.getGraphBuilder());
+        };
     }
     
     public static OptionPanel getInstance() {

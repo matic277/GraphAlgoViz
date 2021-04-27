@@ -4,13 +4,14 @@ import impl.tools.Tools;
 
 import javax.swing.*;
 
-public class Button extends JButton {
+public class MyButton extends JButton {
     
     Runnable action;
     
-    public Button(String text) {
+    public MyButton(String text) {
         super(text);
-        this.addActionListener(Tools.buttonListener);
+        
+//        this.addActionListener(Tools.buttonListener);
     }
     
     public void setOnClickAction(Runnable action) {

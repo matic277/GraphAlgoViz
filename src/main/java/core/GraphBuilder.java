@@ -8,6 +8,8 @@ public abstract class GraphBuilder {
     protected int totalNodes;
     protected double edgeProbability;
     
+    protected String fileName;
+    
     public GraphBuilder() {
         this.graph = new Graph();
     }
@@ -21,6 +23,11 @@ public abstract class GraphBuilder {
     
     public GraphBuilder setEdgeProbability(double prob) {
         this.edgeProbability = prob;
+        return this;
+    }
+    
+    public GraphBuilder setFileName(String name) {
+        this.fileName = name;
         return this;
     }
 }

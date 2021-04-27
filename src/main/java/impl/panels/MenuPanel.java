@@ -1,11 +1,10 @@
 package impl.panels;
 
 import impl.AlgorithmController;
-import impl.AlgorithmExecutor;
 import impl.Node;
 import impl.tools.Tools;
 import impl.windows.SimulationWindow;
-import impl.Button;
+import impl.MyButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +18,11 @@ public class MenuPanel extends JPanel {
     SimulationWindow parent;
     SimulationPanel simPanel;
     
-    Button addNodeBtn;
+    MyButton addNodeBtn;
     JButton undoBtn;
     JButton redoBtn;
     
-    Button pauseBtn;
+    MyButton pauseBtn;
     
     public MenuPanel(SimulationWindow parent, SimulationPanel simPanel, Dimension panelSize) {
         this.parent = parent;
@@ -39,8 +38,6 @@ public class MenuPanel extends JPanel {
         
         // spacers
         this.add(Tools.getDumyPlaceholder());
-//        this.add(Tools.getDumyPlaceholder());
-//        this.add(Tools.getDumyPlaceholder());
         
         undoBtn = new JButton("<");
         undoBtn.setToolTipText("Undo");
@@ -52,10 +49,8 @@ public class MenuPanel extends JPanel {
         redoBtn.setPreferredSize(Tools.menuButtonSize);
         this.add(redoBtn);
         
-        addNodeBtn = new Button("new node");
+        addNodeBtn = new MyButton("new node");
         addNodeBtn.setToolTipText("Add new node");
-//        addNodeBtn.setMargin(new Insets(-0,-10,0,0));
-//        addNodeBtn.setPreferredSize(Tools.menuButtonSize);
         addNodeBtn.setSize(Tools.menuButtonSize);
         
         final var ref = new Object() {
@@ -70,22 +65,17 @@ public class MenuPanel extends JPanel {
         // spacer
         this.add(Tools.getDumyPlaceholder());
     
-        pauseBtn = new Button("CONTINUE");
+        pauseBtn = new MyButton("CONTINUE");
         pauseBtn.setToolTipText("Pause or continue simulation.");
         pauseBtn.setPreferredSize(Tools.wideMenuButtonSize);
-        pauseBtn.setOnClickAction(() -> {
+        pauseBtn.addActionListener(a -> {
             AlgorithmController.PAUSE = !AlgorithmController.PAUSE;
             synchronized (AlgorithmController.PAUSE_LOCK) {
                 AlgorithmController.PAUSE_LOCK.notify();
             }
-            
             pauseBtn.setText(pauseBtn.getText().equals("CONTINUE") ? "PAUSE" : "CONTINUE");
         });
         this.add(pauseBtn);
-        
-//        Listener l = new Listener();
-//        this.addMouseMotionListener(l);
-//        this.addMouseListener(l);
     }
     
     @Override

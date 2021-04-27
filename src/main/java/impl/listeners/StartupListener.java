@@ -1,11 +1,8 @@
 package impl.listeners;
 
-import impl.SimulationManager;
-import impl.windows.SimulationWindow;
+import core.GraphBuilder;
 import impl.windows.StartupWindow;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,6 +20,7 @@ public class StartupListener implements ActionListener {
         parent.getFrame().dispose();
         
         // TODO pass some params here, like graph type
-        new SimulationManager(parent.getSelectedGraphType().getGraphBuilder());
+        GraphBuilder builder = parent.getSelectedGraphType().getGraphBuilder();
+//        new SimulationManager();
     }
 }

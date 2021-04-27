@@ -1,6 +1,9 @@
 package impl.graphOptionPanels;
 
+import core.GraphType;
 import core.OptionPanel;
+
+import java.awt.event.ActionListener;
 
 public class NullOptionPanel extends OptionPanel {
     
@@ -12,13 +15,10 @@ public class NullOptionPanel extends OptionPanel {
 //        super.paintPanel();
     }
     
-//    @Override
-//    public void paintComponents(Graphics g) {
-//        g.setColor(Color.BLACK);
-//        g.fillRect(0, 0, panelSize.width, panelSize.height);
-//        System.out.println("yello");
-//
-//        this.repaint();
-//    }
-
+    @Override
+    public ActionListener getButtonAction(GraphType type) {
+        return a -> {
+            System.out.println("Hello from " + this.getClass().getSimpleName());
+        };
+    }
 }

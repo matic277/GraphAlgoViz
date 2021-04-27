@@ -4,6 +4,7 @@ import impl.tools.Tools;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +14,17 @@ public abstract class OptionPanel extends JPanel {
     protected Dimension panelSize;
     List<JComponent> components;
     
+//    protected MyButton continueBtn;
+    
     public OptionPanel() {
-        this.panelSize = new Dimension(400,260);
+        this.panelSize = new Dimension(400,280);
         this.setVisible(true);
         this.setLayout(null);
         this.setSize(panelSize);
+    
+//        continueBtn = new MyButton("Continue");
+//        continueBtn.setBounds(this.getWidth()/2-50, this.getHeight()-35, 100, 35);
+//        this.add(continueBtn);
         
         this.components = new ArrayList<>(10);
     }
@@ -48,4 +55,6 @@ public abstract class OptionPanel extends JPanel {
             this.add(c);
         }
     }
+    
+    public abstract ActionListener getButtonAction(GraphType type);
 }

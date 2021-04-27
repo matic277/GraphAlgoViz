@@ -3,15 +3,20 @@ package core;
 import impl.graphBuilders.EmptyGraphBuilder;
 import impl.graphBuilders.FileGraphBuilder;
 import impl.graphBuilders.RandomGraphBuilder;
+import impl.graphBuilders.StaticTestGraphBuilder;
 import impl.graphOptionPanels.CustomGraphOptionPanel;
 import impl.graphOptionPanels.RandomGraphOptionPanel;
+import impl.graphOptionPanels.StaticTestGraphOptionPanel;
 import impl.graphOptionPanels.UserGraphOptionPanel;
 
 public enum GraphType {
     
-    RANDOM(0, "Random graph", RandomGraphOptionPanel.getInstance(), new RandomGraphBuilder()),
-    CUSTOM(1, "Load from file", CustomGraphOptionPanel.getInstance(), new EmptyGraphBuilder()),
-    USER(2, "Create your own", UserGraphOptionPanel.getInstance(), new FileGraphBuilder());
+    // testing purposes
+    STATIC_TEST(0, "STATIC_TEST", StaticTestGraphOptionPanel.getInstance(), new StaticTestGraphBuilder()),
+    
+    RANDOM(1, "Random graph", RandomGraphOptionPanel.getInstance(), new RandomGraphBuilder()),
+    CUSTOM(2, "Load from file", CustomGraphOptionPanel.getInstance(), new FileGraphBuilder()),
+    USER(3, "Create your own", UserGraphOptionPanel.getInstance(), new EmptyGraphBuilder());
     
     private int id;
     private String description;

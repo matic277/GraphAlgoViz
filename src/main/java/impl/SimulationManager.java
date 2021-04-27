@@ -16,7 +16,7 @@ public class SimulationManager {
     
     public SimulationManager(GraphBuilder builder) {
         this.builder = builder;
-        this.graph = new Graph();
+        this.graph = builder.buildGraph();
         
         // open main window
         SwingUtilities.invokeLater(() -> {
