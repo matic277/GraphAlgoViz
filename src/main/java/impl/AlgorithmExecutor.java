@@ -2,6 +2,7 @@ package impl;
 
 import core.Algorithm;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 
@@ -16,7 +17,8 @@ public class AlgorithmExecutor implements Runnable {
         this.nodes = nodes;
         this.algorithm = algorithm;
         this.name = threadName;
-        System.out.println("new executor named: " + threadName);
+        nodes.sort(Comparator.comparing(Node::getId));
+        System.out.println("new executor named: " + threadName + " tasks=" + nodes);
     }
     
     @Override

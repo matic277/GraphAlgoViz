@@ -49,7 +49,7 @@ public class RandomGraphOptionPanel extends OptionPanel {
     public ActionListener getButtonAction(GraphType type) {
         // read edge probability and number of nodes
         return a -> {
-            System.out.println("Hello from " + this.getClass().getSimpleName());
+            System.out.println("Listening: " + this.getClass().getSimpleName());
     
             GraphBuilder builder = type.getGraphBuilder()
                     .setEdgeProbability(Double.parseDouble(edgesInput.getText()))

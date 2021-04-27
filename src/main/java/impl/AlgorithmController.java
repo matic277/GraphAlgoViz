@@ -18,14 +18,14 @@ public class AlgorithmController implements Runnable {
     int currentStateIndex = 0;
     int totalStates = 0;
     
-    Collection<Node> nodes;
+    MyGraph graph;
     Algorithm algo;
     
     public static volatile boolean PAUSE = true;
     public static final Object PAUSE_LOCK = new Object();
     
-    public AlgorithmController(Collection<Node> nodes) {
-        this.nodes = nodes;
+    public AlgorithmController(MyGraph graph) {
+        this.graph = graph;
         this.algo = getAlgorithm();
         
         assignTasks();
@@ -66,14 +66,14 @@ public class AlgorithmController implements Runnable {
     }
     
     private void assignTasks() {
-        int nodes = this.nodes.size();
+        int nodes = this.graph.getNodes().size();
         int taskSize = nodes / PROCESSORS;
         
         int lastTaskSize = (nodes - (taskSize * PROCESSORS)) + taskSize;
     
         System.out.println("TASK SIZE="+taskSize+", LAST="+lastTaskSize);
     
-        Iterator<Node> iter = this.nodes.stream().iterator();
+        Iterator<Node> iter = this.graph.getNodes().stream().iterator();
         
         for (int i=0; i<EXECUTORS.length; i++) {
             // last processor might do more work (task divisibility problem)
@@ -94,6 +94,12 @@ public class AlgorithmController implements Runnable {
         return node -> {
             // if you have info, don't do anything
             if (node.getState().info > 0) return new State(node.getState().info);
+            
+            // TODO
+            // AlgorithmController gets stuck for some reason,
+            // if some nodes have  no neighbors!
+            // This return prevents this (but this shouldn't be necessary)
+            if (node.neighbors.isEmpty()) return new State(node.getState().info);
             
             // get two random neighbors
             State stateOfNeigh1 = node.neighbors.get(r.nextInt(node.neighbors.size())).getState();

@@ -1,6 +1,6 @@
 package impl.listeners;
 
-import impl.Graph;
+import impl.MyGraph;
 import impl.Node;
 import impl.panels.SimulationPanel;
 
@@ -9,7 +9,6 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
-import java.util.Optional;
 
 /**
  * Zooming and panning adapted from
@@ -18,7 +17,7 @@ import java.util.Optional;
 public class SimulationPanelListener implements MouseListener, MouseMotionListener, MouseWheelListener {
     
     SimulationPanel panel;
-    Graph graph;
+    MyGraph graph;
     Point mouse;
     
     // panning & zooming vars

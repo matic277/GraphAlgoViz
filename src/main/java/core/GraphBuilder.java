@@ -1,20 +1,20 @@
 package core;
 
-import impl.Graph;
+import impl.MyGraph;
 
 public abstract class GraphBuilder {
     
-    protected Graph graph;
+    protected MyGraph graph;
     protected int totalNodes;
     protected double edgeProbability;
     
     protected String fileName;
     
     public GraphBuilder() {
-        this.graph = new Graph();
+        this.graph = new MyGraph();
     }
     
-    public abstract Graph buildGraph();
+    public abstract MyGraph buildGraph();
     
     public GraphBuilder setNumberOfNodes(int nodes) {
         this.totalNodes = nodes;

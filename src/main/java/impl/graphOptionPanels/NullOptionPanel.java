@@ -18,7 +18,7 @@ public class NullOptionPanel extends OptionPanel {
     @Override
     public ActionListener getButtonAction(GraphType type) {
         return a -> {
-            System.out.println("Hello from " + this.getClass().getSimpleName());
+            System.out.println("Listening: " + this.getClass().getSimpleName());
         };
     }
 }

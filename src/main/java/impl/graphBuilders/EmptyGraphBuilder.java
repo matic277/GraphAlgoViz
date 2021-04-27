@@ -1,7 +1,7 @@
 package impl.graphBuilders;
 
 import core.GraphBuilder;
-import impl.Graph;
+import impl.MyGraph;
 
 public class EmptyGraphBuilder extends GraphBuilder {
     
@@ -10,7 +10,7 @@ public class EmptyGraphBuilder extends GraphBuilder {
     }
     
     @Override
-    public Graph buildGraph() {
+    public MyGraph buildGraph() {
         return this.graph;
     }
 }

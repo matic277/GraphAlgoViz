@@ -8,14 +8,14 @@ import java.awt.geom.AffineTransform;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Graph implements Drawable {
+public class MyGraph implements Drawable {
     
     public static int numOfNodes = 0;
     
     Set<Node> nodes;
     Set<Edge> edges;
     
-    public Graph() {
+    public MyGraph() {
         nodes = new HashSet<>();
         edges = new HashSet<>();
     }

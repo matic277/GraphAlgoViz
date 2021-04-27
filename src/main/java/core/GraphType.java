@@ -18,6 +18,8 @@ public enum GraphType {
     CUSTOM(2, "Load from file", CustomGraphOptionPanel.getInstance(), new FileGraphBuilder()),
     USER(3, "Create your own", UserGraphOptionPanel.getInstance(), new EmptyGraphBuilder());
     
+    // TODO add Clique graph with input for number of nodes
+    
     private int id;
     private String description;
     private OptionPanel panel;

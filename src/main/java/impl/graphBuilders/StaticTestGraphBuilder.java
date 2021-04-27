@@ -1,7 +1,7 @@
 package impl.graphBuilders;
 
 import core.GraphBuilder;
-import impl.Graph;
+import impl.MyGraph;
 import impl.Node;
 
 public class StaticTestGraphBuilder extends GraphBuilder {
@@ -11,7 +11,7 @@ public class StaticTestGraphBuilder extends GraphBuilder {
     }
     
     @Override
-    public Graph buildGraph() {
+    public MyGraph buildGraph() {
         Node n0 = new Node(100, 280, 0);
         Node n1 = new Node(100, 100, 1);
         Node n2 = new Node(50, 170, 2);

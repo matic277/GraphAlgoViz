@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class SimulationManager {
     
-    Graph graph;
+    MyGraph graph;
     GraphBuilder builder;
     AlgorithmController algoController;
     
@@ -23,7 +23,7 @@ public class SimulationManager {
             simWindow = new SimulationWindow(new Dimension(1000, 800), graph);
         });
         
-        algoController = new AlgorithmController(graph.nodes);
+        algoController = new AlgorithmController(graph);
         Thread controller = new Thread(algoController);
         controller.start();
     }

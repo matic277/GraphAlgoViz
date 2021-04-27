@@ -119,4 +119,6 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     public String toString() {
         return "[N="+id+"]";
     }
+    
+    public int getId() { return this.id; }
 }

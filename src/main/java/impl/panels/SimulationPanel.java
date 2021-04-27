@@ -1,9 +1,7 @@
 package impl.panels;
 
-import core.Algorithm;
-import core.Selectable;
 import impl.AlgorithmController;
-import impl.Graph;
+import impl.MyGraph;
 import impl.Node;
 import impl.listeners.SimulationPanelListener;
 import impl.tools.Tools;
@@ -20,7 +18,7 @@ public class SimulationPanel extends JPanel {
     
     SimulationWindow parent;
     
-    Graph graph;
+    MyGraph graph;
     
     private final Point2D mouse;
     public AffineTransform atx = new AffineTransform();
@@ -29,7 +27,7 @@ public class SimulationPanel extends JPanel {
     // potential edge drawing
     Node edgeSourceNode;
     
-    public SimulationPanel(SimulationWindow parent, Graph g, Dimension panelSize) {
+    public SimulationPanel(SimulationWindow parent, MyGraph g, Dimension panelSize) {
         this.parent = parent;
         this.graph = g;
         
@@ -105,12 +103,12 @@ public class SimulationPanel extends JPanel {
 //        }
     }
     
-    public void setGraph(Graph g) {
+    public void setGraph(MyGraph g) {
         this.graph = g;
     }
     
     // TODO: fix thread safety
-    public Graph getGraph() {
+    public MyGraph getGraph() {
         return this.graph;
     }
     

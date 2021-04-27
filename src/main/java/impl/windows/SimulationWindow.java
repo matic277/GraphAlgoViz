@@ -1,7 +1,7 @@
 package impl.windows;
 
 import core.Window;
-import impl.Graph;
+import impl.MyGraph;
 import impl.panels.MenuPanel;
 import impl.panels.SimulationPanel;
 
@@ -13,7 +13,7 @@ public class SimulationWindow extends Window {
     MenuPanel menuPanel;
     final int menuWidth = 150;
     
-    public SimulationWindow(Dimension windowSize, Graph g) {
+    public SimulationWindow(Dimension windowSize, MyGraph g) {
         super(windowSize);
         this.frame.remove(this.panel);
         this.frame.setLayout(new BorderLayout());

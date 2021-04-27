@@ -15,14 +15,13 @@ public class UserGraphOptionPanel extends OptionPanel {
         super();
         this.setOpaque(true);
         this.setBackground(Color.red);
-        
     }
     
     @Override
     public ActionListener getButtonAction(GraphType type) {
         // do nothing, create empty graph
         return a -> {
-            System.out.println("Hello from " + this.getClass().getSimpleName());
+            System.out.println("Listening: " + this.getClass().getSimpleName());
             new SimulationManager(type.getGraphBuilder());
         };
     }

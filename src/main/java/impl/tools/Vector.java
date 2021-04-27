@@ -5,6 +5,12 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.Random;
 
+/**
+ * Class taken from another project,
+ * only used for rotating a vector when
+ * generating coordinates that places
+ * nodes in a circle (decent layout for clique graphs).
+ */
 public class Vector {
     
     public double x;
@@ -34,35 +40,24 @@ public class Vector {
     
     // rotates for a random value from [0, Var.vectorAngle]
     // in both directions (clockwise or counter-clockwise)
-//    public void rotate() {
-//        if (Var.vectorAngle == 0) return;
-//
-//        Random r = new Random();
-//        int da = 0;
-//        double angle = Var.vectorAngle;
-//
-//        // rotate from [0, angle]
-//        if (r.nextDouble() < 0.5) {
-//            angle = r.nextInt(Var.vectorAngle + 1);
-//        }
-//        // rotate from [360-angle, 360]
-//        else {
-//            da = 360  - Var.vectorAngle;
-//            angle = da + r.nextInt(Var.vectorAngle +1 );
-//        }
-//
-//        x = x * Math.cos(Math.toRadians(angle)) - y * Math.sin(Math.toRadians(angle));
-//        y = x * Math.sin(Math.toRadians(angle)) + y * Math.cos(Math.toRadians(angle));
-//
-//        // we have a vector of wanted size
-//        // (has already been normalized and scaled(multiplied))
-//        // but if we don't scale it again after rotation, the
-//        // margin of errors (because of type double) start
-//        // adding up, and vectors get shorter and shorter
-//        // as sequence progresses
-//        this.norm();
-//        this.multi(Var.vectorLength);
-//    }
+    public void rotate(double angle, double len) {
+        if (angle == 0) return;
+
+        Random r = new Random();
+        int da = 0;
+
+        x = x * Math.cos(Math.toRadians(angle)) - y * Math.sin(Math.toRadians(angle));
+        y = x * Math.sin(Math.toRadians(angle)) + y * Math.cos(Math.toRadians(angle));
+
+        // we have a vector of wanted size
+        // (has already been normalized and scaled(multiplied))
+        // but if we don't scale it again after rotation, the
+        // margin of errors (because of type double) start
+        // adding up, and vectors get shorter and shorter
+        // as sequence progresses
+        this.norm();
+        this.multi(len);
+    }
     
     public void add(Vector v) {
         x += v.x;
