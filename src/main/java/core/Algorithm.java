@@ -1,12 +1,12 @@
 package core;
 
-import impl.Communicator;
 import impl.Node;
+import impl.State;
 
 import java.util.List;
 
 @FunctionalInterface
 public interface Algorithm {
     // TODO add pausing options?
-    public void run(Node node);
+    public State run(Node node);
 }

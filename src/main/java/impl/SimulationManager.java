@@ -15,11 +15,6 @@ public class SimulationManager {
     public SimulationManager() {
         this.graph = new Graph();
 
-        // if from file
-        // initalize staring node positions
-        // 800x600
-
-
         
         // open main window
         SwingUtilities.invokeLater(() -> {

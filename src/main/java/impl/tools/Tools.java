@@ -1,5 +1,6 @@
 package impl.tools;
 
+import impl.State;
 import impl.listeners.ButtonListener;
 
 import javax.swing.*;
@@ -11,6 +12,8 @@ public class Tools {
     public static final Color borderColor = new Color(118, 118, 118);
     
     public static final Dimension menuButtonSize = new Dimension(40, 40);
+    
+    public static final Dimension wideMenuButtonSize = new Dimension(100, 40);
     
     public static final ButtonListener buttonListener = new ButtonListener();
     

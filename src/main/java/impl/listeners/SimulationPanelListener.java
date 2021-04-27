@@ -44,15 +44,12 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     public void mousePressed(MouseEvent e) {
         mouse.setLocation(e.getPoint().x, e.getPoint().y);
     
-        System.out.println(mouse);
-    
         selectedItem = getHoveredOverNode();
         if (selectedItem != null) {
             dx = (mouse.getX() - selectedItem.x);
             dy = (mouse.getY() - selectedItem.y);
             return;
         }
-        
         
         try {
             XFormedPoint = panel.atx.inverseTransform(e.getPoint(), null);
@@ -79,8 +76,6 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
             selectedItem.moveTo((int)(mouse.getX() - dx), (int)(mouse.getY() - dy));
             return;
         }
-        
-        
         
         try {
             XFormedPoint = initialTransform.inverseTransform(e.getPoint(), null);

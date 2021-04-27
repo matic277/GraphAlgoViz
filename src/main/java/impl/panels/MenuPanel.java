@@ -1,5 +1,7 @@
 package impl.panels;
 
+import impl.AlgorithmController;
+import impl.AlgorithmExecutor;
 import impl.Node;
 import impl.tools.Tools;
 import impl.windows.SimulationWindow;
@@ -20,6 +22,8 @@ public class MenuPanel extends JPanel {
     Button addNodeBtn;
     JButton undoBtn;
     JButton redoBtn;
+    
+    Button pauseBtn;
     
     public MenuPanel(SimulationWindow parent, SimulationPanel simPanel, Dimension panelSize) {
         this.parent = parent;
@@ -62,7 +66,22 @@ public class MenuPanel extends JPanel {
 //            simPanel.repaint();
         });
         this.add(addNodeBtn);
-        
+    
+        // spacer
+        this.add(Tools.getDumyPlaceholder());
+    
+        pauseBtn = new Button("CONTINUE");
+        pauseBtn.setToolTipText("Pause or continue simulation.");
+        pauseBtn.setPreferredSize(Tools.wideMenuButtonSize);
+        pauseBtn.setOnClickAction(() -> {
+            AlgorithmController.PAUSE = !AlgorithmController.PAUSE;
+            synchronized (AlgorithmController.PAUSE_LOCK) {
+                AlgorithmController.PAUSE_LOCK.notify();
+            }
+            
+            pauseBtn.setText(pauseBtn.getText().equals("CONTINUE") ? "PAUSE" : "CONTINUE");
+        });
+        this.add(pauseBtn);
         
 //        Listener l = new Listener();
 //        this.addMouseMotionListener(l);

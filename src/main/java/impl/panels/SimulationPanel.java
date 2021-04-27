@@ -78,7 +78,8 @@ public class SimulationPanel extends JPanel {
         gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
         gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
         
-        gr.drawString("scale: " + formatter.format(listener.scale), getWidth()-80, getHeight()-30);
+        gr.drawString("scale:  " + formatter.format(listener.scale), getWidth()-100, getHeight()-30);
+        gr.drawString("status: " + (AlgorithmController.PAUSE ? "PAUSED" : "RUNNING"), getWidth()-100, getHeight()-40);
         drawComponents(gr);
         
         Tools.sleep(1000/144);

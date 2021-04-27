@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 import java.awt.geom.Point2D;
 
@@ -20,7 +19,11 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
     public int info = 0;
     public List<Node> neighbors;
-    public Deque<Message> msgs;
+    
+    List<State> states;
+    public int currentStateIndex = 0;
+    int messagesReceived = 0;
+    int messagesSent = 0;
     
     public Node(int x, int y, int id) {
         this.x = x;
@@ -34,6 +37,27 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         this.ts = this;
         
         neighbors = new ArrayList<>(5);
+        states = new ArrayList<>(100);
+        
+        
+        // TODO
+        if (id == 0 || id == 8) {
+            states.add(new State(1));
+        } else {
+            states.add(new State(0));
+        }
+    }
+    
+//    public void setState(State newState) {
+//        this.state = newState;
+//    }
+    public State getState() {
+        messagesSent++;
+        return this.states.get(currentStateIndex);
+    }
+    public void addState(State state) {
+        this.states.add(state);
+        currentStateIndex++;
     }
     
     @Override
@@ -41,7 +65,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         ts = at.createTransformedShape(this);
         
         g.setStroke(Tools.BOLD_STROKE);
-        g.setColor(info == 0 ? Color.black : Color.green);
+        g.setColor(states.get(currentStateIndex).getState() == 0 ? Color.black : Color.green);
         
         // circle & center
         g.draw(ts);
@@ -53,7 +77,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         g.drawString(
                 "["+(int)ts.getBounds().getCenterX()+", "+(int)ts.getBounds().getCenterY()+"]",
                 (int)ts.getBounds().getCenterX()-30,
-                (int)(ts.getBounds().getCenterY()+ts.getBounds().getHeight()));
+                (int)(ts.getBounds().getCenterY()+ts.getBounds().getHeight()/1.2));
 //        g.drawString(
 //                "["+(int)this.getBounds().getCenterX()+", "+(int)this.getBounds().getCenterY()+"]",
 //                (int)this.getBounds().getCenterX()-30,
@@ -91,7 +115,8 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     @Override
     public Point2D getLocation() { return new Point2D.Double(x, y); }
     
-    public void receiveMessage(Deque<Message> messages) {
-        this.msgs = messages;
+    @Override
+    public String toString() {
+        return "[N="+id+"]";
     }
 }
