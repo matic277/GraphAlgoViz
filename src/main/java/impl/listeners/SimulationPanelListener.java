@@ -32,7 +32,8 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     AffineTransform initialTransform;
     public Point2D XFormedPoint;
     
-    Node selectedItem;
+    Node selectedItem1; // panning
+    Node selectedItem2; // creating edgeS
     Double dx, dy;
     
     final JLabel nodeInfoLbl = new JLabel("Empty");
@@ -42,7 +43,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         this.graph = panel.getGraph();
         mouse = new Point(0, 0);
         
-        nodeInfoLbl.setBounds(0, 0, 125,100);
+        nodeInfoLbl.setBounds(0, 0, 100,100);
         nodeInfoLbl.setBackground(new Color(255, 255, 255, 230));
         nodeInfoLbl.setBorder(new LineBorder(Color.black, 2));
         nodeInfoLbl.setOpaque(true);
@@ -54,25 +55,29 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     public void mousePressed(MouseEvent e) {
         mouse.setLocation(e.getPoint().x, e.getPoint().y);
         
-        selectedItem = getHoveredOverNode();
+        selectedItem1 = getHoveredOverNode();
         nodeInfoLbl.setVisible(false);
         
         // RIGHT_CLICK
-        if (e.getButton() == MouseEvent.BUTTON3 && selectedItem != null) {
-            Point newPos = new Point(
-                    (int)(selectedItem.ts.getBounds().getLocation().getX() + selectedItem.ts.getBounds().getWidth()),
-                    (int)(selectedItem.ts.getBounds().getLocation().getY()));
-            System.out.println(newPos);
-//            nodeInfoLbl.getBounds().setLocation(newPos);
-            nodeInfoLbl.setBounds(new Rectangle(newPos.x, newPos.y, nodeInfoLbl.getBounds().width, nodeInfoLbl.getBounds().height));
+        if (e.getButton() == MouseEvent.BUTTON3 && selectedItem1 != null) { ;
+            nodeInfoLbl.setBounds(
+                    (int)(selectedItem1.ts.getBounds().getLocation().getX() + selectedItem1.ts.getBounds().getWidth()),
+                    (int)(selectedItem1.ts.getBounds().getLocation().getY()),
+                    nodeInfoLbl.getBounds().width,
+                    nodeInfoLbl.getBounds().height);
             nodeInfoLbl.setVisible(true);
-            nodeInfoLbl.setText("<html>Node id="+selectedItem.getId()+"<br><br>State="+selectedItem.getState().getState()+"</html>");
+            nodeInfoLbl.setText(
+                    "<html>" +
+                            "&nbsp; Node id=" + selectedItem1.getId() + "<br><br>" +
+                            "&nbsp; State=" + selectedItem1.getState().getState() +
+                    "</html>");
             return;
         }
-    
-        if (selectedItem != null) {
-            dx = (mouse.getX() - selectedItem.x);
-            dy = (mouse.getY() - selectedItem.y);
+        
+        // panning
+        if (selectedItem1 != null) {
+            dx = (mouse.getX() - selectedItem1.x);
+            dy = (mouse.getY() - selectedItem1.y);
             return;
         }
         
@@ -80,7 +85,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
             XFormedPoint = panel.atx.inverseTransform(e.getPoint(), null);
         }
         catch (NoninvertibleTransformException te) {
-            System.out.println(te);
+            te.printStackTrace();
         }
         
         referenceX = XFormedPoint.getX();
@@ -90,19 +95,22 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     
     @Override
     public void mouseReleased(MouseEvent e) {
-        selectedItem = null;
+        //selectedItem2 = null;
     }
     
     @Override
     public void mouseDragged(MouseEvent e) {
         mouse.setLocation(e.getPoint().x, e.getPoint().y);
         
+        selectedItem2 = null;
+        panel.stopDrawingPotentialEdge();
+        
         // RIGHT_CLICK
         // Don't drag on right click.
         if (SwingUtilities.isRightMouseButton(e)) return;
         
-        if (selectedItem != null) {
-            selectedItem.moveTo((int)(mouse.getX() - dx), (int)(mouse.getY() - dy));
+        if (selectedItem1 != null) {
+            selectedItem1.moveTo((int)(mouse.getX() - dx), (int)(mouse.getY() - dy));
             return;
         }
         
@@ -152,24 +160,38 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
 //                nodeInfoLbl.getBounds().y,
 //                (int)(nodeInfoLbl.getBounds().width / scale),
 //                (int)(nodeInfoLbl.getBounds().height / scale));
+        nodeInfoLbl.setVisible(false);
     }
     
     @Override
     public void mouseClicked(MouseEvent e) {
-//        // connect two nodes
-//        if (selectedNode1 != null) {
-//            getHoveredOverNode()
-//                    .ifPresent(n  -> graph.addEdge(n, selectedNode1));
-//            panel.stopDrawingPotentialEdge();
-//            selectedNode1 = null;
-//            return;
-//        }
-//        // see what node was clicked, if any
-//        getHoveredOverNode().ifPresentOrElse(
-//                n -> {
-//                    selectedNode1 = n;
-//                    panel.startDrawingPotentialEdge(selectedNode1); },
-//                () -> selectedNode1 = null);
+        // RIGHT_CLICK
+        if (e.getButton() == MouseEvent.BUTTON3) {
+            selectedItem2 = null;
+            panel.stopDrawingPotentialEdge();
+            return;
+        }
+        
+        // connect two nodes
+        if (selectedItem2 != null) {
+            Node n = getHoveredOverNode();
+            System.out.println("clicked again: " + n);
+            if (n != null) {
+                graph.addEdge(n, selectedItem2);
+            }
+            panel.stopDrawingPotentialEdge();
+            selectedItem2 = null;
+            return;
+        }
+        // see what node was clicked, if any
+        Node n =  getHoveredOverNode();
+        if (n != null) {
+            System.out.println("clicked node: " + n);
+            selectedItem2 = n;
+            panel.startDrawingPotentialEdge(selectedItem2);
+        } else {
+            selectedItem2 = null;
+        }
     }
     
     @Override

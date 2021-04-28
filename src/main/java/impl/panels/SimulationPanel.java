@@ -95,12 +95,12 @@ public class SimulationPanel extends JPanel {
     public void drawComponents(Graphics2D g) {
         graph.draw(g, atx);
         
-//        if (edgeSourceNode != null) {
-//            g.setStroke(Tools.BOLD_STROKE);
-//            g.setColor(Color.BLACK);
-//            g.drawLine(edgeSourceNode.x, edgeSourceNode.y, (int)mouse.getX(), (int)mouse.getY());
-//            g.setStroke(Tools.PLAIN_STROKE);
-//        }
+        if (edgeSourceNode != null) {
+            g.setStroke(Tools.BOLD_STROKE);
+            g.setColor(Color.BLACK);
+            g.drawLine((int)edgeSourceNode.ts.getBounds().getCenterX(), (int)edgeSourceNode.ts.getBounds().getCenterY(), (int)mouse.getX(), (int)mouse.getY());
+            g.setStroke(Tools.PLAIN_STROKE);
+        }
     }
     
     public void setGraph(MyGraph g) {
