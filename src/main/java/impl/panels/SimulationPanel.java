@@ -1,5 +1,6 @@
 package impl.panels;
 
+import core.Observer;
 import impl.AlgorithmController;
 import impl.MyGraph;
 import impl.Node;
@@ -14,7 +15,7 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class SimulationPanel extends JPanel {
+public class SimulationPanel extends JPanel implements Observer {
     
     SimulationWindow parent;
     
@@ -26,6 +27,8 @@ public class SimulationPanel extends JPanel {
     
     // potential edge drawing
     Node edgeSourceNode;
+    
+    int currentStateIndex = 0;
     
     public SimulationPanel(SimulationWindow parent, MyGraph g, Dimension panelSize) {
         this.parent = parent;
@@ -76,8 +79,9 @@ public class SimulationPanel extends JPanel {
         gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
         gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
         
-        gr.drawString("scale:  " + formatter.format(listener.scale), getWidth()-100, getHeight()-30);
-        gr.drawString("status: " + (AlgorithmController.PAUSE ? "PAUSED" : "RUNNING"), getWidth()-100, getHeight()-40);
+        gr.drawString("state:  " + currentStateIndex, getWidth()-110, getHeight()-20);
+        gr.drawString("scale:  " + formatter.format(listener.scale), getWidth()-110, getHeight()-35);
+        gr.drawString("status: " + (AlgorithmController.PAUSE ? "PAUSED" : "RUNNING"), getWidth()-110, getHeight()-50);
         drawComponents(gr);
         
         Tools.sleep(1000/144);
@@ -98,7 +102,11 @@ public class SimulationPanel extends JPanel {
         if (edgeSourceNode != null) {
             g.setStroke(Tools.BOLD_STROKE);
             g.setColor(Color.BLACK);
-            g.drawLine((int)edgeSourceNode.ts.getBounds().getCenterX(), (int)edgeSourceNode.ts.getBounds().getCenterY(), (int)mouse.getX(), (int)mouse.getY());
+            g.drawLine(
+                    (int)edgeSourceNode.ts.getBounds().getCenterX(),
+                    (int)edgeSourceNode.ts.getBounds().getCenterY(),
+                    (int)mouse.getX(),
+                    (int)mouse.getY());
             g.setStroke(Tools.PLAIN_STROKE);
         }
     }
@@ -118,5 +126,11 @@ public class SimulationPanel extends JPanel {
     
     public AffineTransform getAffineTransformation() {
         return this.atx;
+    }
+    
+    @Override
+    public void notifyStateChange(int newStateIndex) {
+        System.out.println("notified");
+        this.currentStateIndex = newStateIndex;
     }
 }

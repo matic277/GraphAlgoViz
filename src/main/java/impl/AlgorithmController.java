@@ -1,13 +1,15 @@
 package impl;
 
 import core.Algorithm;
+import core.Observable;
+import core.Observer;
 import impl.tools.LOG;
 import impl.tools.Tools;
 
 import java.util.*;
 import java.util.concurrent.*;
 
-public class AlgorithmController implements Runnable {
+public class AlgorithmController implements Runnable, Observable {
     
     static final int PROCESSORS = 3;
     
@@ -38,22 +40,6 @@ public class AlgorithmController implements Runnable {
         Thread.currentThread().setName("CONTROLLER");
         while (true)
         {
-            LOG.out("\n->", "STARTING EXECUTORS.");
-            for (int i=0; i<EXECUTORS.length; i++) {
-                THREAD_POOL.submit(EXECUTORS[i]);
-            }
-            LOG.out("->", "ALL EXECUTORS STARTED.");
-            
-            try { AlgorithmController.BARRIER.await(); }
-            catch (InterruptedException | BrokenBarrierException e) { e.printStackTrace(); }
-    
-            totalStates++;
-            currentStateIndex++;
-            
-            LOG.out("\n->", "BARRIER TIPPED.");
-            LOG.out(" ->", "currentStateIndex="+currentStateIndex);
-            LOG.out(" ->", "totalStates="+totalStates);
-            
             if (PAUSE) {
                 LOG.out("->", "PAUSING.");
                 synchronized (PAUSE_LOCK) {
@@ -65,9 +51,29 @@ public class AlgorithmController implements Runnable {
                 LOG.out("->", "CONTINUING.");
             }
             
+            LOG.out("\n->", "STARTING EXECUTORS.");
+            for (int i=0; i<EXECUTORS.length; i++) {
+                THREAD_POOL.submit(EXECUTORS[i]);
+            }
+            LOG.out("->", "ALL EXECUTORS STARTED.");
+            
+            try { AlgorithmController.BARRIER.await(); }
+            catch (InterruptedException | BrokenBarrierException e) { e.printStackTrace(); }
+            
+            incrementState();
+            
+            LOG.out("\n->", "BARRIER TIPPED.");
+            LOG.out(" ->", "currentStateIndex="+currentStateIndex);
+            LOG.out(" ->", "totalStates="+totalStates);
             
             Tools.sleep(2000);
         }
+    }
+    
+    private void incrementState() {
+        currentStateIndex++;
+        totalStates++;
+        observers.forEach(obs -> obs.notifyStateChange(currentStateIndex));
     }
     
     private void assignTasks() {
@@ -118,4 +124,17 @@ public class AlgorithmController implements Runnable {
     }
     
     public void setAlgorithm(Algorithm a) { algo = a; }
+    
+    
+    Set<Observer> observers = new HashSet<>(8);
+    
+    @Override
+    public void addObserver(Observer obsever) {
+        this.observers.add(obsever);
+    }
+    
+    @Override
+    public void removeObserver(Observer observer) {
+        this.observers.remove(observer);
+    }
 }

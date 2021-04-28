@@ -29,4 +29,8 @@ public class SimulationWindow extends Window {
         
         this.frame.pack();
     }
+    
+    public SimulationPanel getSimulationPanel() {
+        return this.simPanel;
+    }
 }

@@ -18,13 +18,15 @@ public class SimulationManager {
         this.builder = builder;
         this.graph = builder.buildGraph();
         
+        algoController = new AlgorithmController(graph);
+        Thread controller = new Thread(algoController);
+        
         // open main window
         SwingUtilities.invokeLater(() -> {
             simWindow = new SimulationWindow(new Dimension(1000, 800), graph);
+            algoController.addObserver(simWindow.getSimulationPanel());
         });
         
-        algoController = new AlgorithmController(graph);
-        Thread controller = new Thread(algoController);
         controller.start();
     }
     
