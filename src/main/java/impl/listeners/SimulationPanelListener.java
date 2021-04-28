@@ -101,8 +101,8 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         // Don't drag on right click.
         if (SwingUtilities.isRightMouseButton(e)) return;
         
-        if (selectedItem != null && dx != null) {
-            selectedItem.moveTo((int)(mouse.getX() - dx), (int)(mouse.getY() - dy)); // TODO error sometimes
+        if (selectedItem != null) {
+            selectedItem.moveTo((int)(mouse.getX() - dx), (int)(mouse.getY() - dy));
             return;
         }
         
