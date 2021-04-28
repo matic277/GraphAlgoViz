@@ -38,7 +38,7 @@ public class StartupWindow extends Window {
         titleText1.setVisible(true);
         titleText1.setBounds(50, 50, 400, 50);
         this.panel.add(titleText1);
-        titleText2 = new JLabel("Vizualizer", SwingUtilities.CENTER);
+        titleText2 = new JLabel("Visualizer", SwingUtilities.CENTER);
         titleText2.setFont(getBoldFont(66));
 //        titleText2.setOpaque(true);
 //        titleText2.setBackground(Color.black);
@@ -49,16 +49,16 @@ public class StartupWindow extends Window {
         this.panel.add(titleText2);
         
         selectGraphText = new JLabel(" Select type of graph:");
-        selectGraphText.setFont(getFont(14));
+        selectGraphText.setFont(Tools.getFont(12));
         selectGraphText.setOpaque(true);
         selectGraphText.setBackground(Tools.bgColor);
         selectGraphText.setVisible(true);
-        selectGraphText.setBounds(115, 205, 120, 30);
+        selectGraphText.setBounds(113, 205, 127, 30);
         this.panel.add(selectGraphText);
         
         dropdown = new JComboBox<>(GraphType.values());
         dropdown.setOpaque(true);
-        dropdown.setBounds(235,205, 150, 30);
+        dropdown.setBounds(240,205, 150, 30);
         dropdown.setFont(getFont(14));
         dropdown.setBackground(Tools.bgColor);
         dropdown.setVisible(true);

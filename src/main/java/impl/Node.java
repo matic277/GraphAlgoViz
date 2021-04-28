@@ -100,7 +100,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     // TODO: fix, use ts variable (transformed shape) ??
     @Override
     public void moveTo(int x, int y) {
-        System.out.println("moved to:" + x + ", " +y);
+//        System.out.println("moved to:" + x + ", " +y);
 //        ts.getBounds().x = x;
 //        ts.getBounds().y = y;
         

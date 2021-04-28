@@ -17,7 +17,7 @@ public abstract class OptionPanel extends JPanel {
 //    protected MyButton continueBtn;
     
     public OptionPanel() {
-        this.panelSize = new Dimension(400,280);
+        this.panelSize = new Dimension(400,265);
         this.setVisible(true);
         this.setLayout(null);
         this.setSize(panelSize);
@@ -40,7 +40,6 @@ public abstract class OptionPanel extends JPanel {
         g.fillRect(0, 0, panelSize.width, panelSize.height);
     
         gr.setColor(Tools.borderColor);
-//        g.drawOval(150, 150, 50, 50);
         gr.drawRoundRect(0, 0, panelSize.width-1, panelSize.height-1, 15, 15);
     }
     

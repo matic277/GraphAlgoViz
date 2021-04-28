@@ -26,7 +26,9 @@ public class StaticTestGraphBuilder extends GraphBuilder {
         Node n11 = new Node(400, 600, 11);
         Node n12 = new Node(400, 480, 12);
         Node n13 = new Node(370, 380, 13);
-    
+        
+        Node n14 = new Node(600, 600, 14);
+
         this.graph.addNode(n0);
         this.graph.addNode(n1);
         this.graph.addNode(n2);
@@ -41,6 +43,7 @@ public class StaticTestGraphBuilder extends GraphBuilder {
         this.graph.addNode(n11);
         this.graph.addNode(n12);
         this.graph.addNode(n13);
+        this.graph.addNode(n14);
     
         this.graph.addEdge(n0, n1);
         this.graph.addEdge(n1, n2);

@@ -1,13 +1,7 @@
 package core;
 
-import impl.graphBuilders.EmptyGraphBuilder;
-import impl.graphBuilders.FileGraphBuilder;
-import impl.graphBuilders.RandomGraphBuilder;
-import impl.graphBuilders.StaticTestGraphBuilder;
-import impl.graphOptionPanels.CustomGraphOptionPanel;
-import impl.graphOptionPanels.RandomGraphOptionPanel;
-import impl.graphOptionPanels.StaticTestGraphOptionPanel;
-import impl.graphOptionPanels.UserGraphOptionPanel;
+import impl.graphBuilders.*;
+import impl.graphOptionPanels.*;
 
 public enum GraphType {
     
@@ -16,9 +10,8 @@ public enum GraphType {
     
     RANDOM(1, "Random graph", RandomGraphOptionPanel.getInstance(), new RandomGraphBuilder()),
     CUSTOM(2, "Load from file", CustomGraphOptionPanel.getInstance(), new FileGraphBuilder()),
-    USER(3, "Create your own", UserGraphOptionPanel.getInstance(), new EmptyGraphBuilder());
-    
-    // TODO add Clique graph with input for number of nodes
+    USER(3, "Create your own", UserGraphOptionPanel.getInstance(), new EmptyGraphBuilder()),
+    CLIQUE(4, "Fully connected (clique)", CliqueGraphOptionPanel.getInstance(), new CliqueGraphBuilder());
     
     private int id;
     private String description;

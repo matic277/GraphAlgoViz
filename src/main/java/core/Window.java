@@ -21,7 +21,7 @@ public abstract class Window {
 //        frame.setLayout(null);
         frame.setVisible(true);
         
-        // TODO move this to simulation window
+        // TODO move this to startup window
         // draw round rectangle for text
         panel = new JPanel() {
             @Override
@@ -31,6 +31,7 @@ public abstract class Window {
                 gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                 
+                gr.setStroke(new BasicStroke(2f));
                 g.setColor(Tools.bgColor);
                 g.fillRect(0, 0, getWidth(), getHeight());
                 
@@ -38,7 +39,7 @@ public abstract class Window {
                 gr.fillRoundRect(81, 110, 337, 50, 12, 12);
                 gr.drawRoundRect(81, 55, 337, 102, 12, 12);
                 gr.fillRect(81, 101, 337, 20);
-    
+                
                 Tools.sleep(1000/60);
                 super.repaint();
             }};

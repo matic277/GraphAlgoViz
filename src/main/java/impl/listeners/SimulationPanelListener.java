@@ -4,6 +4,8 @@ import impl.MyGraph;
 import impl.Node;
 import impl.panels.SimulationPanel;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -33,17 +35,41 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     Node selectedItem;
     Double dx, dy;
     
+    final JLabel nodeInfoLbl = new JLabel("Empty");
+    
     public SimulationPanelListener(SimulationPanel panel) {
         this.panel = panel;
         this.graph = panel.getGraph();
         mouse = new Point(0, 0);
+        
+        nodeInfoLbl.setBounds(0, 0, 125,100);
+        nodeInfoLbl.setBackground(new Color(255, 255, 255, 230));
+        nodeInfoLbl.setBorder(new LineBorder(Color.black, 2));
+        nodeInfoLbl.setOpaque(true);
+        nodeInfoLbl.setVisible(false);
+        panel.add(nodeInfoLbl);
     }
     
     @Override
     public void mousePressed(MouseEvent e) {
         mouse.setLocation(e.getPoint().x, e.getPoint().y);
-    
+        
         selectedItem = getHoveredOverNode();
+        nodeInfoLbl.setVisible(false);
+        
+        // RIGHT_CLICK
+        if (e.getButton() == MouseEvent.BUTTON3 && selectedItem != null) {
+            Point newPos = new Point(
+                    (int)(selectedItem.ts.getBounds().getLocation().getX() + selectedItem.ts.getBounds().getWidth()),
+                    (int)(selectedItem.ts.getBounds().getLocation().getY()));
+            System.out.println(newPos);
+//            nodeInfoLbl.getBounds().setLocation(newPos);
+            nodeInfoLbl.setBounds(new Rectangle(newPos.x, newPos.y, nodeInfoLbl.getBounds().width, nodeInfoLbl.getBounds().height));
+            nodeInfoLbl.setVisible(true);
+            nodeInfoLbl.setText("<html>Node id="+selectedItem.getId()+"<br><br>State="+selectedItem.getState().getState()+"</html>");
+            return;
+        }
+    
         if (selectedItem != null) {
             dx = (mouse.getX() - selectedItem.x);
             dy = (mouse.getY() - selectedItem.y);
@@ -70,9 +96,13 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     @Override
     public void mouseDragged(MouseEvent e) {
         mouse.setLocation(e.getPoint().x, e.getPoint().y);
-    
-        if (selectedItem != null) {
-            selectedItem.moveTo((int)(mouse.getX() - dx), (int)(mouse.getY() - dy));
+        
+        // RIGHT_CLICK
+        // Don't drag on right click.
+        if (SwingUtilities.isRightMouseButton(e)) return;
+        
+        if (selectedItem != null && dx != null) {
+            selectedItem.moveTo((int)(mouse.getX() - dx), (int)(mouse.getY() - dy)); // TODO error sometimes
             return;
         }
         
@@ -115,6 +145,13 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         panel.atx.translate(p1.getX(), p1.getY());
         panel.atx.scale(scale, scale);
         panel.atx.translate(-p2.getX(), -p2.getY());
+    
+        // TODO: not working (resizing info label)
+//        nodeInfoLbl.setBounds(
+//                nodeInfoLbl.getBounds().x,
+//                nodeInfoLbl.getBounds().y,
+//                (int)(nodeInfoLbl.getBounds().width / scale),
+//                (int)(nodeInfoLbl.getBounds().height / scale));
     }
     
     @Override

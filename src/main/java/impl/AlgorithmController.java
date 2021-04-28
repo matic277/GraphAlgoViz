@@ -1,6 +1,7 @@
 package impl;
 
 import core.Algorithm;
+import impl.tools.LOG;
 import impl.tools.Tools;
 
 import java.util.*;
@@ -37,27 +38,31 @@ public class AlgorithmController implements Runnable {
         Thread.currentThread().setName("CONTROLLER");
         while (true)
         {
-            AlgorithmExecutor.LOG("\n->", "STARTING EXECUTORS.");
+            LOG.out("\n->", "STARTING EXECUTORS.");
             for (int i=0; i<EXECUTORS.length; i++) {
                 THREAD_POOL.submit(EXECUTORS[i]);
             }
-            AlgorithmExecutor.LOG("->", "ALL EXECUTORS STARTED.");
+            LOG.out("->", "ALL EXECUTORS STARTED.");
             
             try { AlgorithmController.BARRIER.await(); }
             catch (InterruptedException | BrokenBarrierException e) { e.printStackTrace(); }
+    
+            totalStates++;
+            currentStateIndex++;
             
-            AlgorithmExecutor.LOG("\n->", "BARRIER TIPPED.");
+            LOG.out("\n->", "BARRIER TIPPED.");
+            LOG.out(" ->", "currentStateIndex="+currentStateIndex);
+            LOG.out(" ->", "totalStates="+totalStates);
             
             if (PAUSE) {
-                AlgorithmExecutor.LOG("->", "PAUSING.");
-                
+                LOG.out("->", "PAUSING.");
                 synchronized (PAUSE_LOCK) {
                     while (PAUSE) {
                         try { PAUSE_LOCK.wait(); }
                         catch (Exception e) { e.printStackTrace(); }
                     }
                 }
-                AlgorithmExecutor.LOG("->", "CONTINUING.");
+                LOG.out("->", "CONTINUING.");
             }
             
             
@@ -96,9 +101,9 @@ public class AlgorithmController implements Runnable {
             if (node.getState().info > 0) return new State(node.getState().info);
             
             // TODO
-            // AlgorithmController gets stuck for some reason,
-            // if some nodes have  no neighbors!
-            // This return prevents this (but this shouldn't be necessary)
+            // Some nodes have no neighbors, so
+            // in this case don't do anything.
+            // Return the same state you're in.
             if (node.neighbors.isEmpty()) return new State(node.getState().info);
             
             // get two random neighbors
@@ -111,7 +116,6 @@ public class AlgorithmController implements Runnable {
             return new State(newStateInfo);
         };
     }
-    
     
     public void setAlgorithm(Algorithm a) { algo = a; }
 }

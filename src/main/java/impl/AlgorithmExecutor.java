@@ -1,6 +1,7 @@
 package impl;
 
 import core.Algorithm;
+import impl.tools.LOG;
 
 import java.util.Comparator;
 import java.util.List;
@@ -27,21 +28,17 @@ public class AlgorithmExecutor implements Runnable {
         System.out.println("Thread '"+name+"' stared.");
         
         nodes.forEach(n -> {
-            LOG("  ->", "Algo starting on node " + n + ".");
+            LOG.out("  ->", "Algo starting on node " + n + ".");
             State newState = algorithm.run(n);
             n.addState(newState);
-            LOG("  ->", "Algo done on node     " + n + ".");
+            LOG.out("  ->", "Algo done on node     " + n + ".");
         });
-        
-        LOG("  ->", "AlgoExecutor done for all nodes, waiting on barrier.");
+    
+        LOG.out("  ->", "AlgoExecutor done for all nodes, waiting on barrier.");
         
         try { AlgorithmController.BARRIER.await(); }
         catch (InterruptedException | BrokenBarrierException e) { e.printStackTrace(); }
-        
-        LOG("  ->", "Barrier tipped, thread exiting.");
-    }
     
-    public static void LOG(String premsg, String msg) {
-        System.out.println(premsg + "["+Thread.currentThread().getName()+"]: " + msg);
+        LOG.out("  ->", "Barrier tipped, thread exiting.");
     }
 }
