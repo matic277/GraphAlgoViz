@@ -69,7 +69,13 @@ public class MenuPanel extends JPanel {
         pauseBtn.setToolTipText("Pause or continue simulation.");
         pauseBtn.setPreferredSize(Tools.wideMenuButtonSize);
         pauseBtn.addActionListener(a -> {
-            AlgorithmController.PAUSE = !AlgorithmController.PAUSE;
+            // Thread safe atomic boolean flip
+            boolean temp;
+            do {
+                temp = AlgorithmController.PAUSE.get();
+            } while(!AlgorithmController.PAUSE.compareAndSet(temp, !temp));
+            
+            this.simPanel.getPanelListener().innerInfoBtn.setEnabled(!this.simPanel.getPanelListener().innerInfoBtn.isEnabled());
             synchronized (AlgorithmController.PAUSE_LOCK) {
                 AlgorithmController.PAUSE_LOCK.notify();
             }

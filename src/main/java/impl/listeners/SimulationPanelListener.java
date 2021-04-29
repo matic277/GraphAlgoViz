@@ -1,7 +1,9 @@
 package impl.listeners;
 
+import impl.AlgorithmController;
 import impl.MyGraph;
 import impl.Node;
+import impl.SimulationManager;
 import impl.panels.SimulationPanel;
 
 import javax.swing.*;
@@ -32,22 +34,44 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     AffineTransform initialTransform;
     public Point2D XFormedPoint;
     
+    Node rightClickedNode; // for innerBtn informing capabilities (this could have been done differently)
     Node selectedItem1; // panning
-    Node selectedItem2; // creating edgeS
+    Node selectedItem2; // creating edges
     Double dx, dy;
     
+    // TODO: these should be in the simWindow or simPanel
     final JLabel nodeInfoLbl = new JLabel("Empty");
+    public final JButton innerInfoBtn = new JButton("Inform");
     
     public SimulationPanelListener(SimulationPanel panel) {
         this.panel = panel;
         this.graph = panel.getGraph();
         mouse = new Point(0, 0);
         
-        nodeInfoLbl.setBounds(0, 0, 100,100);
+        nodeInfoLbl.setBounds(0, 0, 100,150);
         nodeInfoLbl.setBackground(new Color(255, 255, 255, 230));
         nodeInfoLbl.setBorder(new LineBorder(Color.black, 2));
         nodeInfoLbl.setOpaque(true);
         nodeInfoLbl.setVisible(false);
+        
+        int innerWidth = 80;
+        int innerHeight = 30;
+        innerInfoBtn.setBounds(
+                nodeInfoLbl.getWidth()/2 - innerWidth/2,
+                nodeInfoLbl.getHeight() - innerHeight - 5,
+                innerWidth,
+                innerHeight);
+        innerInfoBtn.setOpaque(true);
+        innerInfoBtn.setBackground(nodeInfoLbl.getBackground());
+        innerInfoBtn.addActionListener(a -> {
+            if (!AlgorithmController.PAUSE.get()) return;
+            boolean isInform = innerInfoBtn.getText().equalsIgnoreCase("inform");
+            rightClickedNode.getState().setState(isInform ? 1 : 0);
+            innerInfoBtn.setText(isInform ? "Uninform" : "Inform");
+        });
+        
+        nodeInfoLbl.add(innerInfoBtn);
+        
         panel.add(nodeInfoLbl);
     }
     
@@ -57,22 +81,6 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         
         selectedItem1 = getHoveredOverNode();
         nodeInfoLbl.setVisible(false);
-        
-        // RIGHT_CLICK
-        if (e.getButton() == MouseEvent.BUTTON3 && selectedItem1 != null) { ;
-            nodeInfoLbl.setBounds(
-                    (int)(selectedItem1.ts.getBounds().getLocation().getX() + selectedItem1.ts.getBounds().getWidth()),
-                    (int)(selectedItem1.ts.getBounds().getLocation().getY()),
-                    nodeInfoLbl.getBounds().width,
-                    nodeInfoLbl.getBounds().height);
-            nodeInfoLbl.setVisible(true);
-            nodeInfoLbl.setText(
-                    "<html>" +
-                            "&nbsp; Node id=" + selectedItem1.getId() + "<br><br>" +
-                            "&nbsp; State=" + selectedItem1.getState().getState() +
-                    "</html>");
-            return;
-        }
         
         // panning
         if (selectedItem1 != null) {
@@ -161,21 +169,43 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
 //                (int)(nodeInfoLbl.getBounds().width / scale),
 //                (int)(nodeInfoLbl.getBounds().height / scale));
         nodeInfoLbl.setVisible(false);
+        rightClickedNode = null;
     }
     
     @Override
     public void mouseClicked(MouseEvent e) {
+        nodeInfoLbl.setVisible(false);
+        
         // RIGHT_CLICK
         if (e.getButton() == MouseEvent.BUTTON3) {
             selectedItem2 = null;
             panel.stopDrawingPotentialEdge();
+            
+            rightClickedNode = getHoveredOverNode();
+            if (rightClickedNode == null) return;
+            
+            nodeInfoLbl.setBounds(
+                    (int)(rightClickedNode.ts.getBounds().getLocation().getX() + rightClickedNode.ts.getBounds().getWidth()),
+                    (int)(rightClickedNode.ts.getBounds().getLocation().getY()),
+                    nodeInfoLbl.getBounds().width,
+                    nodeInfoLbl.getBounds().height);
+            nodeInfoLbl.setVisible(true);
+            nodeInfoLbl.setText(
+                    "<html>" +
+                            "&nbsp; Node id=" + rightClickedNode.getId() + "<br><br>" +
+                            "&nbsp; State=" + rightClickedNode.getState().getState() +
+                    "</html>");
+            innerInfoBtn.setText(rightClickedNode.getState().getState() == 0 ? "Inform" : "Uninform");
             return;
         }
+        
+        
+        
+        // LEFT CLICK
         
         // connect two nodes
         if (selectedItem2 != null) {
             Node n = getHoveredOverNode();
-            System.out.println("clicked again: " + n);
             if (n != null) {
                 graph.addEdge(n, selectedItem2);
             }
@@ -186,7 +216,6 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         // see what node was clicked, if any
         Node n =  getHoveredOverNode();
         if (n != null) {
-            System.out.println("clicked node: " + n);
             selectedItem2 = n;
             panel.startDrawingPotentialEdge(selectedItem2);
         } else {

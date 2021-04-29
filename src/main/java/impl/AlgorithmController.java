@@ -8,6 +8,7 @@ import impl.tools.Tools;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AlgorithmController implements Runnable, Observable {
     
@@ -24,7 +25,7 @@ public class AlgorithmController implements Runnable, Observable {
     MyGraph graph;
     Algorithm algo;
     
-    public static volatile boolean PAUSE = true;
+    public static volatile AtomicBoolean PAUSE = new AtomicBoolean(true);
     public static final Object PAUSE_LOCK = new Object();
     
     public AlgorithmController(MyGraph graph) {
@@ -40,10 +41,10 @@ public class AlgorithmController implements Runnable, Observable {
         Thread.currentThread().setName("CONTROLLER");
         while (true)
         {
-            if (PAUSE) {
+            if (PAUSE.getAcquire()) {
                 LOG.out("->", "PAUSING.");
                 synchronized (PAUSE_LOCK) {
-                    while (PAUSE) {
+                    while (PAUSE.getAcquire()) {
                         try { PAUSE_LOCK.wait(); }
                         catch (Exception e) { e.printStackTrace(); }
                     }
@@ -60,11 +61,17 @@ public class AlgorithmController implements Runnable, Observable {
             try { AlgorithmController.BARRIER.await(); }
             catch (InterruptedException | BrokenBarrierException e) { e.printStackTrace(); }
             
+            
+            // TODO thread safety
+            // number of nodes can change?
+            this.graph.getNodes().forEach(Node::incrementToNextState);
             incrementState();
+            
             
             LOG.out("\n->", "BARRIER TIPPED.");
             LOG.out(" ->", "currentStateIndex="+currentStateIndex);
             LOG.out(" ->", "totalStates="+totalStates);
+            
             
             Tools.sleep(2000);
         }
@@ -94,10 +101,8 @@ public class AlgorithmController implements Runnable, Observable {
             while(iter.hasNext() && --nodeCounter >= 0) {
                 nodesToProcess.add(iter.next());
             }
-            
             EXECUTORS[i] = new AlgorithmExecutor(nodesToProcess, getAlgorithm(), "PR-"+i);
         }
-        
     }
     
     public Algorithm getAlgorithm() {

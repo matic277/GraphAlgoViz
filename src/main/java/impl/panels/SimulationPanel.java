@@ -81,7 +81,7 @@ public class SimulationPanel extends JPanel implements Observer {
         
         gr.drawString("state:  " + currentStateIndex, getWidth()-110, getHeight()-20);
         gr.drawString("scale:  " + formatter.format(listener.scale), getWidth()-110, getHeight()-35);
-        gr.drawString("status: " + (AlgorithmController.PAUSE ? "PAUSED" : "RUNNING"), getWidth()-110, getHeight()-50);
+        gr.drawString("status: " + (AlgorithmController.PAUSE.get() ? "PAUSED" : "RUNNING"), getWidth()-110, getHeight()-50);
         drawComponents(gr);
         
         Tools.sleep(1000/144);
@@ -132,5 +132,9 @@ public class SimulationPanel extends JPanel implements Observer {
     public void notifyStateChange(int newStateIndex) {
         System.out.println("notified");
         this.currentStateIndex = newStateIndex;
+    }
+    
+    public SimulationPanelListener getPanelListener() {
+        return this.listener;
     }
 }

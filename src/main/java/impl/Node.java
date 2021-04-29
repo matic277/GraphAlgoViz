@@ -57,6 +57,9 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     }
     public void addState(State state) {
         this.states.add(state);
+//        currentStateIndex++;
+    }
+    public void incrementToNextState() {
         currentStateIndex++;
     }
     

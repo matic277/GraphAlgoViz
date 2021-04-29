@@ -29,11 +29,13 @@ public class AlgorithmExecutor implements Runnable {
         
         nodes.forEach(n -> {
             LOG.out("  ->", "Algo starting on node " + n + ".");
+            
             State newState = algorithm.run(n);
             n.addState(newState);
+            
             LOG.out("  ->", "Algo done on node     " + n + ".");
         });
-    
+        
         LOG.out("  ->", "AlgoExecutor done for all nodes, waiting on barrier.");
         
         try { AlgorithmController.BARRIER.await(); }

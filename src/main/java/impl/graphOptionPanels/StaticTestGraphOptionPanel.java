@@ -9,6 +9,8 @@ import impl.tools.Tools;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class StaticTestGraphOptionPanel extends OptionPanel {
     
@@ -22,6 +24,25 @@ public class StaticTestGraphOptionPanel extends OptionPanel {
         lbl.setBackground(Color.red);
         lbl.setBounds(80, 80, 210, 30);
         lbl.setFont(Tools.getFont(12));
+        
+        JLabel inner = new JLabel("INNER");
+        inner.setOpaque(true);
+        inner.setBackground(Color.BLUE);
+        inner.setBounds(10, 10, 30, 30);
+        inner.setFont(Tools.getFont(12));
+        inner.addMouseListener(new MouseListener() {
+            @Override public void mouseClicked(MouseEvent e) {
+                System.out.println("CLICK");
+            }
+            @Override public void mousePressed(MouseEvent e) { }
+            @Override public void mouseReleased(MouseEvent e) { }
+            @Override public void mouseEntered(MouseEvent e) { }
+            @Override public void mouseExited(MouseEvent e) { }
+        });
+        
+        lbl.add(inner);
+        
+        
         this.add(lbl);
     }
     
