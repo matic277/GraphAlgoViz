@@ -21,8 +21,8 @@ public class AlgorithmController implements Runnable, Observable {
     final AlgorithmExecutor[] EXECUTORS = new AlgorithmExecutor[PROCESSORS];
     public static final AtomicBoolean NEXT_ROUND_BUTTON_PRESSED = new AtomicBoolean(false);
     
-    int currentStateIndex = 0;
-    int totalStates = 0;
+    public static int currentStateIndex = 0; // atomic?
+    public static int totalStates = 0;
     
     MyGraph graph;
     Algorithm algo;
@@ -40,6 +40,7 @@ public class AlgorithmController implements Runnable, Observable {
     @Override
     public void run() {
         Thread.currentThread().setName("CONTROLLER");
+        
         while (true)
         {
             if (PAUSE.getAcquire()) {
@@ -72,9 +73,6 @@ public class AlgorithmController implements Runnable, Observable {
             LOG.out(" ->", "currentStateIndex="+currentStateIndex);
             LOG.out(" ->", "totalStates="+totalStates);
             
-            // TODO thread safety
-            // number of nodes can change?
-            this.graph.getNodes().forEach(Node::incrementToNextState);
             MenuPanel.nextBtn.setEnabled(AlgorithmController.PAUSE.get());
             MenuPanel.prevBtn.setEnabled(AlgorithmController.PAUSE.get());
             

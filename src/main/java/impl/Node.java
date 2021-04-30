@@ -21,7 +21,6 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     public List<Node> neighbors;
     
     List<State> states;
-    public int currentStateIndex = 0;
     int messagesReceived = 0;
     int messagesSent = 0;
     
@@ -39,7 +38,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         this.ts = this;
         
         neighbors = new ArrayList<>(5);
-        states = new ArrayList<>(100);
+        states = new ArrayList<>(10);
         
         // TODO
         if (id == 0 || id == 8) {
@@ -53,15 +52,10 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
 //        this.state = newState;
 //    }
     public State getState() {
-        messagesSent++;
-        return this.states.get(currentStateIndex);
+        return this.states.get(AlgorithmController.currentStateIndex);
     }
     public void addState(State state) {
         this.states.add(state);
-//        currentStateIndex++;
-    }
-    public void incrementToNextState() {
-        currentStateIndex++;
     }
     
     @Override
@@ -73,7 +67,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         ts = at.createTransformedShape(this);
         
         g.setStroke(Tools.BOLDEST_STROKE);
-        g.setColor(states.get(currentStateIndex).getState() == 0 ? UNINFORMED : INFORMED);
+        g.setColor(states.get(AlgorithmController.currentStateIndex).getState() == 0 ? UNINFORMED : INFORMED);
         
         // circle & center
         g.draw(ts);

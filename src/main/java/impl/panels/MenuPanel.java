@@ -55,6 +55,14 @@ public class MenuPanel extends JPanel {
             // will enable it back on (same with prevBtn)
             nextBtn.setEnabled(false);
             prevBtn.setEnabled(false);
+    
+            // when pressing continue, jump to latest state
+            // (just like pause/cont button)
+            // TODO: ^
+            //  if states of nodes have been altered, history(future, if any)
+            //  must be deleted or handled somehow
+            AlgorithmController.currentStateIndex = AlgorithmController.totalStates-1;
+            
             synchronized (AlgorithmController.PAUSE_LOCK) {
                 AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.set(true);
                 AlgorithmController.PAUSE_LOCK.notify();
@@ -102,6 +110,10 @@ public class MenuPanel extends JPanel {
             // disable/enable next/previous state buttons
             nextBtn.setEnabled(AlgorithmController.PAUSE.get());
             prevBtn.setEnabled(AlgorithmController.PAUSE.get());
+            
+            // when pressing continue, jump to latest state
+            AlgorithmController.currentStateIndex = AlgorithmController.totalStates-1;
+            
             synchronized (AlgorithmController.PAUSE_LOCK) {
                 AlgorithmController.PAUSE_LOCK.notify();
             }

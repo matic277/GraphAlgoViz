@@ -28,11 +28,21 @@ public class SimulationPanel extends JPanel implements Observer {
     // potential edge drawing
     Node edgeSourceNode;
     
-    int currentStateIndex = 0;
+    // State drawing
+    StateInfoSubmenu stateInfo;
     
     public SimulationPanel(SimulationWindow parent, MyGraph g, Dimension panelSize) {
         this.parent = parent;
         this.graph = g;
+        int padding = 10;
+        int width = panelSize.width - 2 * padding;
+        int height = 50;
+        this.stateInfo = new StateInfoSubmenu(new Rectangle(
+                10,
+                panelSize.height - padding - height,
+                width,
+                height),
+                this);
         
         this.setSize(panelSize);
         this.setPreferredSize(panelSize);
@@ -83,12 +93,25 @@ public class SimulationPanel extends JPanel implements Observer {
         gr.setColor(Color.BLACK);
         gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
         gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
+    
+    
+        gr.drawString("status: " + (AlgorithmController.PAUSE.get() && !AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.get() ? "PAUSED" : "RUNNING"),
+                getWidth()-110,
+                20);
+        gr.drawString("scale:  " + formatter.format(listener.scale),
+                getWidth()-110,
+                35);
+        gr.drawString("state:  " + AlgorithmController.currentStateIndex,
+                getWidth()-110,
+                50);
+        gr.drawString("states: " + AlgorithmController.totalStates,
+                getWidth()-110,
+                65);
         
-        gr.drawString("status: " + (AlgorithmController.PAUSE.get() && !AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.get() ? "PAUSED" : "RUNNING"), getWidth()-110, getHeight()-50);
-        gr.drawString("scale:  " + formatter.format(listener.scale), getWidth()-110, getHeight()-35);
-        gr.drawString("state:  " + currentStateIndex, getWidth()-110, getHeight()-20);
         drawComponents(gr);
         
+        stateInfo.draw(gr, atx);
+    
         long td = System.currentTimeMillis() - t0;
         super.repaint(td > FPS ? 0 : td);
     }
@@ -135,10 +158,14 @@ public class SimulationPanel extends JPanel implements Observer {
     
     @Override
     public void notifyStateChange(int newStateIndex) {
-        this.currentStateIndex = newStateIndex;
+        // remove this
     }
     
     public SimulationPanelListener getPanelListener() {
         return this.listener;
+    }
+    
+    public StateInfoSubmenu getStateInfoSubmenu() {
+        return this.stateInfo;
     }
 }
