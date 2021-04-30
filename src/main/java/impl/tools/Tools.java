@@ -5,6 +5,7 @@ import impl.listeners.ButtonListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class Tools {
     
@@ -12,13 +13,16 @@ public class Tools {
     public static final Color borderColor = new Color(118, 118, 118);
     
     public static final Dimension menuButtonSize = new Dimension(40, 40);
-    
     public static final Dimension wideMenuButtonSize = new Dimension(100, 40);
     
     public static final ButtonListener buttonListener = new ButtonListener();
     
     public static final Stroke PLAIN_STROKE = new BasicStroke(1);
     public static final Stroke BOLD_STROKE = new BasicStroke(1.7f);
+    public static final Stroke BOLDER_STROKE = new BasicStroke(2f);
+    public static final Stroke BOLDEST_STROKE = new BasicStroke(5f);
+    
+    public static final Random RAND = new Random();
     
     public static Font getBoldFont(int size) {
         return new Font("Tahoma", Font.BOLD, size);
@@ -29,6 +33,11 @@ public class Tools {
     }
     
     public static void sleep(int ms) {
+        try { Thread.sleep(ms); }
+        catch (Exception e) { e.printStackTrace(); }
+    }
+    
+    public static void sleep(long ms) {
         try { Thread.sleep(ms); }
         catch (Exception e) { e.printStackTrace(); }
     }

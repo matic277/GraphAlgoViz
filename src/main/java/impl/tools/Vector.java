@@ -19,9 +19,8 @@ public class Vector {
     DecimalFormat rounder = new DecimalFormat("#.#");
     
     public Vector() {
-        Random r = new Random();
-        x = (r.nextBoolean())? r.nextDouble() : -r.nextDouble();
-        y = (r.nextBoolean())? r.nextDouble() : -r.nextDouble();
+        x = (Tools.RAND.nextBoolean())? Tools.RAND.nextDouble() : -Tools.RAND.nextDouble();
+        y = (Tools.RAND.nextBoolean())? Tools.RAND.nextDouble() : -Tools.RAND.nextDouble();
         
         this.norm();
     }
@@ -42,13 +41,10 @@ public class Vector {
     // in both directions (clockwise or counter-clockwise)
     public void rotate(double angle, double len) {
         if (angle == 0) return;
-
-        Random r = new Random();
-        int da = 0;
-
+        
         x = x * Math.cos(Math.toRadians(angle)) - y * Math.sin(Math.toRadians(angle));
         y = x * Math.sin(Math.toRadians(angle)) + y * Math.cos(Math.toRadians(angle));
-
+        
         // we have a vector of wanted size
         // (has already been normalized and scaled(multiplied))
         // but if we don't scale it again after rotation, the

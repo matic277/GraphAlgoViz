@@ -2,19 +2,11 @@ package impl.graphBuilders;
 
 import core.GraphBuilder;
 import impl.MyGraph;
-import impl.Node;
-import impl.tools.Edge;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Map;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import org.jgrapht.generate.GnmRandomGraphGenerator;
-import org.jgrapht.graph.*;
-import org.jgrapht.nio.graph6.Graph6Sparse6Importer;
-import org.jgrapht.util.SupplierUtil;
 
 public class FileGraphBuilder extends GraphBuilder {
     

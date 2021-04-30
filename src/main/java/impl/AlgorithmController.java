@@ -3,6 +3,7 @@ package impl;
 import core.Algorithm;
 import core.Observable;
 import core.Observer;
+import impl.panels.MenuPanel;
 import impl.tools.LOG;
 import impl.tools.Tools;
 
@@ -16,8 +17,9 @@ public class AlgorithmController implements Runnable, Observable {
     
     // TODO: update on change of nodes
     static final CyclicBarrier BARRIER = new CyclicBarrier(PROCESSORS + 1);
-    static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(PROCESSORS);
-    static final AlgorithmExecutor[] EXECUTORS = new AlgorithmExecutor[PROCESSORS];
+    final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(PROCESSORS);
+    final AlgorithmExecutor[] EXECUTORS = new AlgorithmExecutor[PROCESSORS];
+    public static final AtomicBoolean NEXT_ROUND_BUTTON_PRESSED = new AtomicBoolean(false);
     
     int currentStateIndex = 0;
     int totalStates = 0;
@@ -35,7 +37,6 @@ public class AlgorithmController implements Runnable, Observable {
         assignTasks();
     }
     
-    
     @Override
     public void run() {
         Thread.currentThread().setName("CONTROLLER");
@@ -44,10 +45,14 @@ public class AlgorithmController implements Runnable, Observable {
             if (PAUSE.getAcquire()) {
                 LOG.out("->", "PAUSING.");
                 synchronized (PAUSE_LOCK) {
-                    while (PAUSE.getAcquire()) {
+                    while (PAUSE.getAcquire() && !NEXT_ROUND_BUTTON_PRESSED.get()) {
                         try { PAUSE_LOCK.wait(); }
                         catch (Exception e) { e.printStackTrace(); }
                     }
+                    // woken up
+                    // if woken up by button, the set the button press to false
+                    // if not woken up by button, then don't do anything and just continue
+                    boolean wasPressed = NEXT_ROUND_BUTTON_PRESSED.compareAndSet(true, false);
                 }
                 LOG.out("->", "CONTINUING.");
             }
@@ -61,19 +66,20 @@ public class AlgorithmController implements Runnable, Observable {
             try { AlgorithmController.BARRIER.await(); }
             catch (InterruptedException | BrokenBarrierException e) { e.printStackTrace(); }
             
-            
-            // TODO thread safety
-            // number of nodes can change?
-            this.graph.getNodes().forEach(Node::incrementToNextState);
             incrementState();
-            
             
             LOG.out("\n->", "BARRIER TIPPED.");
             LOG.out(" ->", "currentStateIndex="+currentStateIndex);
             LOG.out(" ->", "totalStates="+totalStates);
             
+            // TODO thread safety
+            // number of nodes can change?
+            this.graph.getNodes().forEach(Node::incrementToNextState);
+            MenuPanel.nextBtn.setEnabled(AlgorithmController.PAUSE.get());
+            MenuPanel.prevBtn.setEnabled(AlgorithmController.PAUSE.get());
             
-            Tools.sleep(2000);
+            
+            Tools.sleep(1000);
         }
     }
     
@@ -86,16 +92,20 @@ public class AlgorithmController implements Runnable, Observable {
     private void assignTasks() {
         int nodes = this.graph.getNodes().size();
         int taskSize = nodes / PROCESSORS;
-        
         int lastTaskSize = (nodes - (taskSize * PROCESSORS)) + taskSize;
-    
+        
         System.out.println("TASK SIZE="+taskSize+", LAST="+lastTaskSize);
-    
+        
         Iterator<Node> iter = this.graph.getNodes().stream().iterator();
         
-        for (int i=0; i<EXECUTORS.length; i++) {
+        if (EXECUTORS.length != PROCESSORS) {
+            throw new AssertionError("Number of executors expected to be " + PROCESSORS +
+                                     ", but was: " + EXECUTORS.length + " instead.");
+        }
+        
+        for (int i=0; i<PROCESSORS; i++) {
             // last processor might do more work (task divisibility problem)
-            int nodeCounter = i == EXECUTORS.length-1 ? lastTaskSize : taskSize;
+            int nodeCounter = i == PROCESSORS-1 ? lastTaskSize : taskSize;
             List<Node> nodesToProcess = new ArrayList<>((int)(taskSize*1.1));
             
             while(iter.hasNext() && --nodeCounter >= 0) {
@@ -106,7 +116,6 @@ public class AlgorithmController implements Runnable, Observable {
     }
     
     public Algorithm getAlgorithm() {
-        Random r = new Random();
         return node -> {
             // if you have info, don't do anything
             if (node.getState().info > 0) return new State(node.getState().info);
@@ -118,8 +127,8 @@ public class AlgorithmController implements Runnable, Observable {
             if (node.neighbors.isEmpty()) return new State(node.getState().info);
             
             // get two random neighbors
-            State stateOfNeigh1 = node.neighbors.get(r.nextInt(node.neighbors.size())).getState();
-            State stateOfNeigh2 = node.neighbors.get(r.nextInt(node.neighbors.size())).getState();
+            State stateOfNeigh1 = node.neighbors.get(Tools.RAND.nextInt(node.neighbors.size())).getState();
+            State stateOfNeigh2 = node.neighbors.get(Tools.RAND.nextInt(node.neighbors.size())).getState();
             
             // or
             int newStateInfo = stateOfNeigh1.info | stateOfNeigh2.info | node.getState().info;

@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
 public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
     public int id;
-    int rad;
+    public static int rad = 45;
     public Shape ts;
     
     public int info = 0;
@@ -25,10 +25,12 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     int messagesReceived = 0;
     int messagesSent = 0;
     
+    static final Color INFORMED = Color.decode("#34A853");
+    static final Color UNINFORMED = Color.black;
+    
     public Node(int x, int y, int id) {
         this.x = x;
         this.y = y;
-        this.rad = 45;
         this.width = rad;
         this.height = rad;
         
@@ -38,7 +40,6 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         
         neighbors = new ArrayList<>(5);
         states = new ArrayList<>(100);
-        
         
         // TODO
         if (id == 0 || id == 8) {
@@ -65,15 +66,21 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
     @Override
     public void draw(Graphics2D g, AffineTransform at) {
+        // TODO: nodes don't scale in-place on slider change
+        this.height = rad;
+        this.width = rad;
+        
         ts = at.createTransformedShape(this);
         
-        g.setStroke(Tools.BOLD_STROKE);
-        g.setColor(states.get(currentStateIndex).getState() == 0 ? Color.black : Color.green);
+        g.setStroke(Tools.BOLDEST_STROKE);
+        g.setColor(states.get(currentStateIndex).getState() == 0 ? UNINFORMED : INFORMED);
         
         // circle & center
         g.draw(ts);
         g.setColor(Color.red);
         g.fillOval((int)ts.getBounds().getCenterX()-3, (int)ts.getBounds().getCenterY()-3, 6, 6);
+        
+        g.setStroke(Tools.BOLD_STROKE);
         
         g.setColor(Color.black);
         // position coordinates
@@ -110,10 +117,6 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         this.x = x;
         this.y = y;
     }
-    
-    public int getRad() { return rad; }
-    
-    public void setRad(int rad) { this.rad = rad; }
     
     @Override
     public Point2D getLocation() { return new Point2D.Double(x, y); }

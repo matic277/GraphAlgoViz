@@ -8,9 +8,7 @@ import impl.MyButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.util.Hashtable;
 
 public class MenuPanel extends JPanel {
     
@@ -19,10 +17,14 @@ public class MenuPanel extends JPanel {
     SimulationPanel simPanel;
     
     MyButton addNodeBtn;
-    JButton undoBtn;
-    JButton redoBtn;
+    public static JButton nextBtn; // TODO: could these not be static
+    public static JButton prevBtn;
     
+    JLabel pauseInfo;
     MyButton pauseBtn;
+    
+    JLabel sliderInfo;
+    JSlider nodeRadSlider;
     
     public MenuPanel(SimulationWindow parent, SimulationPanel simPanel, Dimension panelSize) {
         this.parent = parent;
@@ -39,50 +41,104 @@ public class MenuPanel extends JPanel {
         // spacers
         this.add(Tools.getDumyPlaceholder());
         
-        undoBtn = new JButton("<");
-        undoBtn.setToolTipText("Undo");
-        undoBtn.setPreferredSize(Tools.menuButtonSize);
-        this.add(undoBtn);
-        
-        redoBtn = new JButton(">");
-        redoBtn.setToolTipText("Redo");
-        redoBtn.setPreferredSize(Tools.menuButtonSize);
-        this.add(redoBtn);
+        prevBtn = new JButton("<");
+        prevBtn.setToolTipText("Previous round");
+        prevBtn.setPreferredSize(Tools.menuButtonSize);
+        this.add(prevBtn);
+    
+        nextBtn = new JButton(">");
+        nextBtn.setToolTipText("Next round");
+        nextBtn.setPreferredSize(Tools.menuButtonSize);
+        nextBtn.addActionListener(a -> {
+            // when button is pressed, it disables itself
+            // when the round is finished, AlgoController
+            // will enable it back on (same with prevBtn)
+            nextBtn.setEnabled(false);
+            prevBtn.setEnabled(false);
+            synchronized (AlgorithmController.PAUSE_LOCK) {
+                AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.set(true);
+                AlgorithmController.PAUSE_LOCK.notify();
+            }
+        });
+        this.add(nextBtn);
         
         addNodeBtn = new MyButton("new node");
         addNodeBtn.setToolTipText("Add new node");
         addNodeBtn.setSize(Tools.menuButtonSize);
         
-        final var ref = new Object() {
-            int idCounter = 5;
-        };
         addNodeBtn.addActionListener(a -> {
-            simPanel.getGraph().addNode(new Node(50, 50, simPanel.getGraph().getNextNodeId()));
-            System.out.println("new node");
-//            simPanel.repaint();
+            // TODO:
+            // thread safety
+            // add node to some executioner to handle
+            Node newNode = new Node(50, 50, simPanel.getGraph().getNextNodeId());
+//            AlgorithmController.
+            simPanel.getGraph().addNode(newNode);
+            System.out.println("new node added");
         });
         this.add(addNodeBtn);
     
         // spacer
         this.add(Tools.getDumyPlaceholder());
-    
+        
+        pauseInfo = new JLabel("Pause/continue simulation");
+        pauseInfo.setSize(new Dimension(30, 100));
+        pauseInfo.setFont(Tools.getFont(12));
+        this.add(pauseInfo);
+        
         pauseBtn = new MyButton("CONTINUE");
         pauseBtn.setToolTipText("Pause or continue simulation.");
         pauseBtn.setPreferredSize(Tools.wideMenuButtonSize);
         pauseBtn.addActionListener(a -> {
             // Thread safe atomic boolean flip
+            // flip the value of PAUSE
             boolean temp;
-            do {
-                temp = AlgorithmController.PAUSE.get();
-            } while(!AlgorithmController.PAUSE.compareAndSet(temp, !temp));
+            do { temp = AlgorithmController.PAUSE.get(); }
+            while(!AlgorithmController.PAUSE.compareAndSet(temp, !temp));
             
+            // disable/enable inform/uniform button
             this.simPanel.getPanelListener().innerInfoBtn.setEnabled(!this.simPanel.getPanelListener().innerInfoBtn.isEnabled());
+            // disable/enable add node button
+            this.addNodeBtn.setEnabled(!this.addNodeBtn.isEnabled());
+            // disable/enable next/previous state buttons
+            nextBtn.setEnabled(AlgorithmController.PAUSE.get());
+            prevBtn.setEnabled(AlgorithmController.PAUSE.get());
             synchronized (AlgorithmController.PAUSE_LOCK) {
                 AlgorithmController.PAUSE_LOCK.notify();
             }
             pauseBtn.setText(pauseBtn.getText().equals("CONTINUE") ? "PAUSE" : "CONTINUE");
         });
         this.add(pauseBtn);
+    
+        // spacer
+        this.add(Tools.getDumyPlaceholder());
+        
+        sliderInfo = new JLabel("Change node radius");
+        sliderInfo.setSize(new Dimension(30, 100));
+        sliderInfo.setFont(Tools.getFont(12));
+        
+        this.add(sliderInfo);
+        
+        
+        int sliderMin = 5, sliderMax = 100;
+        nodeRadSlider = new JSlider(5, 100, Node.rad);
+        nodeRadSlider.addChangeListener(c -> {
+            System.out.println(nodeRadSlider.getValue());
+            Node.rad = nodeRadSlider.getValue();
+        });
+        Hashtable<Integer, JLabel> sliderMap = new Hashtable<>();
+        Font lblFont = Tools.getFont(12);
+        JLabel minLbl = new JLabel(sliderMin+""); minLbl.setFont(lblFont);
+        JLabel maxLbl = new JLabel(sliderMax+""); maxLbl.setFont(lblFont);
+        sliderMap.put(sliderMin, minLbl);
+        sliderMap.put(sliderMax, maxLbl);
+        nodeRadSlider.setLabelTable(sliderMap);
+        nodeRadSlider.setMajorTickSpacing(30);
+        nodeRadSlider.setPaintTicks(true);
+        nodeRadSlider.setPaintLabels(true);
+        nodeRadSlider.setPreferredSize(new Dimension(120, 40));
+        nodeRadSlider.setFont(Tools.getFont(12));
+        this.add(nodeRadSlider);
+        
     }
     
     @Override
@@ -102,36 +158,5 @@ public class MenuPanel extends JPanel {
         
         Tools.sleep(1000/144);
         super.repaint();
-    }
-    
-    class Listener implements MouseListener, MouseMotionListener {
-        
-        @Override
-        public void mouseClicked(MouseEvent e) {
-        }
-    
-        @Override
-        public void mousePressed(MouseEvent e) {
-        }
-    
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-    
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-    
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
-    
-        @Override
-        public void mouseDragged(MouseEvent e) {
-        }
-    
-        @Override
-        public void mouseMoved(MouseEvent e) {
-        }
     }
 }

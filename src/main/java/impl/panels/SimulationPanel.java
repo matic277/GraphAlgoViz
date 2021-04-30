@@ -59,8 +59,13 @@ public class SimulationPanel extends JPanel implements Observer {
         formatter.setMaximumFractionDigits(2);
     }
     
+    final long FPS = 1000L / 144L; // 144FPS
+    
+    
     @Override
     public void paintComponent(Graphics g) {
+        long t0 = System.currentTimeMillis();
+        
         // anti-aliasing
         Graphics2D gr = (Graphics2D) g;
         gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -79,13 +84,13 @@ public class SimulationPanel extends JPanel implements Observer {
         gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
         gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
         
-        gr.drawString("state:  " + currentStateIndex, getWidth()-110, getHeight()-20);
+        gr.drawString("status: " + (AlgorithmController.PAUSE.get() && !AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.get() ? "PAUSED" : "RUNNING"), getWidth()-110, getHeight()-50);
         gr.drawString("scale:  " + formatter.format(listener.scale), getWidth()-110, getHeight()-35);
-        gr.drawString("status: " + (AlgorithmController.PAUSE.get() ? "PAUSED" : "RUNNING"), getWidth()-110, getHeight()-50);
+        gr.drawString("state:  " + currentStateIndex, getWidth()-110, getHeight()-20);
         drawComponents(gr);
         
-        Tools.sleep(1000/144);
-        super.repaint();
+        long td = System.currentTimeMillis() - t0;
+        super.repaint(td > FPS ? 0 : td);
     }
     
     public void startDrawingPotentialEdge(Node sourceNode) {
@@ -130,7 +135,6 @@ public class SimulationPanel extends JPanel implements Observer {
     
     @Override
     public void notifyStateChange(int newStateIndex) {
-        System.out.println("notified");
         this.currentStateIndex = newStateIndex;
     }
     

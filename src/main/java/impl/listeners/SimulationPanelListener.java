@@ -46,6 +46,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     public SimulationPanelListener(SimulationPanel panel) {
         this.panel = panel;
         this.graph = panel.getGraph();
+        this.initialTransform = panel.atx;
         mouse = new Point(0, 0);
         
         nodeInfoLbl.setBounds(0, 0, 100,150);
