@@ -11,6 +11,7 @@ import java.util.Set;
 public class MyGraph implements Drawable {
     
     public static int numOfNodes = 0;
+    private int nextId = -1;
     
     Set<Node> nodes;
     Set<Edge> edges;
@@ -33,9 +34,14 @@ public class MyGraph implements Drawable {
         }
     }
     
+    
     public void addNode(Node n) {
         nodes.add(n);
         numOfNodes++;
+    }
+    // TODO: MAKE A FACTORY METHOD FOR NODES
+    public int getNextNodeId() {
+        return ++nextId;
     }
     
     public void addEdge(Node n1, Node n2) {

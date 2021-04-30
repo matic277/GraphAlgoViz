@@ -56,8 +56,9 @@ public class MenuPanel extends JPanel {
         final var ref = new Object() {
             int idCounter = 5;
         };
-        addNodeBtn.setOnClickAction(() -> {
-            simPanel.getGraph().addNode(new Node(50, 50, ref.idCounter++));
+        addNodeBtn.addActionListener(a -> {
+            simPanel.getGraph().addNode(new Node(50, 50, simPanel.getGraph().getNextNodeId()));
+            System.out.println("new node");
 //            simPanel.repaint();
         });
         this.add(addNodeBtn);

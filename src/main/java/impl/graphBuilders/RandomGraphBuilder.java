@@ -26,7 +26,7 @@ public class RandomGraphBuilder extends GraphBuilder {
         System.out.println("building");
         // generate nodes
         for (int i=0; i<this.totalNodes; i++) {
-            graph.addNode(new Node(i, -i,i));
+            graph.addNode(new Node(i, -i,this.graph.getNextNodeId()));
         }
         
         // generate edges given probability

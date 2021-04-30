@@ -12,22 +12,22 @@ public class StaticTestGraphBuilder extends GraphBuilder {
     
     @Override
     public MyGraph buildGraph() {
-        Node n0 = new Node(100, 280, 0);
-        Node n1 = new Node(100, 100, 1);
-        Node n2 = new Node(50, 170, 2);
-        Node n3 = new Node(170, 250, 3);
-        Node n4 = new Node(270, 210, 4);
-        Node n5 = new Node(300, 100, 5);
-        Node n6 = new Node(400, 170, 6);
-        Node n7 = new Node(550, 250, 7);
-        Node n8 = new Node(240, 370, 8);
-        Node n9 = new Node(100, 500, 9);
-        Node n10 = new Node(101, 670, 10);
-        Node n11 = new Node(400, 600, 11);
-        Node n12 = new Node(400, 480, 12);
-        Node n13 = new Node(370, 380, 13);
+        Node n0 = new Node(100, 280, this.graph.getNextNodeId());
+        Node n1 = new Node(100, 100, this.graph.getNextNodeId());
+        Node n2 = new Node(50, 170, this.graph.getNextNodeId());
+        Node n3 = new Node(170, 250, this.graph.getNextNodeId());
+        Node n4 = new Node(270, 210, this.graph.getNextNodeId());
+        Node n5 = new Node(300, 100, this.graph.getNextNodeId());
+        Node n6 = new Node(400, 170, this.graph.getNextNodeId());
+        Node n7 = new Node(550, 250, this.graph.getNextNodeId());
+        Node n8 = new Node(240, 370, this.graph.getNextNodeId());
+        Node n9 = new Node(100, 500, this.graph.getNextNodeId());
+        Node n10 = new Node(101, 670, this.graph.getNextNodeId());
+        Node n11 = new Node(400, 600, this.graph.getNextNodeId());
+        Node n12 = new Node(400, 480, this.graph.getNextNodeId());
+        Node n13 = new Node(370, 380, this.graph.getNextNodeId());
         
-        Node n14 = new Node(600, 600, 14);
+        Node n14 = new Node(600, 600, this.graph.getNextNodeId());
 
         this.graph.addNode(n0);
         this.graph.addNode(n1);

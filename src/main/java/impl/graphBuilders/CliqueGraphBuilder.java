@@ -9,7 +9,7 @@ public class CliqueGraphBuilder extends GraphBuilder {
     @Override
     public MyGraph buildGraph() {
         for (int i=0; i<this.totalNodes; i++) {
-            this.graph.addNode(new Node(i, -i, i));
+            this.graph.addNode(new Node(i, -i, this.graph.getNextNodeId()));
         }
         
         for (Node n1 : this.graph.getNodes()) {
