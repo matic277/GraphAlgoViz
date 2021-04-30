@@ -61,7 +61,7 @@ public class MenuPanel extends JPanel {
             // TODO: ^
             //  if states of nodes have been altered, history(future, if any)
             //  must be deleted or handled somehow
-            AlgorithmController.currentStateIndex = AlgorithmController.totalStates-1;
+            AlgorithmController.currentStateIndex = AlgorithmController.totalStates;
             
             synchronized (AlgorithmController.PAUSE_LOCK) {
                 AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.set(true);
@@ -120,7 +120,7 @@ public class MenuPanel extends JPanel {
             pauseBtn.setText(pauseBtn.getText().equals("CONTINUE") ? "PAUSE" : "CONTINUE");
         });
         this.add(pauseBtn);
-    
+        
         // spacer
         this.add(Tools.getDumyPlaceholder());
         
