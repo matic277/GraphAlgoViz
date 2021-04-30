@@ -73,6 +73,7 @@ public class StartupWindow extends Window {
     
         // TODO continue button
         contButton = new JButton("Continue");
+        contButton.setFont(Tools.getFont(14));
         contButton.setBounds(200, 500, 100, 35);
         contButton.addActionListener(a -> {
             // default behaviour

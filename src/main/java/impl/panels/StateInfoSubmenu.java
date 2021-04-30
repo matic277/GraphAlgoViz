@@ -20,7 +20,7 @@ public class StateInfoSubmenu implements Drawable, Observer {
     JButton[] stateBox;
     
     final Border DEFAULT_BORDER = new JButton().getBorder();
-    final Border SELECTED_BORDER = new LineBorder(Color.RED);
+    final Border SELECTED_BORDER = new RoundBorder(Tools.RED, 10);
     
     public StateInfoSubmenu(Rectangle bounds, SimulationPanel simPanel) {
         this.bounds = bounds;
@@ -79,7 +79,7 @@ public class StateInfoSubmenu implements Drawable, Observer {
         
         // outline currently selected one
         g.setStroke(Tools.BOLDER_STROKE);
-        g.setColor(Color.red);
+        g.setColor(Tools.RED);
 //        g.draw(stateBox[AlgorithmController.currentStateIndex].getBounds());
     }
     
@@ -92,5 +92,20 @@ public class StateInfoSubmenu implements Drawable, Observer {
         if (newStateIndex <= stateBox.length-1) {
             stateBox[newStateIndex].setBorder(SELECTED_BORDER);
         }
+    }
+    
+    private static class RoundBorder implements Border {
+        private final int rad;
+        Color clr;
+        RoundBorder(Color clr, int rad) { this.rad = rad; this.clr = clr; }
+        
+        public Insets getBorderInsets(Component c) {
+            return new Insets(this.rad+1, this.rad+1, this.rad+2, this.rad);
+        }
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            g.setColor(clr);
+            g.drawRoundRect(x+1, y+1, width-3, height-3, rad, rad);
+        }
+        public boolean isBorderOpaque() { return true; }
     }
 }

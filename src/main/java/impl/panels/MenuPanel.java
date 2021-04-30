@@ -1,5 +1,6 @@
 package impl.panels;
 
+import core.ComponentDrawer;
 import impl.AlgorithmController;
 import impl.Node;
 import impl.tools.Tools;
@@ -25,6 +26,9 @@ public class MenuPanel extends JPanel {
     
     JLabel sliderInfo;
     JSlider nodeRadSlider;
+    
+    JCheckBox idDrawerCheckBox;
+    JCheckBox coordDrawerCheckBox;
     
     public MenuPanel(SimulationWindow parent, SimulationPanel simPanel, Dimension panelSize) {
         this.parent = parent;
@@ -151,6 +155,26 @@ public class MenuPanel extends JPanel {
         nodeRadSlider.setFont(Tools.getFont(12));
         this.add(nodeRadSlider);
         
+        
+        this.add(Tools.getDumyPlaceholder());
+        
+        
+        idDrawerCheckBox = new JCheckBox("Draw node IDs     "); // extra spaces so checkboxes are (almost!) aligned - flow layout sucks
+        idDrawerCheckBox.setFont(Tools.getFont(12));
+        idDrawerCheckBox.addActionListener(a -> {
+            Node.idDrawer = idDrawerCheckBox.isSelected() ?
+                    ComponentDrawer.getIdDrawer() : ComponentDrawer.getNullDrawer();
+        });
+        this.add(idDrawerCheckBox);
+    
+        coordDrawerCheckBox = new JCheckBox("Draw node coords");
+        coordDrawerCheckBox.setFont(Tools.getFont(12));
+        coordDrawerCheckBox.addActionListener(a -> {
+            Node.coordDrawer = coordDrawerCheckBox.isSelected() ?
+                    ComponentDrawer.getCoordDrawer() : ComponentDrawer.getNullDrawer();
+        });
+        this.add(coordDrawerCheckBox);
+        
     }
     
     @Override
@@ -164,7 +188,7 @@ public class MenuPanel extends JPanel {
         gr.fillRect(0, 0, getWidth(), getHeight());
         
         gr.setColor(Color.BLACK);
-        gr.drawString("MENU", getWidth()/2, getHeight()/2);
+        gr.drawString("MENU", getWidth()/2-20, getHeight()-30);
 //        gr.drawRect(0, 0, this.getWidth(), this.getHeight());
 //        System.out.println(this.getBounds());
         

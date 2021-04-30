@@ -11,6 +11,7 @@ public class Tools {
     
     public static final Color bgColor = new Color(237, 237, 237, 255);
     public static final Color borderColor = new Color(118, 118, 118);
+    public static final Color RED = Color.decode("#ea4335");
     
     public static final Dimension menuButtonSize = new Dimension(40, 40);
     public static final Dimension wideMenuButtonSize = new Dimension(100, 40);
@@ -21,6 +22,7 @@ public class Tools {
     public static final Stroke BOLD_STROKE = new BasicStroke(1.7f);
     public static final Stroke BOLDER_STROKE = new BasicStroke(2f);
     public static final Stroke BOLDEST_STROKE = new BasicStroke(5f);
+    
     
     public static final Random RAND = new Random();
     

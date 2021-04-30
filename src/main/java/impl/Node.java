@@ -1,5 +1,6 @@
 package impl;
 
+import core.ComponentDrawer;
 import core.Drawable;
 import core.Selectable;
 import impl.tools.Tools;
@@ -26,6 +27,9 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
     static final Color INFORMED = Color.decode("#34A853");
     static final Color UNINFORMED = Color.black;
+    
+    public static ComponentDrawer idDrawer = ComponentDrawer.getNullDrawer();
+    public static ComponentDrawer coordDrawer = ComponentDrawer.getNullDrawer();
     
     public Node(int x, int y, int id) {
         this.x = x;
@@ -71,29 +75,34 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         
         // circle & center
         g.draw(ts);
-        g.setColor(Color.red);
-        g.fillOval((int)ts.getBounds().getCenterX()-3, (int)ts.getBounds().getCenterY()-3, 6, 6);
+        g.setColor(Tools.RED);
+        g.fillOval((int)ts.getBounds().getCenterX()-ts.getBounds().width/8, (int)ts.getBounds().getCenterY()-ts.getBounds().width/8, ts.getBounds().width/4, ts.getBounds().width/4);
         
         g.setStroke(Tools.BOLD_STROKE);
         
-        g.setColor(Color.black);
-        // position coordinates
-        g.drawString(
-                "["+(int)ts.getBounds().getCenterX()+", "+(int)ts.getBounds().getCenterY()+"]",
-                (int)ts.getBounds().getCenterX()-30,
-                (int)(ts.getBounds().getCenterY()+ts.getBounds().getHeight()/1.2));
+//        g.setColor(Color.black);
+//        // position coordinates
+//        g.drawString(
+//                "["+(int)ts.getBounds().getCenterX()+", "+(int)ts.getBounds().getCenterY()+"]",
+//                (int)ts.getBounds().getCenterX()-30,
+//                (int)(ts.getBounds().getCenterY()+ts.getBounds().getHeight()/1.2));
 //        g.drawString(
 //                "["+(int)this.getBounds().getCenterX()+", "+(int)this.getBounds().getCenterY()+"]",
 //                (int)this.getBounds().getCenterX()-30,
 //                (int)(this.getBounds().getCenterY()+this.getBounds().getHeight()+20));
         
         // id in box
-        Font oldFont = g.getFont();
-        g.setFont(Tools.getBoldFont((int)(at.getScaleY()*16)));
-        g.fillRect((int)ts.getBounds().getCenterX()-(int)ts.getBounds().getWidth()/4, (int)ts.getBounds().getCenterY()+2, (int)(ts.getBounds().getWidth()/2), (int)(ts.getBounds().getHeight()/2.3));
-        g.setColor(Color.white);
-        g.drawString(id+"", (int)ts.getBounds().getCenterX()-(int)ts.getBounds().getWidth()/8, (int)(ts.getBounds().getCenterY()+ts.getBounds().getHeight()/2.5)+2);
-        g.setFont(oldFont);
+//        Font oldFont = g.getFont();
+//        int fontSize = (int)(at.getScaleY()*12);
+//        g.setFont(Tools.getBoldFont(fontSize));
+////        g.fillRect(ts.getBounds().x-5, ts.getBounds().y, (int)(ts.getBounds().getWidth()/2), (int)(ts.getBounds().getHeight()/2.3));
+//        g.setColor(Color.black);
+//        g.drawString(id+"", id > 9 ? ts.getBounds().x - 5: ts.getBounds().x, ts.getBounds().y);
+//        g.setFont(oldFont);
+        
+        
+        idDrawer.draw(g, at, this);
+        coordDrawer.draw(g, at, this);
     }
     
     @Override
