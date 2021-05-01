@@ -3,6 +3,7 @@ package impl.panels;
 import core.ComponentDrawer;
 import impl.AlgorithmController;
 import impl.Node;
+import impl.State;
 import impl.tools.Tools;
 import impl.windows.SimulationWindow;
 import impl.MyButton;
@@ -14,7 +15,7 @@ import java.util.Hashtable;
 public class MenuPanel extends JPanel {
     
     Dimension panelSize;
-    SimulationWindow parent;
+    SimulationWindow simWindow;
     SimulationPanel simPanel;
     
     MyButton addNodeBtn;
@@ -30,9 +31,10 @@ public class MenuPanel extends JPanel {
     JCheckBox idDrawerCheckBox;
     JCheckBox coordDrawerCheckBox;
     JCheckBox edgeDrawerCheckBox;
+    JCheckBox stateDebugCheckBox;
     
     public MenuPanel(SimulationWindow parent, SimulationPanel simPanel, Dimension panelSize) {
-        this.parent = parent;
+        this.simWindow = parent;
         this.panelSize = panelSize;
         this.simPanel = simPanel;
         
@@ -81,12 +83,22 @@ public class MenuPanel extends JPanel {
         addNodeBtn.setToolTipText("Add new node");
         addNodeBtn.setSize(Tools.MENU_BUTTON_SIZE);
         addNodeBtn.addActionListener(a -> {
-            // TODO:
-            // thread safety
-            // add node to some executioner to handle
             Node newNode = new Node(50, 50, simPanel.getGraph().getNextNodeId());
-//            AlgorithmController.
+            
+            // when node is added in the middle of the simulation
+            // prefill its history (state list) with uninformed states!
+            // (one state is automatically made in constructor, so do 1 less)
+            for (int i=0; i<AlgorithmController.currentStateIndex; i++) {
+                newNode.addState(new State(0));
+            }
+            
+            // adding new node takes calling 2 separate methods
+            // - not ideal, should refactor
+            // Maybe AlgoCtrl should be subscribed (observer) to
+            // graph, and graph should notify AlgoCtrl about new
+            // node inserts?
             simPanel.getGraph().addNode(newNode);
+            simWindow.getSimulationManager().getAlgorithmController().addNewNode(newNode);
             System.out.println("new node added");
         });
         this.add(addNodeBtn);
@@ -189,6 +201,16 @@ public class MenuPanel extends JPanel {
             simPanel.getGraph().drawEdges(edgeDrawerCheckBox.isSelected());
         });
         this.add(edgeDrawerCheckBox);
+    
+        stateDebugCheckBox = new JCheckBox("Draw states (debug)");
+        stateDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
+        stateDebugCheckBox.setFont(Tools.getFont(12));
+        stateDebugCheckBox.setSelected(false);
+        stateDebugCheckBox.addActionListener(a -> {
+            Node.stateDebugDrawer = stateDebugCheckBox.isSelected() ?
+                    ComponentDrawer.getStateDebugDrawer() : ComponentDrawer.getNullDrawer();
+        });
+        this.add(stateDebugCheckBox);
     }
     
     @Override

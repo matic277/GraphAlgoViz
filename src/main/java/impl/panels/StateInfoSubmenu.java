@@ -60,7 +60,7 @@ public class StateInfoSubmenu implements Drawable, Observer {
         int padding = 5;
         int width  = (bounds.width - ((NUM_OF_STATES + 1) * padding)) / NUM_OF_STATES;
         int height = bounds.height - 3 * padding; // ?? flowlayout
-    
+        
         //for (int i = 0, x = padding; i<NUM_OF_STATES; i++, x+=width+padding) { // when bounds is a rectangle and we draw it manually
         for (int i = 0; i<NUM_OF_STATES; i++) { // when the bound is a jlabel
             int finalI = i;

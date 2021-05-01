@@ -1,6 +1,7 @@
 package core;
 
 import impl.Node;
+import impl.State;
 import impl.tools.Edge;
 import impl.tools.Tools;
 
@@ -43,6 +44,16 @@ public interface ComponentDrawer {
                 g.drawLine((int)n1.ts.getBounds().getCenterX(), (int)n1.ts.getBounds().getCenterY(),
                         (int)n2.ts.getBounds().getCenterX(), (int)n2.ts.getBounds().getCenterY());
             }
+        };
+    }
+    
+    static ComponentDrawer getStateDebugDrawer() {
+        return (g, at, n) -> {
+            g.setColor(Color.black);
+            g.drawString(
+                    State.stateListToString(n.states) + "",
+                    (int)n.ts.getBounds().getCenterX()-30,
+                    (int)(n.ts.getBounds().getCenterY()+n.ts.getBounds().getHeight()/1.2));
         };
     }
     

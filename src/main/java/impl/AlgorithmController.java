@@ -149,4 +149,10 @@ public class AlgorithmController implements Runnable, Observable {
     public void removeObserver(Observer observer) {
         this.observers.remove(observer);
     }
+    
+    public void addNewNode(Node newNode) {
+        // add new node to some random processor
+        int randomProc = Tools.RAND.nextInt(PROCESSORS);
+        EXECUTORS[randomProc].nodes.add(newNode); // TODO this operation is not thread safe!
+    }
 }

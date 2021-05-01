@@ -25,12 +25,16 @@ public class SimulationManager {
         // open main window
         SwingUtilities.invokeLater(() -> {
             Dimension simSize = new Dimension(1400, 1000);
-            simWindow = new SimulationWindow(simSize, graph);
+            simWindow = new SimulationWindow(simSize, graph, this);
             algoController.addObserver(simWindow.getSimulationPanel());
             algoController.addObserver(simWindow.getSimulationPanel().getStateInfoSubmenu());
         });
         
         controller.start();
+    }
+    
+    public AlgorithmController getAlgorithmController() {
+        return this.algoController;
     }
     
 }

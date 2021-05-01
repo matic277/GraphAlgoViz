@@ -21,7 +21,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     public int info = 0;
     public List<Node> neighbors;
     
-    List<State> states;
+    public List<State> states;
     int messagesReceived = 0;
     int messagesSent = 0;
     
@@ -30,6 +30,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
     public static ComponentDrawer idDrawer = ComponentDrawer.getNullDrawer();
     public static ComponentDrawer coordDrawer = ComponentDrawer.getNullDrawer();
+    public static ComponentDrawer stateDebugDrawer = ComponentDrawer.getNullDrawer();
     
     public Node(int x, int y, int id) {
         this.x = x;
@@ -103,6 +104,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         
         idDrawer.draw(g, at, this);
         coordDrawer.draw(g, at, this);
+        stateDebugDrawer.draw(g, at, this);
     }
     
     @Override
