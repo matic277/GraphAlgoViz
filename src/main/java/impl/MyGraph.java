@@ -1,5 +1,6 @@
 package impl;
 
+import core.ComponentDrawer;
 import core.Drawable;
 import impl.tools.Edge;
 
@@ -16,6 +17,8 @@ public class MyGraph implements Drawable {
     Set<Node> nodes;
     Set<Edge> edges;
     
+    private ComponentDrawer edgeDrawer = ComponentDrawer.getNullDrawer(); // Initialized will set this to default when graph is built!
+    
     public MyGraph() {
         nodes = new HashSet<>();
         edges = new HashSet<>();
@@ -25,13 +28,7 @@ public class MyGraph implements Drawable {
     public void draw(Graphics2D g, AffineTransform at) {
         g.setColor(Color.BLACK);
         nodes.forEach(n -> n.draw(g, at));
-        g.setColor(Color.black);
-        for (Edge e : edges) {
-            Node n1 = e.getN1();
-            Node n2 = e.getN2();
-            g.drawLine((int)n1.ts.getBounds().getCenterX(), (int)n1.ts.getBounds().getCenterY(),
-                    (int)n2.ts.getBounds().getCenterX(), (int)n2.ts.getBounds().getCenterY());
-        }
+        edgeDrawer.draw(g, at, null);
     }
     
     
@@ -56,7 +53,11 @@ public class MyGraph implements Drawable {
         return this.edges.contains(new Edge(n1, n2));
     }
     
-    public Set<Node> getNodes() {
-        return this.nodes;
+    public Set<Node> getNodes() { return this.nodes; }
+    public Set<Edge> getEdges() { return this.edges; }
+    
+    public void drawEdges(boolean draw) {
+        this.edgeDrawer = draw ?
+                ComponentDrawer.getEdgeDrawer(this.edges) : ComponentDrawer.getNullDrawer();
     }
 }

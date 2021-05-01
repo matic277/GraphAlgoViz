@@ -1,6 +1,5 @@
 package impl.tools;
 
-import impl.State;
 import impl.listeners.ButtonListener;
 
 import javax.swing.*;
@@ -13,8 +12,9 @@ public class Tools {
     public static final Color borderColor = new Color(118, 118, 118);
     public static final Color RED = Color.decode("#ea4335");
     
-    public static final Dimension menuButtonSize = new Dimension(40, 40);
-    public static final Dimension wideMenuButtonSize = new Dimension(100, 40);
+    public static final Dimension MENU_BUTTON_SIZE = new Dimension(40, 40);
+    public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(100, 40);
+    public static final Dimension MENU_CHECKBOX_SIZE = new Dimension(125, 15);
     
     public static final ButtonListener buttonListener = new ButtonListener();
     
@@ -47,8 +47,8 @@ public class Tools {
     public static JLabel getDumyPlaceholder() {
         JLabel obj = new JLabel(" DUMMY OBJ");
         obj.setForeground(Color.white);
-        obj.setPreferredSize(new Dimension(menuButtonSize.width * 3, 20));
-        obj.setSize(new Dimension(menuButtonSize.width * 3, 20));
+        obj.setPreferredSize(new Dimension(MENU_BUTTON_SIZE.width * 3, 20));
+        obj.setSize(new Dimension(MENU_BUTTON_SIZE.width * 3, 20));
         obj.setOpaque(true);
         obj.setBackground(Color.BLACK);
         return obj;

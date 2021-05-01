@@ -1,10 +1,12 @@
 package core;
 
 import impl.Node;
+import impl.tools.Edge;
 import impl.tools.Tools;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.Set;
 
 public interface ComponentDrawer {
     void draw(Graphics2D g, AffineTransform at, Node node);
@@ -29,6 +31,18 @@ public interface ComponentDrawer {
                     "["+(int)n.ts.getBounds().getCenterX()+", "+(int)n.ts.getBounds().getCenterY()+"]",
                     (int)n.ts.getBounds().getCenterX()-30,
                     (int)(n.ts.getBounds().getCenterY()+n.ts.getBounds().getHeight()/1.2));
+        };
+    }
+    
+    static ComponentDrawer getEdgeDrawer(Set<Edge> edges) {
+        return (g, at, n) -> {
+            g.setColor(Color.black);
+            for (Edge e : edges) {
+                Node n1 = e.getN1();
+                Node n2 = e.getN2();
+                g.drawLine((int)n1.ts.getBounds().getCenterX(), (int)n1.ts.getBounds().getCenterY(),
+                        (int)n2.ts.getBounds().getCenterX(), (int)n2.ts.getBounds().getCenterY());
+            }
         };
     }
     

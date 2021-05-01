@@ -1,5 +1,6 @@
 package impl.panels;
 
+import core.ComponentDrawer;
 import core.Observer;
 import impl.AlgorithmController;
 import impl.MyGraph;
@@ -30,6 +31,7 @@ public class SimulationPanel extends JPanel implements Observer {
     
     // State drawing
     StateInfoSubmenu stateInfo;
+    
     
     public SimulationPanel(SimulationWindow parent, MyGraph g, Dimension panelSize) {
         this.parent = parent;

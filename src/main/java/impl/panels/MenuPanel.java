@@ -29,6 +29,7 @@ public class MenuPanel extends JPanel {
     
     JCheckBox idDrawerCheckBox;
     JCheckBox coordDrawerCheckBox;
+    JCheckBox edgeDrawerCheckBox;
     
     public MenuPanel(SimulationWindow parent, SimulationPanel simPanel, Dimension panelSize) {
         this.parent = parent;
@@ -42,17 +43,19 @@ public class MenuPanel extends JPanel {
         this.setVisible(true);
         this.setBackground(Color.blue);
         
+        
         // spacers
         this.add(Tools.getDumyPlaceholder());
         
+        
         prevBtn = new JButton("<");
         prevBtn.setToolTipText("Previous round");
-        prevBtn.setPreferredSize(Tools.menuButtonSize);
+        prevBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
         this.add(prevBtn);
     
         nextBtn = new JButton(">");
         nextBtn.setToolTipText("Next round");
-        nextBtn.setPreferredSize(Tools.menuButtonSize);
+        nextBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
         nextBtn.addActionListener(a -> {
             // when button is pressed, it disables itself
             // when the round is finished, AlgoController
@@ -76,8 +79,7 @@ public class MenuPanel extends JPanel {
         
         addNodeBtn = new MyButton("new node");
         addNodeBtn.setToolTipText("Add new node");
-        addNodeBtn.setSize(Tools.menuButtonSize);
-        
+        addNodeBtn.setSize(Tools.MENU_BUTTON_SIZE);
         addNodeBtn.addActionListener(a -> {
             // TODO:
             // thread safety
@@ -88,9 +90,11 @@ public class MenuPanel extends JPanel {
             System.out.println("new node added");
         });
         this.add(addNodeBtn);
-    
+        
+        
         // spacer
         this.add(Tools.getDumyPlaceholder());
+        
         
         pauseInfo = new JLabel("Pause/continue simulation");
         pauseInfo.setSize(new Dimension(30, 100));
@@ -99,7 +103,7 @@ public class MenuPanel extends JPanel {
         
         pauseBtn = new MyButton("CONTINUE");
         pauseBtn.setToolTipText("Pause or continue simulation.");
-        pauseBtn.setPreferredSize(Tools.wideMenuButtonSize);
+        pauseBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
         pauseBtn.addActionListener(a -> {
             // Thread safe atomic boolean flip
             // flip the value of PAUSE
@@ -125,22 +129,18 @@ public class MenuPanel extends JPanel {
         });
         this.add(pauseBtn);
         
+        
         // spacer
         this.add(Tools.getDumyPlaceholder());
+        
         
         sliderInfo = new JLabel("Change node radius");
         sliderInfo.setSize(new Dimension(30, 100));
         sliderInfo.setFont(Tools.getFont(12));
-        
         this.add(sliderInfo);
-        
         
         int sliderMin = 5, sliderMax = 100;
         nodeRadSlider = new JSlider(5, 100, Node.rad);
-        nodeRadSlider.addChangeListener(c -> {
-            System.out.println(nodeRadSlider.getValue());
-            Node.rad = nodeRadSlider.getValue();
-        });
         Hashtable<Integer, JLabel> sliderMap = new Hashtable<>();
         Font lblFont = Tools.getFont(12);
         JLabel minLbl = new JLabel(sliderMin+""); minLbl.setFont(lblFont);
@@ -153,6 +153,10 @@ public class MenuPanel extends JPanel {
         nodeRadSlider.setPaintLabels(true);
         nodeRadSlider.setPreferredSize(new Dimension(120, 40));
         nodeRadSlider.setFont(Tools.getFont(12));
+        nodeRadSlider.addChangeListener(c -> {
+            System.out.println(nodeRadSlider.getValue());
+            Node.rad = nodeRadSlider.getValue();
+        });
         this.add(nodeRadSlider);
         
         
@@ -160,6 +164,7 @@ public class MenuPanel extends JPanel {
         
         
         idDrawerCheckBox = new JCheckBox("Draw node IDs     "); // extra spaces so checkboxes are (almost!) aligned - flow layout sucks
+        idDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         idDrawerCheckBox.setFont(Tools.getFont(12));
         idDrawerCheckBox.addActionListener(a -> {
             Node.idDrawer = idDrawerCheckBox.isSelected() ?
@@ -168,6 +173,7 @@ public class MenuPanel extends JPanel {
         this.add(idDrawerCheckBox);
     
         coordDrawerCheckBox = new JCheckBox("Draw node coords");
+        coordDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         coordDrawerCheckBox.setFont(Tools.getFont(12));
         coordDrawerCheckBox.addActionListener(a -> {
             Node.coordDrawer = coordDrawerCheckBox.isSelected() ?
@@ -175,6 +181,14 @@ public class MenuPanel extends JPanel {
         });
         this.add(coordDrawerCheckBox);
         
+        edgeDrawerCheckBox = new JCheckBox("Draw edges");
+        edgeDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
+        edgeDrawerCheckBox.setFont(Tools.getFont(12));
+        edgeDrawerCheckBox.setSelected(true);
+        edgeDrawerCheckBox.addActionListener(a -> {
+            simPanel.getGraph().drawEdges(edgeDrawerCheckBox.isSelected());
+        });
+        this.add(edgeDrawerCheckBox);
     }
     
     @Override

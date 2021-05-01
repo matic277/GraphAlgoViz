@@ -17,13 +17,14 @@ public class SimulationManager {
     public SimulationManager(GraphBuilder builder) {
         this.builder = builder;
         this.graph = builder.buildGraph();
+        this.graph.drawEdges(true);
         
         algoController = new AlgorithmController(graph);
         Thread controller = new Thread(algoController);
         
         // open main window
         SwingUtilities.invokeLater(() -> {
-            Dimension simSize = new Dimension(1000, 800);
+            Dimension simSize = new Dimension(1400, 1000);
             simWindow = new SimulationWindow(simSize, graph);
             algoController.addObserver(simWindow.getSimulationPanel());
             algoController.addObserver(simWindow.getSimulationPanel().getStateInfoSubmenu());
