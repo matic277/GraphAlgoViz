@@ -123,8 +123,9 @@ public class MenuPanel extends JPanel {
             do { temp = AlgorithmController.PAUSE.get(); }
             while(!AlgorithmController.PAUSE.compareAndSet(temp, !temp));
             
-            // disable/enable inform/uniform button
-            this.simPanel.getPanelListener().innerInfoBtn.setEnabled(!this.simPanel.getPanelListener().innerInfoBtn.isEnabled());
+            // disable/enable inform/uniform, delete node buttons
+            this.simPanel.getPanelListener().informBtn.setEnabled(!this.simPanel.getPanelListener().informBtn.isEnabled());
+            this.simPanel.getPanelListener().deleteNodeBtn.setEnabled(!this.simPanel.getPanelListener().deleteNodeBtn.isEnabled());
             // disable/enable add node button
             this.addNodeBtn.setEnabled(!this.addNodeBtn.isEnabled());
             // disable/enable next/previous state buttons
@@ -132,6 +133,12 @@ public class MenuPanel extends JPanel {
             prevBtn.setEnabled(AlgorithmController.PAUSE.get());
             
             // when pressing continue, jump to latest state
+            // TODO
+            //  program crash due to node getting drawn from  state 1 when only 1 state existed
+            //  crashed on node.draw on line
+            //  g.setColor(states.get(AlgorithmController.currentStateIndex).getState() == 0 ? UNINFORMED : INFORMED);
+            //  (index 1 out of range of size of list 1)
+            //  -> Happened once, can't reproduce.
             AlgorithmController.currentStateIndex = AlgorithmController.totalStates-1;
             
             synchronized (AlgorithmController.PAUSE_LOCK) {
@@ -227,8 +234,9 @@ public class MenuPanel extends JPanel {
         gr.drawString("MENU", getWidth()/2-20, getHeight()-30);
 //        gr.drawRect(0, 0, this.getWidth(), this.getHeight());
 //        System.out.println(this.getBounds());
-        
-        Tools.sleep(1000/144);
-        super.repaint();
+    
+        // TODO this panel does not need to be repainted
+//        Tools.sleep(1000/144);
+//        super.repaint();
     }
 }

@@ -22,7 +22,7 @@ public class AlgorithmController implements Runnable, Observable {
     public static final AtomicBoolean NEXT_ROUND_BUTTON_PRESSED = new AtomicBoolean(false);
     
     public static int currentStateIndex = 0; // atomic?
-    public static int totalStates = 0;
+    public static int totalStates = 1;
     
     MyGraph graph;
     Algorithm algo;

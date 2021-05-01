@@ -3,7 +3,6 @@ package impl.listeners;
 import impl.AlgorithmController;
 import impl.MyGraph;
 import impl.Node;
-import impl.SimulationManager;
 import impl.panels.SimulationPanel;
 
 import javax.swing.*;
@@ -41,7 +40,9 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     
     // TODO: these should be in the simWindow or simPanel
     final JLabel nodeInfoLbl = new JLabel("Empty");
-    public final JButton innerInfoBtn = new JButton("Inform");
+    // inner buttons of nodeInfoLbl
+    public final JButton informBtn = new JButton("Inform");
+    public final JButton deleteNodeBtn = new JButton("Delete");
     
     public SimulationPanelListener(SimulationPanel panel) {
         this.panel = panel;
@@ -49,29 +50,48 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         this.initialTransform = panel.atx;
         mouse = new Point(0, 0);
         
-        nodeInfoLbl.setBounds(0, 0, 100,150);
+        nodeInfoLbl.setBounds(0, 0, 100,180);
         nodeInfoLbl.setBackground(new Color(255, 255, 255, 230));
         nodeInfoLbl.setBorder(new LineBorder(Color.black, 2));
         nodeInfoLbl.setOpaque(true);
         nodeInfoLbl.setVisible(false);
+        nodeInfoLbl.setVerticalAlignment(JLabel.TOP);
+        nodeInfoLbl.setVerticalTextPosition(JLabel.TOP);
         
         int innerWidth = 80;
         int innerHeight = 30;
-        innerInfoBtn.setBounds(
+        informBtn.setBounds(
                 nodeInfoLbl.getWidth()/2 - innerWidth/2,
                 nodeInfoLbl.getHeight() - innerHeight - 5,
                 innerWidth,
                 innerHeight);
-        innerInfoBtn.setOpaque(true);
-        innerInfoBtn.setBackground(nodeInfoLbl.getBackground());
-        innerInfoBtn.addActionListener(a -> {
+        informBtn.setOpaque(true);
+        informBtn.setBackground(nodeInfoLbl.getBackground());
+        informBtn.addActionListener(a -> {
             if (!AlgorithmController.PAUSE.get()) return;
-            boolean isInform = innerInfoBtn.getText().equalsIgnoreCase("inform");
+            boolean isInform = informBtn.getText().equalsIgnoreCase("inform");
             rightClickedNode.getState().setState(isInform ? 1 : 0);
-            innerInfoBtn.setText(isInform ? "Uninform" : "Inform");
+            informBtn.setText(isInform ? "Uninform" : "Inform");
         });
+        nodeInfoLbl.add(informBtn);
+    
+        deleteNodeBtn.setBounds(
+                nodeInfoLbl.getWidth()/2 - innerWidth/2,
+                nodeInfoLbl.getHeight() - 2*(innerHeight + 5),
+                innerWidth,
+                innerHeight);
+        deleteNodeBtn.setOpaque(true);
+        deleteNodeBtn.setBackground(nodeInfoLbl.getBackground());
+        deleteNodeBtn.addActionListener(a -> {
+            if (!AlgorithmController.PAUSE.get()) return;
+            // TODO delete node and edges
+        });
+        nodeInfoLbl.add(deleteNodeBtn);
+    
+        System.out.println(nodeInfoLbl.getHeight());
+        System.out.println(nodeInfoLbl.getHeight() - innerHeight - 5);
+        System.out.println(nodeInfoLbl.getHeight() - 2*(innerHeight + 5));
         
-        nodeInfoLbl.add(innerInfoBtn);
         
         panel.add(nodeInfoLbl);
     }
@@ -192,11 +212,11 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
                     nodeInfoLbl.getBounds().height);
             nodeInfoLbl.setVisible(true);
             nodeInfoLbl.setText(
-                    "<html>" +
-                            "&nbsp; Node id=" + rightClickedNode.getId() + "<br><br>" +
+                    "<html><br>" +
+                            "&nbsp; Node id=" + rightClickedNode.getId() + "<br>" +
                             "&nbsp; State=" + rightClickedNode.getState().getState() +
                     "</html>");
-            innerInfoBtn.setText(rightClickedNode.getState().getState() == 0 ? "Inform" : "Uninform");
+            informBtn.setText(rightClickedNode.getState().getState() == 0 ? "Inform" : "Uninform");
             return;
         }
         

@@ -96,24 +96,24 @@ public class SimulationPanel extends JPanel implements Observer {
         gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
         gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
     
-    
+        g.setFont(Tools.getFont(14));
         gr.drawString("status: " + (AlgorithmController.PAUSE.get() && !AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.get() ? "PAUSED" : "RUNNING"),
-                getWidth()-110,
+                getWidth()-120,
                 20);
         gr.drawString("scale:  " + formatter.format(listener.scale),
-                getWidth()-110,
+                getWidth()-120,
                 35);
         gr.drawString("state:  " + AlgorithmController.currentStateIndex,
-                getWidth()-110,
+                getWidth()-120,
                 50);
         gr.drawString("states: " + AlgorithmController.totalStates,
-                getWidth()-110,
+                getWidth()-120,
                 65);
         
         drawComponents(gr);
         
         stateInfo.draw(gr, atx);
-    
+        
         long td = System.currentTimeMillis() - t0;
         super.repaint(td > FPS ? 0 : td);
     }
