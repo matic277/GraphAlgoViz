@@ -15,9 +15,7 @@ public abstract class GraphBuilder {
     
     protected String fileName;
     
-    public GraphBuilder() {
-        this.graph = new MyGraph();
-    }
+    public GraphBuilder() { this.graph = new MyGraph(); }
     
     public abstract MyGraph buildGraph();
     
@@ -35,7 +33,7 @@ public abstract class GraphBuilder {
     }
     
     public void arrangeNodesInCircularLayout(int radius) {
-        // place nodes in circle of diameter 300px
+        // place nodes in circle of diameter
         // x^2 + y^2 = 300^2
         // y = sqrt(300^2 - x^2)
         Point centerCircle = new Point(400, 400);

@@ -28,6 +28,7 @@ public class CustomGraphOptionPanel extends OptionPanel {
         inputField = new JTextField();
         inputField.setBounds(47, 130, 300, 30);
         inputField.setFont(Tools.getFont(12));
+        inputField.setText(".\\graphs\\graph1.g6");
         
         this.addComponents(text, inputField);
     }
@@ -51,5 +52,4 @@ public class CustomGraphOptionPanel extends OptionPanel {
     public String toString() {
         return this.getClass().getSimpleName();
     }
-    
 }

@@ -7,6 +7,7 @@ import impl.tools.Edge;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class MyGraph implements Drawable {
@@ -31,6 +32,17 @@ public class MyGraph implements Drawable {
         edgeDrawer.draw(g, at, null);
     }
     
+    // bad... slow
+    public boolean connectById(int n1Id, int n2Id) {
+        Optional<Node> n1 = nodes.stream().filter(n -> n.id == n1Id).findFirst();
+        Optional<Node> n2 = nodes.stream().filter(n -> n.id == n2Id).findFirst();
+        
+        if (n1.isPresent() && n2.isPresent()) {
+            return addEdge(n1.get(), n2.get());
+        } else {
+            throw new RuntimeException("Nodes not found by id: " + n1Id + ", " + n2Id + ".");
+        }
+    }
     
     public void addNode(Node n) {
         nodes.add(n);
@@ -41,12 +53,13 @@ public class MyGraph implements Drawable {
         return ++nextId;
     }
     
-    public void addEdge(Node n1, Node n2) {
-        if (containsEdge(n1, n2) || containsEdge(n2, n1) || n1 == n2) return;
+    public boolean addEdge(Node n1, Node n2) {
+        if (containsEdge(n1, n2) || containsEdge(n2, n1) || n1 == n2) return false;
         
         n1.neighbors.add(n2);
         n2.neighbors.add(n1);
         edges.add(new Edge(n1, n2));
+        return true;
     }
     
     public boolean containsEdge(Node n1, Node n2) {
