@@ -2,9 +2,7 @@ package impl.panels;
 
 import core.ComponentDrawer;
 import core.Observer;
-import impl.AlgorithmController;
-import impl.MyGraph;
-import impl.Node;
+import impl.*;
 import impl.listeners.SimulationPanelListener;
 import impl.tools.Tools;
 import impl.windows.SimulationWindow;
@@ -105,10 +103,10 @@ public class SimulationPanel extends JPanel implements Observer {
                 35);
         gr.drawString("state:  " + AlgorithmController.currentStateIndex,
                 getWidth()-120,
-                50);
+                60);
         gr.drawString("states: " + AlgorithmController.totalStates,
                 getWidth()-120,
-                65);
+                75);
         
         drawComponents(gr);
         
@@ -141,33 +139,22 @@ public class SimulationPanel extends JPanel implements Observer {
         }
     }
     
-    public void setGraph(MyGraph g) {
-        this.graph = g;
-    }
-    
-    // TODO: fix thread safety
-    public MyGraph getGraph() {
-        return this.graph;
-    }
-    
-    public Point2D getMouse() {
-        return this.mouse;
-    }
-    
-    public AffineTransform getAffineTransformation() {
-        return this.atx;
-    }
-    
     @Override
     public void notifyStateChange(int newStateIndex) {
         // remove this
     }
     
-    public SimulationPanelListener getPanelListener() {
-        return this.listener;
-    }
+    public void setGraph(MyGraph g) { this.graph = g; }
     
-    public StateInfoSubmenu getStateInfoSubmenu() {
-        return this.stateInfo;
-    }
+    public MyGraph getGraph() { return this.graph; }
+    
+    public Point2D getMouse() { return this.mouse; }
+    
+    public AffineTransform getAffineTransformation() { return this.atx; }
+    
+    public SimulationPanelListener getPanelListener() { return this.listener; }
+    
+    public SimulationWindow getSimulationWindow() { return this.parent; }
+    
+    public StateInfoSubmenu getStateInfoSubmenu() { return this.stateInfo; }
 }

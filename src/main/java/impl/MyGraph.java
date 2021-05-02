@@ -7,6 +7,7 @@ import impl.tools.Edge;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
 
@@ -44,11 +45,18 @@ public class MyGraph implements Drawable {
         }
     }
     
+    // bad... slow
+    public void deleteNode(Node node) {
+        edges.removeIf(e -> e.getN1() == node || e.getN2() == node);
+        nodes.remove(node);
+    }
+    
     public void addNode(Node n) {
         nodes.add(n);
         numOfNodes++;
     }
     // TODO: MAKE A FACTORY METHOD FOR NODES
+    
     public int getNextNodeId() {
         return ++nextId;
     }
@@ -65,8 +73,8 @@ public class MyGraph implements Drawable {
     public boolean containsEdge(Node n1, Node n2) {
         return this.edges.contains(new Edge(n1, n2));
     }
-    
     public Set<Node> getNodes() { return this.nodes; }
+    
     public Set<Edge> getEdges() { return this.edges; }
     
     public void drawEdges(boolean draw) {

@@ -4,6 +4,7 @@ import impl.AlgorithmController;
 import impl.MyGraph;
 import impl.Node;
 import impl.panels.SimulationPanel;
+import impl.tools.Tools;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -48,7 +49,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         this.panel = panel;
         this.graph = panel.getGraph();
         this.initialTransform = panel.atx;
-        mouse = new Point(0, 0);
+        this.mouse = new Point(0, 0);
         
         nodeInfoLbl.setBounds(0, 0, 100,180);
         nodeInfoLbl.setBackground(new Color(255, 255, 255, 230));
@@ -84,15 +85,12 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         deleteNodeBtn.setBackground(nodeInfoLbl.getBackground());
         deleteNodeBtn.addActionListener(a -> {
             if (!AlgorithmController.PAUSE.get()) return;
+            Node nodeToDelete = rightClickedNode;
+            graph.deleteNode(nodeToDelete);
+            panel.getSimulationWindow().getSimulationManager().getAlgorithmController().removeNode(nodeToDelete);
             // TODO delete node and edges
         });
         nodeInfoLbl.add(deleteNodeBtn);
-    
-        System.out.println(nodeInfoLbl.getHeight());
-        System.out.println(nodeInfoLbl.getHeight() - innerHeight - 5);
-        System.out.println(nodeInfoLbl.getHeight() - 2*(innerHeight + 5));
-        
-        
         panel.add(nodeInfoLbl);
     }
     
@@ -103,28 +101,23 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         selectedItem1 = getHoveredOverNode();
         nodeInfoLbl.setVisible(false);
         
-        // panning
+        // moving single node
         if (selectedItem1 != null) {
             dx = (mouse.getX() - selectedItem1.x);
             dy = (mouse.getY() - selectedItem1.y);
             return;
         }
         
+        // panning
         try {
             XFormedPoint = panel.atx.inverseTransform(e.getPoint(), null);
         }
         catch (NoninvertibleTransformException te) {
             te.printStackTrace();
         }
-        
         referenceX = XFormedPoint.getX();
         referenceY = XFormedPoint.getY();
         initialTransform = panel.atx;
-    }
-    
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        //selectedItem2 = null;
     }
     
     @Override
@@ -138,16 +131,18 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         // Don't drag on right click.
         if (SwingUtilities.isRightMouseButton(e)) return;
         
+        // move node if one is selected
         if (selectedItem1 != null) {
             selectedItem1.moveTo((int)(mouse.getX() - dx), (int)(mouse.getY() - dy));
             return;
         }
         
+        // panning
         try {
             XFormedPoint = initialTransform.inverseTransform(e.getPoint(), null);
         }
         catch (NoninvertibleTransformException te) {
-            System.out.println(te);
+            te.printStackTrace();
         }
         
         double deltaX = XFormedPoint.getX() - referenceX;
@@ -183,14 +178,14 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         panel.atx.scale(scale, scale);
         panel.atx.translate(-p2.getX(), -p2.getY());
     
-        // TODO: not working (resizing info label)
-//        nodeInfoLbl.setBounds(
-//                nodeInfoLbl.getBounds().x,
-//                nodeInfoLbl.getBounds().y,
-//                (int)(nodeInfoLbl.getBounds().width / scale),
-//                (int)(nodeInfoLbl.getBounds().height / scale));
-        nodeInfoLbl.setVisible(false);
-        rightClickedNode = null;
+        // TODO: resizing somewhat working
+        nodeInfoLbl.setBounds(
+                (int)(rightClickedNode.ts.getBounds().getLocation().getX() + rightClickedNode.ts.getBounds().getWidth()),
+                (int)(rightClickedNode.ts.getBounds().getLocation().getY()),
+                nodeInfoLbl.getBounds().width,
+                nodeInfoLbl.getBounds().height);
+//        nodeInfoLbl.setVisible(false);
+//        rightClickedNode = null;
     }
     
     @Override
@@ -221,9 +216,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         }
         
         
-        
         // LEFT CLICK
-        
         // connect two nodes
         if (selectedItem2 != null) {
             Node n = getHoveredOverNode();
@@ -242,6 +235,11 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         } else {
             selectedItem2 = null;
         }
+    }
+    
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        //selectedItem2 = null;
     }
     
     @Override

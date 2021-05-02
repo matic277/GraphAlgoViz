@@ -82,8 +82,8 @@ public class AlgorithmController implements Runnable, Observable {
     }
     
     private void incrementState() {
-        currentStateIndex++;
         totalStates++;
+        currentStateIndex++;
         observers.forEach(obs -> obs.notifyStateChange(currentStateIndex));
     }
     
@@ -104,12 +104,20 @@ public class AlgorithmController implements Runnable, Observable {
         for (int i=0; i<PROCESSORS; i++) {
             // last processor might do more work (task divisibility problem)
             int nodeCounter = i == PROCESSORS-1 ? lastTaskSize : taskSize;
-            List<Node> nodesToProcess = new ArrayList<>((int)(taskSize*1.1));
+            Set<Node> nodesToProcess = new HashSet<>((int)(taskSize*1.1));
             
             while(iter.hasNext() && --nodeCounter >= 0) {
                 nodesToProcess.add(iter.next());
             }
             EXECUTORS[i] = new AlgorithmExecutor(nodesToProcess, getAlgorithm(), "PR-"+i);
+        }
+    }
+    
+    // one of the executors is processing a node that was removed
+    public void removeNode(Node node) {
+        for (AlgorithmExecutor ex : EXECUTORS) {
+            boolean foundAndRemoved = ex.nodes.remove(node);
+            if (foundAndRemoved) return;
         }
     }
     
@@ -136,7 +144,6 @@ public class AlgorithmController implements Runnable, Observable {
     }
     
     public void setAlgorithm(Algorithm a) { algo = a; }
-    
     
     Set<Observer> observers = new HashSet<>(8);
     

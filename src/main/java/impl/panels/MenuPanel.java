@@ -70,7 +70,7 @@ public class MenuPanel extends JPanel {
             // TODO: ^
             //  if states of nodes have been altered, history(future, if any)
             //  must be deleted or handled somehow
-            AlgorithmController.currentStateIndex = AlgorithmController.totalStates;
+            AlgorithmController.currentStateIndex = AlgorithmController.totalStates - 1;
             
             synchronized (AlgorithmController.PAUSE_LOCK) {
                 AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.set(true);
