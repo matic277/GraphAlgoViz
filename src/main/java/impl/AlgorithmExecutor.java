@@ -3,8 +3,6 @@ package impl;
 import core.Algorithm;
 import impl.tools.LOG;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BrokenBarrierException;
 

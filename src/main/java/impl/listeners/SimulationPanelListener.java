@@ -87,9 +87,22 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         deleteNodeBtn.addActionListener(a -> {
             if (!AlgorithmController.PAUSE.get()) return;
             Node nodeToDelete = rightClickedNode;
-            graph.deleteNode(nodeToDelete);
             panel.getSimulationWindow().getSimulationManager().getAlgorithmController().removeNode(nodeToDelete);
-            // TODO delete node and edges
+            graph.deleteNode(nodeToDelete);
+            
+            // delete history from current state on?
+            AlgorithmController.totalStates = AlgorithmController.currentStateIndex + 1;
+            graph.getNodes().forEach(n -> {
+                // optimization?
+                // remove elements from back to middle
+                // instead of from middle to the back
+                for (int i=n.states.size()-1; i>=AlgorithmController.totalStates; i--) {
+                    n.states.remove(i);
+                }
+            });
+            // disable history buttons
+            panel.getStateInfoSubmenu().notifyStateChange(AlgorithmController.currentStateIndex);
+            nodeInfoLbl.setVisible(false);
         });
         nodeInfoLbl.add(deleteNodeBtn);
         panel.add(nodeInfoLbl);

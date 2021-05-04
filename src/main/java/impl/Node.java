@@ -3,7 +3,9 @@ package impl;
 import core.ComponentDrawer;
 import core.Drawable;
 import core.Selectable;
+import impl.tools.Edge;
 import impl.tools.Tools;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -31,6 +33,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     public static ComponentDrawer idDrawer = ComponentDrawer.getNullDrawer();
     public static ComponentDrawer coordDrawer = ComponentDrawer.getNullDrawer();
     public static ComponentDrawer stateDebugDrawer = ComponentDrawer.getNullDrawer();
+    public static ComponentDrawer neighborsDrawer = ComponentDrawer.getNullDrawer();
     
     public Node(int x, int y, int id) {
         this.x = x;
@@ -105,6 +108,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         idDrawer.draw(g, at, this);
         coordDrawer.draw(g, at, this);
         stateDebugDrawer.draw(g, at, this);
+        neighborsDrawer.draw(g, at, this);
     }
     
     @Override
@@ -128,8 +132,25 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
     @Override
     public String toString() {
-        return "[N="+id+"]";
+        return "[N="+id+"]{"+Edge.edgesListToString(this.neighbors)+"}";
     }
     
     public int getId() { return this.id; }
+    
+    // equals & hashcode needed due to Node mutation
+    // in order to make sure hashset operations work
+    @Override
+    public boolean equals(Object o) {
+        if((o == null) || (o.getClass() != this.getClass())) {
+            return false;
+        }
+        return o == this;
+    }
+    
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(this.id)
+                .toHashCode();
+    }
 }

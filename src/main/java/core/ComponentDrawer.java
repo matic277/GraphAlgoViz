@@ -51,9 +51,19 @@ public interface ComponentDrawer {
         return (g, at, n) -> {
             g.setColor(Color.black);
             g.drawString(
-                    State.stateListToString(n.states) + "",
+                    "ST: " + State.stateListToString(n.states) + "",
                     (int)n.ts.getBounds().getCenterX()-30,
                     (int)(n.ts.getBounds().getCenterY()+n.ts.getBounds().getHeight()/1.2));
+        };
+    }
+    
+    static ComponentDrawer getNeighborsDrawer() {
+        return (g, at, n) -> {
+            g.setColor(Color.black);
+            g.drawString(
+                    "NG: " + Edge.edgesListToString(n.neighbors) + "",
+                    (int)n.ts.getBounds().getCenterX()-30,
+                    (int)(n.ts.getBounds().getCenterY()+n.ts.getBounds().getHeight()/1.2)+15);
         };
     }
     

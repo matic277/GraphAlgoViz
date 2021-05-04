@@ -115,6 +115,7 @@ public class StateInfoSubmenu implements Drawable, Observer {
         for (int i=0; i<stateBox.length; i++) {
             stateBox[i].setBorder(DEFAULT_BORDER);
             if (i <= newStateIndex) stateBox[i].setEnabled(true);
+            else stateBox[i].setEnabled(false);
         }
         if (newStateIndex <= stateBox.length-1) {
             stateBox[newStateIndex].setBorder(SELECTED_BORDER);

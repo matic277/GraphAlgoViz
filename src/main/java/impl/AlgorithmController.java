@@ -116,9 +116,17 @@ public class AlgorithmController implements Runnable, Observable {
     // one of the executors is processing a node that was removed
     public void removeNode(Node node) {
         for (AlgorithmExecutor ex : EXECUTORS) {
+            // Can't use HashSet.remove on mutating elements...
+            // https://bugs.openjdk.java.net/browse/JDK-8154740
+            // TODO fix slow iteration on remove
+//            boolean foundAndRemoved = ex.nodes.removeIf(n -> n.id == node.id);
+            
             boolean foundAndRemoved = ex.nodes.remove(node);
-            if (foundAndRemoved) return;
+            if (foundAndRemoved) {
+                return;
+            }
         }
+        throw new RuntimeException("Node " + node + " not removed!");
     }
     
     public Algorithm getAlgorithm() {
@@ -133,8 +141,10 @@ public class AlgorithmController implements Runnable, Observable {
             if (node.neighbors.isEmpty()) return new State(node.getState().info);
             
             // get two random neighbors
-            State stateOfNeigh1 = node.neighbors.get(Tools.RAND.nextInt(node.neighbors.size())).getState();
-            State stateOfNeigh2 = node.neighbors.get(Tools.RAND.nextInt(node.neighbors.size())).getState();
+            Node randNeigh1 = node.neighbors.get(Tools.RAND.nextInt(node.neighbors.size()));
+            Node randNeigh2 = node.neighbors.get(Tools.RAND.nextInt(node.neighbors.size()));
+            State stateOfNeigh1 = randNeigh1.getState();
+            State stateOfNeigh2 = randNeigh2.getState();
             
             // or
             int newStateInfo = stateOfNeigh1.info | stateOfNeigh2.info | node.getState().info;

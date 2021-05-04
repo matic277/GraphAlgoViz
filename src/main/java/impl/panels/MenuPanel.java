@@ -32,6 +32,7 @@ public class MenuPanel extends JPanel {
     JCheckBox coordDrawerCheckBox;
     JCheckBox edgeDrawerCheckBox;
     JCheckBox stateDebugCheckBox;
+    JCheckBox neighborsDebugCheckBox;
     
     public MenuPanel(SimulationWindow parent, SimulationPanel simPanel, Dimension panelSize) {
         this.simWindow = parent;
@@ -218,6 +219,16 @@ public class MenuPanel extends JPanel {
                     ComponentDrawer.getStateDebugDrawer() : ComponentDrawer.getNullDrawer();
         });
         this.add(stateDebugCheckBox);
+    
+        neighborsDebugCheckBox = new JCheckBox("Draw node neighbors");
+        neighborsDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
+        neighborsDebugCheckBox.setFont(Tools.getFont(12));
+        neighborsDebugCheckBox.setSelected(false);
+        neighborsDebugCheckBox.addActionListener(a -> {
+            Node.neighborsDrawer = neighborsDebugCheckBox.isSelected() ?
+                    ComponentDrawer.getNeighborsDrawer() : ComponentDrawer.getNullDrawer();
+        });
+        this.add(neighborsDebugCheckBox);
     }
     
     @Override
