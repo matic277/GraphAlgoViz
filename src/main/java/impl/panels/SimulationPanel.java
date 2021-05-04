@@ -93,7 +93,7 @@ public class SimulationPanel extends JPanel implements Observer {
         gr.setColor(Color.BLACK);
         gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
         gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
-    
+        
         g.setFont(Tools.getFont(14));
         gr.drawString("status: " + (AlgorithmController.PAUSE.get() && !AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.get() ? "PAUSED" : "RUNNING"),
                 getWidth()-120,

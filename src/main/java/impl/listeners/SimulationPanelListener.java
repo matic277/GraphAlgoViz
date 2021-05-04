@@ -4,7 +4,7 @@ import impl.AlgorithmController;
 import impl.MyGraph;
 import impl.Node;
 import impl.panels.SimulationPanel;
-import impl.tools.Tools;
+import impl.panels.StateInfoSubmenu;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -58,6 +58,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         nodeInfoLbl.setVisible(false);
         nodeInfoLbl.setVerticalAlignment(JLabel.TOP);
         nodeInfoLbl.setVerticalTextPosition(JLabel.TOP);
+        nodeInfoLbl.setBorder(new StateInfoSubmenu.RoundBorder(Color.black, 10));
         
         int innerWidth = 80;
         int innerHeight = 30;
@@ -179,13 +180,13 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         panel.atx.translate(-p2.getX(), -p2.getY());
     
         // TODO: resizing somewhat working
-        nodeInfoLbl.setBounds(
-                (int)(rightClickedNode.ts.getBounds().getLocation().getX() + rightClickedNode.ts.getBounds().getWidth()),
-                (int)(rightClickedNode.ts.getBounds().getLocation().getY()),
-                nodeInfoLbl.getBounds().width,
-                nodeInfoLbl.getBounds().height);
-//        nodeInfoLbl.setVisible(false);
-//        rightClickedNode = null;
+        if (rightClickedNode != null) {
+            nodeInfoLbl.setBounds(
+                    (int) (rightClickedNode.ts.getBounds().getLocation().getX() + rightClickedNode.ts.getBounds().getWidth() + 10 * scale),
+                    (int) (rightClickedNode.ts.getBounds().getLocation().getY()),
+                    nodeInfoLbl.getBounds().width,
+                    nodeInfoLbl.getBounds().height);
+        }
     }
     
     @Override
@@ -201,7 +202,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
             if (rightClickedNode == null) return;
             
             nodeInfoLbl.setBounds(
-                    (int)(rightClickedNode.ts.getBounds().getLocation().getX() + rightClickedNode.ts.getBounds().getWidth()),
+                    (int)(rightClickedNode.ts.getBounds().getLocation().getX() + rightClickedNode.ts.getBounds().getWidth() + 10 * scale),
                     (int)(rightClickedNode.ts.getBounds().getLocation().getY()),
                     nodeInfoLbl.getBounds().width,
                     nodeInfoLbl.getBounds().height);

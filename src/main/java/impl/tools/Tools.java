@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Tools {
     
-    public static final Color bgColor = new Color(237, 237, 237, 255);
+    public static final Color bgColor = new Color(245, 245, 245, 245);
     public static final Color borderColor = new Color(118, 118, 118);
     public static final Color RED = Color.decode("#ea4335");
     

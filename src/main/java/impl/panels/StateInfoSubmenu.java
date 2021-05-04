@@ -121,13 +121,14 @@ public class StateInfoSubmenu implements Drawable, Observer {
         }
     }
     
-    private static class RoundBorder implements Border {
+    public static class RoundBorder implements Border {
         Color clr;
         private final int rad;
-        RoundBorder(Color clr, int rad) { this.rad = rad; this.clr = clr; }
+        public RoundBorder(Color clr, int rad) { this.rad = rad; this.clr = clr; }
         
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             g.setColor(clr);
+//            ((Graphics2D) g).setStroke(Tools.BOLD_STROKE);
             g.drawRoundRect(x+1, y+1, width-3, height-3, rad, rad);
         }
         public boolean isBorderOpaque() { return true; }
