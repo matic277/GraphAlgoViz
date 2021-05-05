@@ -2,16 +2,22 @@ package core;
 
 import impl.MyGraph;
 import impl.Node;
+import impl.tools.Tools;
 import impl.tools.Vector;
 
 import java.awt.*;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 public abstract class GraphBuilder {
     
     protected MyGraph graph;
     protected int totalNodes;
     protected double edgeProbability;
+    
+    protected Double informedProbability;
+    protected Integer totalInformed;
     
     protected String fileName;
     
@@ -60,5 +66,39 @@ public abstract class GraphBuilder {
     public GraphBuilder setFileName(String name) {
         this.fileName = name;
         return this;
+    }
+    
+    public GraphBuilder setInformedProbability(Double probability) {
+        this.informedProbability = probability;
+        return this;
+    }
+    
+    public GraphBuilder setTotalInformed(Integer totalInformed) {
+        this.totalInformed = totalInformed;
+        return this;
+    }
+    
+    // This is slow in some cases
+    // TODO optimize when creating nodes in the first place
+    public Runnable getNodeInformator() {
+        return totalInformed != null ?
+                // inform number of nodes (randomly)
+                () -> {
+                    Set<Integer> alreadyInformed = new HashSet<>(totalInformed);
+                    while (totalInformed-- > 0) {
+                        int randId = Tools.RAND.nextInt(this.graph.getNodes().size());
+                        if (alreadyInformed.contains(randId)) {
+                            totalInformed++;
+                            continue;
+                        }
+                        alreadyInformed.add(randId);
+                        this.graph.getNodeById(randId).states.get(0).setState(1);
+                    }
+                } :
+                // inform based on probability (randomly)
+                () -> {
+                    this.graph.getNodes()
+                            .forEach(n -> n.getState().setState(Tools.RAND.nextDouble() <= informedProbability ? 1 : 0));
+                };
     }
 }

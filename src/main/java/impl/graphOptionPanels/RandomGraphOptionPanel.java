@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
 
 public class RandomGraphOptionPanel extends OptionPanel {
     
-    JLabel nodesText, edgedText;
-    JTextField nodesInput, edgesInput;
+    JLabel nodesText, edgedText, informedNodesText;
+    JTextField nodesInput, edgesInput, informedNodesInput;
     
     private static final RandomGraphOptionPanel instance = new RandomGraphOptionPanel();
     
@@ -24,25 +24,35 @@ public class RandomGraphOptionPanel extends OptionPanel {
         this.repaint();
         
         nodesText = new JLabel(" Number of nodes:");
-        nodesText.setBounds(50, 80, 110, 30);
+        nodesText.setBounds(100, 80, 110, 30);
         nodesText.setOpaque(true);
         nodesText.setFont(Tools.getFont(12));
 //        text.setBackground(Color.red);
         
         nodesInput = new JTextField();
-        nodesInput.setBounds(170, 82, 70, 30);
+        nodesInput.setBounds(220, 82, 70, 30);
         
         edgedText = new JLabel(" Edge probability:");
-        edgedText.setBounds(50, 130, 110, 30);
+        edgedText.setBounds(100, 130, 110, 30);
         edgedText.setOpaque(true);
         edgedText.setFont(Tools.getFont(12));
 //        text.setBackground(Color.red);
         
         edgesInput = new JTextField();
-        edgesInput.setBounds(170, 132, 70, 30);
+        edgesInput.setBounds(220, 132, 70, 30);
         edgesInput.setFont(Tools.getFont(12));
         
-        this.addComponents(nodesText, edgedText, edgesInput, nodesInput);
+        informedNodesText = new JLabel(" Informed nodes:");
+        informedNodesText.setBounds(100, 180, 110, 30);
+        informedNodesText.setOpaque(true);
+        informedNodesText.setFont(Tools.getFont(12));
+//        informedNodesText.setBackground(Color.red);
+        
+        informedNodesInput = new JTextField();
+        informedNodesInput.setBounds(220, 180, 70, 30);
+        informedNodesInput.setFont(Tools.getFont(12));
+        
+        this.addComponents(nodesText, edgedText, edgesInput, nodesInput, informedNodesText, informedNodesInput);
     }
     
     @Override
@@ -53,7 +63,8 @@ public class RandomGraphOptionPanel extends OptionPanel {
     
             GraphBuilder builder = type.getGraphBuilder()
                     .setEdgeProbability(Double.parseDouble(edgesInput.getText()))
-                    .setNumberOfNodes(Integer.parseInt(nodesInput.getText()));
+                    .setNumberOfNodes(Integer.parseInt(nodesInput.getText()))
+                    .setInformedProbability(Double.parseDouble(informedNodesInput.getText()));
             new SimulationManager(builder);
         };
     }

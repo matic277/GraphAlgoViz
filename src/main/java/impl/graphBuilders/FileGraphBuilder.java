@@ -20,7 +20,7 @@ public class FileGraphBuilder extends GraphBuilder {
     
     @Override
     public MyGraph buildGraph() {
-        // graph reading by JgraphT
+        // graph reading with JgraphT lib
         Graph<Integer, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         Graph6Sparse6Importer<Integer, DefaultEdge> importer = new Graph6Sparse6Importer<>();
         var ref = new Object(){ int x = 0; };
@@ -39,6 +39,9 @@ public class FileGraphBuilder extends GraphBuilder {
             Integer n2 = graph.getEdgeTarget(edge);
             this.graph.connectById(n1, n2);
         }
+        
+        // initialize nodes (informed or not)
+        this.getNodeInformator().run();
         
         this.arrangeNodesInCircularLayout(400);
         return this.graph;

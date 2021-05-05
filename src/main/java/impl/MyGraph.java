@@ -89,4 +89,10 @@ public class MyGraph implements Drawable {
         this.edgeDrawer = draw ?
                 ComponentDrawer.getEdgeDrawer(this.edges) : ComponentDrawer.getNullDrawer();
     }
+    
+    public Node getNodeById(int id) {
+        Optional<Node> node = nodes.stream().filter(n -> n.id == id).findFirst();
+        if (node.isPresent()) return node.get();
+        throw new RuntimeException("Can't find node by id=" + id + ".");
+    }
 }

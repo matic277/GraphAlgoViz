@@ -9,7 +9,7 @@ public enum GraphType {
     STATIC_TEST(0, "STATIC_TEST", StaticTestGraphOptionPanel.getInstance(), new StaticTestGraphBuilder()),
     
     RANDOM(1, "Random graph", RandomGraphOptionPanel.getInstance(), new RandomGraphBuilder()),
-    CUSTOM(2, "Load from file", CustomGraphOptionPanel.getInstance(), new FileGraphBuilder()),
+    FILE(2, "Load from file", FileGraphOptionPanel.getInstance(), new FileGraphBuilder()),
     USER(3, "Create your own", UserGraphOptionPanel.getInstance(), new EmptyGraphBuilder()),
     CLIQUE(4, "Fully connected (clique)", CliqueGraphOptionPanel.getInstance(), new CliqueGraphBuilder());
     

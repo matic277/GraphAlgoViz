@@ -64,6 +64,9 @@ public class StaticTestGraphBuilder extends GraphBuilder {
         this.graph.addEdge(n11, n8);
         this.graph.addEdge(n3, n7);
         this.graph.addEdge(n8, n13);
+        
+        n2.getState().setState(1);
+        n8.getState().setState(1);
         return this.graph;
     }
 }

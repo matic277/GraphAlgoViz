@@ -47,13 +47,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         
         neighbors = new ArrayList<>(5);
         states = new ArrayList<>(10);
-        
-        // TODO
-        if (id == 0 || id == 8) {
-            states.add(new State(1));
-        } else {
-            states.add(new State(0));
-        }
+        states.add(new State(0)); // uninformed on initialize
     }
     
 //    public void setState(State newState) {
