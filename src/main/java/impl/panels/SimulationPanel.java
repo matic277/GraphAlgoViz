@@ -37,12 +37,12 @@ public class SimulationPanel extends JPanel implements Observer {
         int padding = 10;
         int width = panelSize.width - 2 * padding;
         int height = 50;
-        this.stateInfo = new StateInfoSubmenu(new Rectangle(
-                10,
-                panelSize.height - padding - height,
-                width,
-                height),
-                this);
+//        this.stateInfo = new StateInfoSubmenu(new Rectangle(
+//                10,
+//                panelSize.height - padding - height,
+//                width,
+//                height),
+//                this);
         
         this.setSize(panelSize);
         this.setPreferredSize(panelSize);
@@ -110,7 +110,7 @@ public class SimulationPanel extends JPanel implements Observer {
         
         drawComponents(gr);
         
-        stateInfo.draw(gr, atx);
+//        stateInfo.draw(gr, atx);
         
         long td = System.currentTimeMillis() - t0;
         super.repaint(td > FPS ? 0 : td);

@@ -60,4 +60,8 @@ public abstract class Window {
         frame.add(panel);
         frame.pack();
     }
+    
+    public Dimension getWindowSize() {
+        return this.windowSize;
+    }
 }
