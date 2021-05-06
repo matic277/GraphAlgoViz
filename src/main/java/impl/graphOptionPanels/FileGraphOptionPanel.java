@@ -47,10 +47,16 @@ public class FileGraphOptionPanel extends OptionPanel {
     public ActionListener getButtonAction(GraphType type) {
         return a -> {
             System.out.println("Listening: " + this.getClass().getSimpleName());
+    
+            boolean isPercentage = informedNodesInput.getText().contains("%");
+            int nodesToInform = isPercentage ?
+                    Integer.parseInt(informedNodesInput.getText().replace("%", "")) :
+                    Integer.parseInt(informedNodesInput.getText());
             
             GraphBuilder builder = type.getGraphBuilder()
                     .setFileName(inputField.getText())
-                    .setInformedProbability(Double.parseDouble(informedNodesInput.getText()));
+                    .setInformedProbability(isPercentage ? nodesToInform : null)
+                    .setTotalInformed(isPercentage ? null : nodesToInform);
             new SimulationManager(builder);
         };
     }

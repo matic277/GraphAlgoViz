@@ -60,11 +60,17 @@ public class RandomGraphOptionPanel extends OptionPanel {
         // read edge probability and number of nodes
         return a -> {
             System.out.println("Listening: " + this.getClass().getSimpleName());
-    
+            
+            boolean isPercentage = informedNodesInput.getText().contains("%");
+            int nodesToInform = isPercentage ?
+                    Integer.parseInt(informedNodesInput.getText().replace("%", "")) :
+                    Integer.parseInt(informedNodesInput.getText());
+            
             GraphBuilder builder = type.getGraphBuilder()
                     .setEdgeProbability(Double.parseDouble(edgesInput.getText()))
                     .setNumberOfNodes(Integer.parseInt(nodesInput.getText()))
-                    .setInformedProbability(Double.parseDouble(informedNodesInput.getText()));
+                    .setInformedProbability(isPercentage ? nodesToInform : null)
+                    .setTotalInformed(isPercentage ? null : nodesToInform);
             new SimulationManager(builder);
         };
     }

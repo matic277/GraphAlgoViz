@@ -44,14 +44,18 @@ public class CliqueGraphOptionPanel extends OptionPanel {
         this.addComponents(inputText, inputField, informedNodesText, informedNodesInput);
     }
     
-    
-    
     @Override
     public ActionListener getButtonAction(GraphType type) {
         return a -> {
+            boolean isPercentage = informedNodesInput.getText().contains("%");
+            int nodesToInform = isPercentage ?
+                    Integer.parseInt(informedNodesInput.getText().replace("%", "")) :
+                    Integer.parseInt(informedNodesInput.getText());
+            
             GraphBuilder builder = new CliqueGraphBuilder()
                     .setNumberOfNodes(Integer.parseInt(inputField.getText()))
-                    .setInformedProbability(Double.parseDouble(informedNodesInput.getText()));
+                    .setInformedProbability(isPercentage ? nodesToInform : null)
+                    .setTotalInformed(isPercentage ? null : nodesToInform);
             new SimulationManager(builder);
         };
     }

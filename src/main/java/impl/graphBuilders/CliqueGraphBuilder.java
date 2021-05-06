@@ -19,6 +19,8 @@ public class CliqueGraphBuilder extends GraphBuilder {
             }
         }
         
+        this.getNodeInformator().run();
+        
         this.arrangeNodesInCircularLayout(400);
         return this.graph;
     }

@@ -16,7 +16,7 @@ public abstract class GraphBuilder {
     protected int totalNodes;
     protected double edgeProbability;
     
-    protected Double informedProbability;
+    protected Integer informedProbability;
     protected Integer totalInformed;
     
     protected String fileName;
@@ -68,7 +68,7 @@ public abstract class GraphBuilder {
         return this;
     }
     
-    public GraphBuilder setInformedProbability(Double probability) {
+    public GraphBuilder setInformedProbability(Integer probability) {
         this.informedProbability = probability;
         return this;
     }
@@ -97,8 +97,9 @@ public abstract class GraphBuilder {
                 } :
                 // inform based on probability (randomly)
                 () -> {
-                    this.graph.getNodes()
-                            .forEach(n -> n.getState().setState(Tools.RAND.nextDouble() <= informedProbability ? 1 : 0));
+                    this.graph.getNodes().forEach(n ->
+                            n.getState().setState(
+                                    Tools.RAND.nextInt(100) <= informedProbability ? 1 : 0));
                 };
     }
 }

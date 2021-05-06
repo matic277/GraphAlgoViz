@@ -32,6 +32,8 @@ public class RandomGraphBuilder extends GraphBuilder {
             }
         }
         
+        this.getNodeInformator().run();
+        
         this.arrangeNodesInCircularLayout(400);
         return this.graph;
     }

@@ -7,7 +7,6 @@ import impl.tools.Edge;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
 
