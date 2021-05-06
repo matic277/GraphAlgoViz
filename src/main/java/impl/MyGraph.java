@@ -45,15 +45,12 @@ public class MyGraph implements Drawable {
         }
     }
     
-    // bad... slow
     public void deleteNode(Node node) {
+        // bad... slow on deleting edges - iteration instead of set operation
         edges.removeIf(e -> e.getN1() == node || e.getN2() == node);
+        
         node.neighbors.forEach(neigh ->  neigh.neighbors.remove(node));
         node.neighbors.clear(); // unnecessary
-        
-        // Can't use HashSet.remove on mutating elements...
-        // https://bugs.openjdk.java.net/browse/JDK-8154740
-//        nodes.removeIf(n -> n.id == node.id);
         
         if (nodes.remove(node)) return;
         throw new RuntimeException("Node " + node + " not removed!");

@@ -30,7 +30,6 @@ public class SimulationPanel extends JPanel implements Observer {
     // State drawing
     StateInfoSubmenu stateInfo;
     
-    
     public SimulationPanel(SimulationWindow parent, MyGraph g, Dimension panelSize) {
         this.parent = parent;
         this.graph = g;
