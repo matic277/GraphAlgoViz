@@ -1,5 +1,6 @@
 package impl.panels;
 
+import impl.tools.Tools;
 import impl.windows.SimulationWindow;
 
 import javax.swing.*;
@@ -7,8 +8,8 @@ import javax.swing.*;
 public class MainPanel extends JSplitPane {
     
     // contains vertically split panels:
-    //   middlePanel(menuPanel, simulationPanel)
-    MiddlePanel middlePanel;
+    //   topPanel(menuPanel, simulationPanel)
+    TopPanel topPanel;
     
     // contains vertically split panels:
     //  bottomPanel(statsPanel, historyTabPanel)
@@ -25,15 +26,22 @@ public class MainPanel extends JSplitPane {
         this.setSize(parent.getWindowSize());
         this.setPreferredSize(parent.getWindowSize());
         
-        this.middlePanel = new MiddlePanel(this);
+        this.topPanel = new TopPanel(this);
         this.bottomPanel = new BottomPanel(this, parent.getSimulationManager().getGraph());
         
-        this.setLeftComponent(middlePanel);
+        this.setLeftComponent(topPanel);
         this.setRightComponent(bottomPanel);
-//        super.getOrientation();
+        
+        // set location of divider, so that height
+        // of bottom menu is set to initial state
+        this.setDividerLocation(Tools.INITIAL_WINDOW_HEIGHT - Tools.INITIAL_BOTTOM_MENU_HEIGHT);
+        
+        // set this to 1, so that middlePanel (simPanel and mainButton)
+        // gain height, and not bottom component (bottomPanel)
+        this.setResizeWeight(1);
     }
     
-    public MiddlePanel getMiddlePanel() { return this.middlePanel; }
+    public TopPanel getTopPanel() { return this.topPanel; }
     
     public BottomPanel getBottomPanel() { return this.bottomPanel; }
     

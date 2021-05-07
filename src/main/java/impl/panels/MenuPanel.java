@@ -14,7 +14,7 @@ import java.util.Hashtable;
 
 public class MenuPanel extends JPanel {
     
-    MiddlePanel parent;
+    TopPanel parent;
 //    Dimension panelSize;
     SimulationWindow simWindow;
     SimulationPanel simPanel;
@@ -35,7 +35,7 @@ public class MenuPanel extends JPanel {
     JCheckBox stateDebugCheckBox;
     JCheckBox neighborsDebugCheckBox;
     
-    public MenuPanel(MiddlePanel parent, SimulationPanel simPanel) {
+    public MenuPanel(TopPanel parent) {
         this.parent = parent;
         this.simWindow = parent.getSimulationWindow();
         this.simPanel  = parent.getSimulationPanel();
@@ -54,8 +54,7 @@ public class MenuPanel extends JPanel {
         this.setOpaque(true);
         this.setVisible(true);
         this.setBackground(Color.blue);
-    
-
+        
         
         
         // spacers
@@ -184,10 +183,7 @@ public class MenuPanel extends JPanel {
         nodeRadSlider.setPaintLabels(true);
         nodeRadSlider.setPreferredSize(new Dimension(120, 40));
         nodeRadSlider.setFont(Tools.getFont(12));
-        nodeRadSlider.addChangeListener(c -> {
-            System.out.println(nodeRadSlider.getValue());
-            Node.rad = nodeRadSlider.getValue();
-        });
+        nodeRadSlider.addChangeListener(c -> Node.rad = nodeRadSlider.getValue());
         this.add(nodeRadSlider);
         
         

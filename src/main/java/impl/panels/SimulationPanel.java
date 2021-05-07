@@ -1,6 +1,5 @@
 package impl.panels;
 
-import core.ComponentDrawer;
 import core.Observer;
 import impl.*;
 import impl.listeners.SimulationPanelListener;
@@ -16,7 +15,7 @@ import java.text.NumberFormat;
 
 public class SimulationPanel extends JPanel implements Observer {
     
-    MiddlePanel parent;
+    TopPanel parent;
     
     MyGraph graph;
     
@@ -28,9 +27,9 @@ public class SimulationPanel extends JPanel implements Observer {
     Node edgeSourceNode;
     
     // State drawing
-    StateInfoSubmenu stateInfo;
+//    StateInfoSubmenu stateInfo;
     
-    public SimulationPanel(MiddlePanel parent, MyGraph g) {
+    public SimulationPanel(TopPanel parent, MyGraph g) {
         this.parent = parent;
         this.graph = g;
         
@@ -161,6 +160,4 @@ public class SimulationPanel extends JPanel implements Observer {
     public SimulationPanelListener getPanelListener() { return this.listener; }
     
     public SimulationWindow getSimulationWindow() { return this.parent.getSimulationWindow(); }
-    
-    public StateInfoSubmenu getStateInfoSubmenu() { return this.stateInfo; }
 }

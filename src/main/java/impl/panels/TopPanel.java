@@ -4,27 +4,25 @@ import impl.tools.Tools;
 import impl.windows.SimulationWindow;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class MiddlePanel extends JSplitPane {
+public class TopPanel extends JSplitPane {
     
     MainPanel parent;
     
     SimulationPanel simPanel;
     MenuPanel menuPanel;
     
-    public MiddlePanel(MainPanel parent) {
+    public TopPanel(MainPanel parent) {
         this.parent = parent;
         
-        Dimension panelSize = new Dimension(parent.getWidth(), parent.getHeight() - Tools.INITIAL_BOTTOM_MENU_HEIGHT);
-        System.out.println("size=" + panelSize);
-        this.setSize(panelSize);
-        this.setPreferredSize(panelSize);
-        
-        menuPanel = new MenuPanel(this, simPanel);
         simPanel = new SimulationPanel(this, parent.getSimulationWindow().getSimulationManager().getGraph());
+        menuPanel = new MenuPanel(this);
         this.setLeftComponent(menuPanel);
         this.setRightComponent(simPanel);
+        
+        // set location of divider, so that width
+        // of left menu is set to initial state
+        this.setDividerLocation(Tools.INITIAL_LEFT_MENU_WIDTH);
     }
     
     public SimulationWindow getSimulationWindow() { return this.parent.getSimulationWindow(); }

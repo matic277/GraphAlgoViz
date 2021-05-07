@@ -25,10 +25,11 @@ public class Tools {
     public static final Stroke BOLDER_STROKE = new BasicStroke(2f);
     public static final Stroke BOLDEST_STROKE = new BasicStroke(5f);
     
+    public static final int INITIAL_WINDOW_WIDTH = 1400;
+    public static final int INITIAL_WINDOW_HEIGHT = 1000;
     public static final int INITIAL_LEFT_MENU_WIDTH = 150;
-    public static final int INITIAL_BOTTOM_MENU_HEIGHT = 150;
+    public static final int INITIAL_BOTTOM_MENU_HEIGHT = 200;
     public static final int INITIAL_STATS_PANEL_WIDTH = 150;
-    
     
     public static final Random RAND = new Random();
     
