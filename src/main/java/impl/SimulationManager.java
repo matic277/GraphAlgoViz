@@ -26,8 +26,10 @@ public class SimulationManager {
         SwingUtilities.invokeLater(() -> {
             Dimension simSize = new Dimension(1400, 1000);
             simWindow = new SimulationWindow(simSize, graph, this);
-            algoController.addObserver(simWindow.getSimulationPanel());
-            algoController.addObserver(simWindow.getSimulationPanel().getStateInfoSubmenu());
+            
+            // TODO:
+//            algoController.addObserver(simWindow.getSimulationPanel());
+//            algoController.addObserver(simWindow.getSimulationPanel().getStateInfoSubmenu());
         });
         
         controller.start();
@@ -35,6 +37,10 @@ public class SimulationManager {
     
     public AlgorithmController getAlgorithmController() {
         return this.algoController;
+    }
+    
+    public MyGraph getGraph() {
+        return this.graph;
     }
     
 }

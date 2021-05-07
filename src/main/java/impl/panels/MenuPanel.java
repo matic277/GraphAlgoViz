@@ -14,7 +14,8 @@ import java.util.Hashtable;
 
 public class MenuPanel extends JPanel {
     
-    Dimension panelSize;
+    MiddlePanel parent;
+//    Dimension panelSize;
     SimulationWindow simWindow;
     SimulationPanel simPanel;
     
@@ -34,17 +35,27 @@ public class MenuPanel extends JPanel {
     JCheckBox stateDebugCheckBox;
     JCheckBox neighborsDebugCheckBox;
     
-    public MenuPanel(SimulationWindow parent, SimulationPanel simPanel, Dimension panelSize) {
-        this.simWindow = parent;
-        this.panelSize = panelSize;
-        this.simPanel = simPanel;
+    public MenuPanel(MiddlePanel parent, SimulationPanel simPanel) {
+        this.parent = parent;
+        this.simWindow = parent.getSimulationWindow();
+        this.simPanel  = parent.getSimulationPanel();
+    
+        // so that this panel can be squished, hiding its components
+        // otherwise components dictate smallest possible size
+        this.setMinimumSize(new Dimension(0, 0));
         
-        this.setPreferredSize(panelSize);
-        this.setSize(panelSize);
+//        this.setPreferredSize(panelSize);
+//        this.setSize(panelSize);
+        Dimension menuPanelSize = new Dimension(Tools.INITIAL_LEFT_MENU_WIDTH, parent.getHeight());
+        this.setSize(menuPanelSize);
+        this.setPreferredSize(menuPanelSize);
+        
         this.setLayout(new FlowLayout());
         this.setOpaque(true);
         this.setVisible(true);
         this.setBackground(Color.blue);
+    
+
         
         
         // spacers

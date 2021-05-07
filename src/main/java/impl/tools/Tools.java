@@ -8,9 +8,11 @@ import java.util.Random;
 
 public class Tools {
     
-    public static final Color bgColor = new Color(245, 245, 245, 245);
+    public static final Color bgColor = Color.white;
     public static final Color borderColor = new Color(118, 118, 118);
     public static final Color RED = Color.decode("#ea4335");
+    public static final Color GRAY = Color.decode("#BFBDBD");
+    public static final Color MEUN_COLORS = Color.decode("#E0DDDD");
     
     public static final Dimension MENU_BUTTON_SIZE = new Dimension(40, 40);
     public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(100, 40);
@@ -22,6 +24,10 @@ public class Tools {
     public static final Stroke BOLD_STROKE = new BasicStroke(1.7f);
     public static final Stroke BOLDER_STROKE = new BasicStroke(2f);
     public static final Stroke BOLDEST_STROKE = new BasicStroke(5f);
+    
+    public static final int INITIAL_LEFT_MENU_WIDTH = 150;
+    public static final int INITIAL_BOTTOM_MENU_HEIGHT = 150;
+    public static final int INITIAL_STATS_PANEL_WIDTH = 150;
     
     
     public static final Random RAND = new Random();

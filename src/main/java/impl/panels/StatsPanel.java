@@ -8,8 +8,6 @@ import java.awt.*;
 
 public class StatsPanel extends JPanel {
     
-    int width;
-    
     JLabel titleLbl;
     
     JLabel nodesNumLbl;
@@ -19,19 +17,19 @@ public class StatsPanel extends JPanel {
     int informedNum, uninformedNum;
     double informedPercent;
     
-    public StatsPanel(BottomPanel parent, int width) {
-        this.width = width;
-        this.setBackground(Color.blue);
-        
+    public StatsPanel(BottomPanel parent) {
+        Dimension panelSize = new Dimension(Tools.INITIAL_STATS_PANEL_WIDTH, parent.getHeight());
+        this.setSize(panelSize);
+        this.setPreferredSize(panelSize);
+    
         this.setLayout(new BorderLayout());
-        this.setSize(new Dimension(width, parent.getHeight()));
-        this.setPreferredSize(new Dimension(width, parent.getHeight()));
+        this.setBackground(Tools.MEUN_COLORS);
         
-        
-        titleLbl = new JLabel(" Graph statistics ");
+        titleLbl = new JLabel("  Graph statistics ");
         titleLbl.setOpaque(true);
         titleLbl.setFont(Tools.getFont(14));
-        titleLbl.setBackground(Color.YELLOW);
+        titleLbl.setBackground(Tools.GRAY);
+        titleLbl.setPreferredSize(new Dimension(150, 30));
         this.add(titleLbl, BorderLayout.NORTH);
     
         initStatistics();
@@ -44,27 +42,44 @@ public class StatsPanel extends JPanel {
     private void initStatistics() {
         JPanel contentPanel = new JPanel();
         contentPanel.setOpaque(true);
-        contentPanel.setBackground(Color.blue);
-        contentPanel.setLayout(new GridLayout(4, 1, 5, 5));
+        contentPanel.setBackground(Tools.MEUN_COLORS);
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         this.add(contentPanel, BorderLayout.CENTER);
-        
-        nodesNumLbl = new JLabel(" Number of nodes: 0");
-        nodesNumLbl.setOpaque(true);
-        nodesNumLbl.setFont(Tools.getFont(12));
-        nodesNumLbl.setBackground(Color.white);
-        contentPanel.add(nodesNumLbl, BorderLayout.CENTER);
     
-        edgesNumLbl = new JLabel(" Number of edges: 0");
-        edgesNumLbl.setOpaque(true);
+        contentPanel.add(dummySeparator());
+        
+        nodesNumLbl = new JLabel("  Number of nodes: 0");
+//        nodesNumLbl.setOpaque(true);
+        nodesNumLbl.setFont(Tools.getFont(12));
+//        nodesNumLbl.setBackground(Color.white);
+        contentPanel.add(nodesNumLbl);
+        
+        contentPanel.add(dummySeparator());
+    
+        edgesNumLbl = new JLabel("  Number of edges: 0");
+//        edgesNumLbl.setOpaque(true);
         edgesNumLbl.setFont(Tools.getFont(12));
-        edgesNumLbl.setBackground(Color.white);
-        contentPanel.add(edgesNumLbl, BorderLayout.CENTER);
-        
-        
-        informedNumLbl = new JLabel(" Informed | Uninformed nodes: 0 | 0 (0%)");
-        informedNumLbl.setOpaque(true);
+//        edgesNumLbl.setBackground(Color.white);
+        contentPanel.add(edgesNumLbl);
+    
+        contentPanel.add(dummySeparator());
+
+        informedNumLbl = new JLabel("  Informed | Uninformed nodes: 0 | 0 (0%)");
+//        informedNumLbl.setOpaque(true);
         informedNumLbl.setFont(Tools.getFont(12));
-        informedNumLbl.setBackground(Color.white);
-        contentPanel.add(informedNumLbl, BorderLayout.CENTER);
+//        informedNumLbl.setBackground(Color.white);
+        contentPanel.add(informedNumLbl);
+    }
+    
+    private JLabel dummySeparator() {
+        Dimension size = new Dimension(this.getWidth(), 5);
+        JLabel lbl = new JLabel();
+        lbl.setSize(size);
+        lbl.setPreferredSize(size);
+        lbl.setMinimumSize(size);
+        lbl.setMaximumSize(size);
+//        lbl.setBackground(Color.white);
+//        lbl.setOpaque(true);
+        return lbl;
     }
 }

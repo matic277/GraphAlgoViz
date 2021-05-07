@@ -2,6 +2,7 @@ package impl.panels;
 
 import impl.MyGraph;
 import impl.panels.tabs.StateHistoryTabPanel;
+import impl.tools.Tools;
 import impl.windows.SimulationWindow;
 
 import javax.swing.*;
@@ -9,29 +10,27 @@ import java.awt.*;
 
 public class BottomPanel extends JSplitPane {
     
-    SimulationWindow parent;
+    MainPanel parent;
     MyGraph graph;
     
     StateHistoryTabPanel tabPanel;
     StatsPanel statsPanel;
     
-    int height;
-    
-    public BottomPanel(SimulationWindow parent, MyGraph graph, int height) {
+    public BottomPanel(MainPanel parent, MyGraph graph) {
         super(JSplitPane.HORIZONTAL_SPLIT, null, null);
         this.parent = parent;
         this.graph = graph;
-        this.height = height;
         
 //        this.setLayout(new BorderLayout());
-        this.setSize(new Dimension(parent.getWindowSize().width, height));
-        this.setPreferredSize(new Dimension(parent.getWindowSize().width, height));
+//        Dimension bottomPanelSize = new Dimension(parent.getWidth(), Tools.INITIAL_BOTTOM_MENU_HEIGHT);
+//        this.setSize(bottomPanelSize);
+//        this.setPreferredSize(bottomPanelSize);
         
-        int statsPanelWidth = 150; // same as MenuPanel
-        int sateHistoryPanelWidth = parent.getWindowSize().width - statsPanelWidth;
+//        int statsPanelWidth = 150; // same as MenuPanel
+//        int sateHistoryPanelWidth = parent.getSimulationWindow().getWindowSize().width - statsPanelWidth;
         
-        statsPanel = new StatsPanel(this, statsPanelWidth);
-        tabPanel = new StateHistoryTabPanel(this, graph, sateHistoryPanelWidth);
+        statsPanel = new StatsPanel(this);
+        tabPanel = new StateHistoryTabPanel(this, graph);
         
 //        this.add(statsPanel, BorderLayout.WEST);
 //        this.add(tabPanel, BorderLayout.CENTER);

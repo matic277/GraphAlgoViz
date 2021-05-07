@@ -16,7 +16,7 @@ import java.text.NumberFormat;
 
 public class SimulationPanel extends JPanel implements Observer {
     
-    SimulationWindow parent;
+    MiddlePanel parent;
     
     MyGraph graph;
     
@@ -30,12 +30,13 @@ public class SimulationPanel extends JPanel implements Observer {
     // State drawing
     StateInfoSubmenu stateInfo;
     
-    public SimulationPanel(SimulationWindow parent, MyGraph g, Dimension panelSize) {
+    public SimulationPanel(MiddlePanel parent, MyGraph g) {
         this.parent = parent;
         this.graph = g;
-        int padding = 10;
-        int width = panelSize.width - 2 * padding;
-        int height = 50;
+        
+//        int padding = 10;
+//        int width = panelSize.width - 2 * padding;
+//        int height = 50;
 //        this.stateInfo = new StateInfoSubmenu(new Rectangle(
 //                10,
 //                panelSize.height - padding - height,
@@ -43,8 +44,11 @@ public class SimulationPanel extends JPanel implements Observer {
 //                height),
 //                this);
         
-        this.setSize(panelSize);
-        this.setPreferredSize(panelSize);
+//        Dimension panelSize = new Dimension(parent.getWidth() - Tools.INITIAL_LEFT_MENU_WIDTH, parent.getHeight());
+//        System.out.println("SIMSIZE="+panelSize);
+//        this.setSize(panelSize);
+//        this.setPreferredSize(panelSize);
+        
         this.setLayout(null);
         this.setOpaque(true);
         this.setVisible(true);
@@ -74,6 +78,9 @@ public class SimulationPanel extends JPanel implements Observer {
     @Override
     public void paintComponent(Graphics g) {
         long t0 = System.currentTimeMillis();
+        
+        // removes artifacts when JSplitPanes resize
+        super.paintComponent(g);
         
         // anti-aliasing
         Graphics2D gr = (Graphics2D) g;
@@ -153,7 +160,7 @@ public class SimulationPanel extends JPanel implements Observer {
     
     public SimulationPanelListener getPanelListener() { return this.listener; }
     
-    public SimulationWindow getSimulationWindow() { return this.parent; }
+    public SimulationWindow getSimulationWindow() { return this.parent.getSimulationWindow(); }
     
     public StateInfoSubmenu getStateInfoSubmenu() { return this.stateInfo; }
 }
