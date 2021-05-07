@@ -3,6 +3,7 @@ package impl;
 import core.ComponentDrawer;
 import core.Drawable;
 import impl.tools.Edge;
+import impl.tools.Tools;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -28,8 +29,11 @@ public class MyGraph implements Drawable {
     @Override
     public void draw(Graphics2D g, AffineTransform at) {
         g.setColor(Color.BLACK);
-        nodes.forEach(n -> n.draw(g, at));
+        
+        g.setStroke(Tools.BOLD_STROKE);
         edgeDrawer.draw(g, at, null);
+        
+        nodes.forEach(n -> n.draw(g, at));
     }
     
     // bad... slow

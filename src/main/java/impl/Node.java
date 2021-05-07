@@ -76,29 +76,6 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         g.setColor(Tools.RED);
         g.fillOval((int)ts.getBounds().getCenterX()-ts.getBounds().width/8, (int)ts.getBounds().getCenterY()-ts.getBounds().width/8, ts.getBounds().width/4, ts.getBounds().width/4);
         
-        g.setStroke(Tools.BOLD_STROKE);
-        
-//        g.setColor(Color.black);
-//        // position coordinates
-//        g.drawString(
-//                "["+(int)ts.getBounds().getCenterX()+", "+(int)ts.getBounds().getCenterY()+"]",
-//                (int)ts.getBounds().getCenterX()-30,
-//                (int)(ts.getBounds().getCenterY()+ts.getBounds().getHeight()/1.2));
-//        g.drawString(
-//                "["+(int)this.getBounds().getCenterX()+", "+(int)this.getBounds().getCenterY()+"]",
-//                (int)this.getBounds().getCenterX()-30,
-//                (int)(this.getBounds().getCenterY()+this.getBounds().getHeight()+20));
-        
-        // id in box
-//        Font oldFont = g.getFont();
-//        int fontSize = (int)(at.getScaleY()*12);
-//        g.setFont(Tools.getBoldFont(fontSize));
-////        g.fillRect(ts.getBounds().x-5, ts.getBounds().y, (int)(ts.getBounds().getWidth()/2), (int)(ts.getBounds().getHeight()/2.3));
-//        g.setColor(Color.black);
-//        g.drawString(id+"", id > 9 ? ts.getBounds().x - 5: ts.getBounds().x, ts.getBounds().y);
-//        g.setFont(oldFont);
-        
-        
         idDrawer.draw(g, at, this);
         coordDrawer.draw(g, at, this);
         stateDebugDrawer.draw(g, at, this);

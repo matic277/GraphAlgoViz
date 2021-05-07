@@ -2,56 +2,29 @@ package impl.panels.tabs;
 
 import core.Observer;
 import impl.AlgorithmController;
-import impl.panels.SimulationPanel;
-import impl.panels.StateInfoSubmenu;
 import impl.tools.Tools;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 public class StateHistoryTab extends JPanel implements Observer {
     
     final int NUM_OF_STATES = 15;
-//    final SimulationPanel simPanel;
     
     TabsPanel parent;
     
-//    JLabel infoText;
-    JLabel boundsLbl;
     JButton[] stateBox;
     
     final Border DEFAULT_BORDER = new JButton().getBorder();
-    final Border SELECTED_BORDER = new StateInfoSubmenu.RoundBorder(Tools.RED, 10);
+    final Border SELECTED_BORDER = new Tools.RoundBorder(Tools.RED, Tools.BOLDER_STROKE, 10);
     
     public StateHistoryTab(TabsPanel parent) {
         this.parent = parent;
         this.stateBox = new JButton[NUM_OF_STATES];
         
         this.setLayout(new FlowLayout());
-        
-//        infoText = new JLabel(" History of states by rounds");
-//        infoText.setBackground(Color.white);
-//        infoText.setFont(Tools.getBoldFont(14));
-//        infoText.setBorder(new LineBorder(Color.black, 2));
-//        infoText.setOpaque(true);
-//        infoText.setBounds(
-//                bounds.x,
-//                bounds.y - 30,
-//                200,
-//                30);
-//        this.add(infoText);
-//
-//        boundsLbl = new JLabel();
-//        boundsLbl.setBackground(Color.white);
-//        boundsLbl.setBorder(new LineBorder(Color.black, 2));
-//        boundsLbl.setOpaque(true);
-//        boundsLbl.setBounds(bounds);
-//        boundsLbl.setLayout(new FlowLayout());
-//        this.add(boundsLbl);
-        
+        this.setMinimumSize(new Dimension(0, 0));
         
         int padding = 5;
         int width  = 45;
@@ -62,6 +35,7 @@ public class StateHistoryTab extends JPanel implements Observer {
             int finalI = i;
             var box = new JButton() { public int index = finalI; };
             box.setText(i+"");
+            box.setFont(Tools.getFont(14));
 //            box.setBounds( // rectangle bound
 //                    x + bounds.x,
 //                    padding + bounds.y,

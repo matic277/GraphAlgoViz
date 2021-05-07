@@ -4,7 +4,7 @@ import impl.AlgorithmController;
 import impl.MyGraph;
 import impl.Node;
 import impl.panels.SimulationPanel;
-import impl.panels.StateInfoSubmenu;
+import impl.tools.Tools;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -58,7 +58,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         nodeInfoLbl.setVisible(false);
         nodeInfoLbl.setVerticalAlignment(JLabel.TOP);
         nodeInfoLbl.setVerticalTextPosition(JLabel.TOP);
-        nodeInfoLbl.setBorder(new StateInfoSubmenu.RoundBorder(Color.black, 10));
+        nodeInfoLbl.setBorder(new Tools.RoundBorder(Color.black, Tools.BOLD_STROKE, 10));
         
         int innerWidth = 80;
         int innerHeight = 30;
@@ -76,7 +76,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
             informBtn.setText(isInform ? "Uninform" : "Inform");
         });
         nodeInfoLbl.add(informBtn);
-    
+        
         deleteNodeBtn.setBounds(
                 nodeInfoLbl.getWidth()/2 - innerWidth/2,
                 nodeInfoLbl.getHeight() - 2*(innerHeight + 5),
@@ -222,7 +222,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
                     nodeInfoLbl.getBounds().height);
             nodeInfoLbl.setVisible(true);
             nodeInfoLbl.setText(
-                    "<html><br>" +
+                    "<html>" +
                             "&nbsp; Node id=" + rightClickedNode.getId() + "<br>" +
                             "&nbsp; State=" + rightClickedNode.getState().getState() +
                     "</html>");

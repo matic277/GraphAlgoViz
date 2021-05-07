@@ -16,7 +16,6 @@ import java.text.NumberFormat;
 public class SimulationPanel extends JPanel implements Observer {
     
     TopPanel parent;
-    
     MyGraph graph;
     
     private final Point2D mouse;
@@ -26,53 +25,25 @@ public class SimulationPanel extends JPanel implements Observer {
     // potential edge drawing
     Node edgeSourceNode;
     
-    // State drawing
-//    StateInfoSubmenu stateInfo;
+    final long FPS = 1000L / 144L; // 144FPS
+    
+    NumberFormat formatter = new DecimalFormat(); { formatter.setMaximumFractionDigits(2); }
     
     public SimulationPanel(TopPanel parent, MyGraph g) {
         this.parent = parent;
         this.graph = g;
         
-//        int padding = 10;
-//        int width = panelSize.width - 2 * padding;
-//        int height = 50;
-//        this.stateInfo = new StateInfoSubmenu(new Rectangle(
-//                10,
-//                panelSize.height - padding - height,
-//                width,
-//                height),
-//                this);
-        
-//        Dimension panelSize = new Dimension(parent.getWidth() - Tools.INITIAL_LEFT_MENU_WIDTH, parent.getHeight());
-//        System.out.println("SIMSIZE="+panelSize);
-//        this.setSize(panelSize);
-//        this.setPreferredSize(panelSize);
-        
         this.setLayout(null);
         this.setOpaque(true);
         this.setVisible(true);
         this.setBackground(Color.red);
-    
+        
         listener = new SimulationPanelListener(this);
         this.addMouseMotionListener(listener);
         this.addMouseListener(listener);
         this.addMouseWheelListener(listener);
-        
-        mouse = listener.getMouse();
-        
-//        JLabel ly = new JLabel("TEST");
-//        ly.setOpaque(true);
-//        ly.setBackground(Color.red);
-//        ly.setBounds(50, 50, 50, 50);
-//        this.add(ly);
+        this.mouse = listener.getMouse();
     }
-    
-    NumberFormat formatter = new DecimalFormat(); {
-        formatter.setMaximumFractionDigits(2);
-    }
-    
-    final long FPS = 1000L / 144L; // 144FPS
-    
     
     @Override
     public void paintComponent(Graphics g) {
@@ -114,8 +85,6 @@ public class SimulationPanel extends JPanel implements Observer {
                 75);
         
         drawComponents(gr);
-        
-//        stateInfo.draw(gr, atx);
         
         long td = System.currentTimeMillis() - t0;
         super.repaint(td > FPS ? 0 : td);
