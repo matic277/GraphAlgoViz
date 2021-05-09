@@ -1,7 +1,6 @@
 package impl.graphBuilders;
 
 import core.GraphBuilder;
-import impl.MyGraph;
 import impl.Node;
 import impl.tools.Tools;
 
@@ -16,7 +15,7 @@ public class RandomGraphBuilder extends GraphBuilder {
      * Each edge in graph exists with given probability.
      */
     @Override
-    public MyGraph buildGraph() {
+    public void buildGraph() {
         // generate nodes
         for (int i=0; i<this.totalNodes; i++) {
             graph.addNode(new Node(i, -i,this.graph.getNextNodeId()));
@@ -35,7 +34,6 @@ public class RandomGraphBuilder extends GraphBuilder {
         this.getNodeInformator().run();
         
         this.arrangeNodesInCircularLayout(400);
-        return this.graph;
     }
     
 }

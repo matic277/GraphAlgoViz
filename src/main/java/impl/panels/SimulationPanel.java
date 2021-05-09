@@ -31,7 +31,7 @@ public class SimulationPanel extends JPanel implements Observer {
     
     public SimulationPanel(TopPanel parent) {
         this.parent = parent;
-        this.graph = NullGraph.getInstance();
+        this.graph = MyGraph.getInstance();
         
         this.setLayout(null);
         this.setOpaque(true);
@@ -130,8 +130,7 @@ public class SimulationPanel extends JPanel implements Observer {
     
     public SimulationWindow getSimulationWindow() { return this.parent.getSimulationWindow(); }
     
-    public void setNewGraph(MyGraph graph) {
-        this.graph = graph;
-        this.listener.setNewGraph(graph);
+    public void onNewGraphImport() {
+        this.listener.onNewGraphImport();
     }
 }

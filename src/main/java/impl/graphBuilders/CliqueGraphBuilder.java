@@ -1,13 +1,12 @@
 package impl.graphBuilders;
 
 import core.GraphBuilder;
-import impl.MyGraph;
 import impl.Node;
 
 public class CliqueGraphBuilder extends GraphBuilder {
     
     @Override
-    public MyGraph buildGraph() {
+    public void buildGraph() {
         for (int i=0; i<this.totalNodes; i++) {
             this.graph.addNode(new Node(i, -i, this.graph.getNextNodeId()));
         }
@@ -22,6 +21,5 @@ public class CliqueGraphBuilder extends GraphBuilder {
         this.getNodeInformator().run();
         
         this.arrangeNodesInCircularLayout(400);
-        return this.graph;
     }
 }

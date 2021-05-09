@@ -3,7 +3,6 @@ package impl.graphOptionPanels;
 import core.GraphBuilder;
 import core.GraphType;
 import core.OptionPanel;
-import impl.SimulationManager;
 import impl.tools.Tools;
 
 import javax.swing.*;

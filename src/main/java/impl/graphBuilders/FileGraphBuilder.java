@@ -7,7 +7,6 @@ import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.nio.graph6.Graph6Sparse6Importer;
 
 import core.GraphBuilder;
-import impl.MyGraph;
 
 import java.io.File;
 
@@ -19,7 +18,7 @@ public class FileGraphBuilder extends GraphBuilder {
     }
     
     @Override
-    public MyGraph buildGraph() {
+    public void buildGraph() {
         // graph reading with JgraphT lib
         Graph<Integer, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         Graph6Sparse6Importer<Integer, DefaultEdge> importer = new Graph6Sparse6Importer<>();
@@ -44,6 +43,5 @@ public class FileGraphBuilder extends GraphBuilder {
         this.getNodeInformator().run();
         
         this.arrangeNodesInCircularLayout(400);
-        return this.graph;
     }
 }

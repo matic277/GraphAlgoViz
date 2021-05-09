@@ -276,7 +276,5 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     @Override public void mouseEntered(MouseEvent e) { }
     @Override public void mouseExited(MouseEvent e) { }
     
-    public void setNewGraph(MyGraph graph) {
-        this.graph = graph;
-    }
+    public void onNewGraphImport() { }
 }

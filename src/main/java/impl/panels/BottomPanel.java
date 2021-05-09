@@ -1,7 +1,6 @@
 package impl.panels;
 
 import impl.MyGraph;
-import impl.NullGraph;
 import impl.panels.tabs.TabsPanel;
 import impl.tools.Tools;
 
@@ -18,7 +17,7 @@ public class BottomPanel extends JSplitPane {
     public BottomPanel(MainPanel parent) {
         super(JSplitPane.HORIZONTAL_SPLIT, null, null);
         this.parent = parent;
-        this.graph = NullGraph.getInstance();;
+        this.graph = MyGraph.getInstance();
         
         statsPanel = new StatsPanel(this);
         tabPanel = new TabsPanel(this);
@@ -34,9 +33,8 @@ public class BottomPanel extends JSplitPane {
     public StatsPanel getStatsPanel() { return this.statsPanel; }
     public TabsPanel getTabsPanel() { return this.tabPanel; }
     
-    public void setNewGraph(MyGraph graph) {
-        this.graph = graph;
-        tabPanel.setNewGraph(graph);
-        statsPanel.setNewGraph(graph);
+    public void onNewGraphImport() {
+        tabPanel.onNewGraphImport();
+        statsPanel.onNewGraphImport();
     }
 }

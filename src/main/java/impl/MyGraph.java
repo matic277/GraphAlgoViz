@@ -13,17 +13,27 @@ import java.util.Set;
 
 public class MyGraph implements Drawable {
     
-    public static int numOfNodes = 0;
+    public int numOfNodes = 0;
     private int nextId = -1;
     
     Set<Node> nodes;
     Set<Edge> edges;
     
-    private ComponentDrawer edgeDrawer = ComponentDrawer.getNullDrawer(); // Initialized will set this to default when graph is built!
+    private ComponentDrawer edgeDrawer = ComponentDrawer.getNullDrawer();
     
-    public MyGraph() {
+    // singleton
+    private static final MyGraph instance = new MyGraph();
+    public static MyGraph getInstance() { return instance; }
+    private MyGraph() {
         nodes = new HashSet<>();
         edges = new HashSet<>();
+    }
+    
+    public void clearGraph() {
+        nextId = -1;
+        numOfNodes = 0;
+        nodes.clear();
+        edges.clear();
     }
     
     @Override

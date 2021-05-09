@@ -40,7 +40,7 @@ public class MenuPanel extends JPanel {
         this.parent = parent;
         this.simWindow = parent.getSimulationWindow();
         this.simPanel  = parent.getSimulationPanel();
-        this.graph = NullGraph.getInstance();
+        this.graph = MyGraph.getInstance();
     
         // so that this panel can be squished, hiding its components
         // otherwise components dictate smallest possible size
@@ -71,11 +71,17 @@ public class MenuPanel extends JPanel {
         prevBtn = new JButton("<");
         prevBtn.setToolTipText("Previous round");
         prevBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
+        prevBtn.setEnabled(false);
+        prevBtn.addActionListener(a -> {
+            AlgorithmController.currentStateIndex = Math.max(0, AlgorithmController.currentStateIndex - 1);
+            parent.getMainPanel().getBottomPanel().getTabsPanel().getStateHistoryTab().setCurrentActiveState(AlgorithmController.currentStateIndex);
+        });
         this.add(prevBtn);
     
         nextBtn = new JButton(">");
         nextBtn.setToolTipText("Next round");
         nextBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
+        nextBtn.setEnabled(false);
         nextBtn.addActionListener(a -> {
             // when button is pressed, it disables itself
             // when the round is finished, AlgoController
@@ -134,6 +140,7 @@ public class MenuPanel extends JPanel {
         pauseBtn = new MyButton("CONTINUE");
         pauseBtn.setToolTipText("Pause or continue simulation.");
         pauseBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        pauseBtn.setEnabled(false);
         pauseBtn.addActionListener(a -> {
             // Thread safe atomic boolean flip
             // flip the value of PAUSE
@@ -190,6 +197,7 @@ public class MenuPanel extends JPanel {
         nodeRadSlider.setPaintLabels(true);
         nodeRadSlider.setPreferredSize(new Dimension(120, 40));
         nodeRadSlider.setFont(Tools.getFont(12));
+        nodeRadSlider.setEnabled(false);
         nodeRadSlider.addChangeListener(c -> Node.rad = nodeRadSlider.getValue());
         this.add(nodeRadSlider);
         
@@ -200,6 +208,7 @@ public class MenuPanel extends JPanel {
         idDrawerCheckBox = new JCheckBox("Draw node IDs     "); // extra spaces so checkboxes are (almost!) aligned - flow layout sucks
         idDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         idDrawerCheckBox.setFont(Tools.getFont(12));
+        idDrawerCheckBox.setEnabled(false);
         idDrawerCheckBox.addActionListener(a -> {
             Node.idDrawer = idDrawerCheckBox.isSelected() ?
                     ComponentDrawer.getIdDrawer() : ComponentDrawer.getNullDrawer();
@@ -209,6 +218,7 @@ public class MenuPanel extends JPanel {
         coordDrawerCheckBox = new JCheckBox("Draw node coords");
         coordDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         coordDrawerCheckBox.setFont(Tools.getFont(12));
+        coordDrawerCheckBox.setEnabled(false);
         coordDrawerCheckBox.addActionListener(a -> {
             Node.coordDrawer = coordDrawerCheckBox.isSelected() ?
                     ComponentDrawer.getCoordDrawer() : ComponentDrawer.getNullDrawer();
@@ -219,6 +229,7 @@ public class MenuPanel extends JPanel {
         edgeDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         edgeDrawerCheckBox.setFont(Tools.getFont(12));
         edgeDrawerCheckBox.setSelected(true);
+        edgeDrawerCheckBox.setEnabled(false);
         edgeDrawerCheckBox.addActionListener(a -> {
             graph.drawEdges(edgeDrawerCheckBox.isSelected());
         });
@@ -228,6 +239,7 @@ public class MenuPanel extends JPanel {
         stateDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         stateDebugCheckBox.setFont(Tools.getFont(12));
         stateDebugCheckBox.setSelected(false);
+        stateDebugCheckBox.setEnabled(false);
         stateDebugCheckBox.addActionListener(a -> {
             Node.stateDebugDrawer = stateDebugCheckBox.isSelected() ?
                     ComponentDrawer.getStateDebugDrawer() : ComponentDrawer.getNullDrawer();
@@ -238,6 +250,7 @@ public class MenuPanel extends JPanel {
         neighborsDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         neighborsDebugCheckBox.setFont(Tools.getFont(12));
         neighborsDebugCheckBox.setSelected(false);
+        neighborsDebugCheckBox.setEnabled(false);
         neighborsDebugCheckBox.addActionListener(a -> {
             Node.neighborsDrawer = neighborsDebugCheckBox.isSelected() ?
                     ComponentDrawer.getNeighborsDrawer() : ComponentDrawer.getNullDrawer();
@@ -265,7 +278,16 @@ public class MenuPanel extends JPanel {
 //        super.repaint();
     }
     
-    public void setNewGraph(MyGraph graph) {
-        this.graph = graph;
+    public void onNewGraphImport() {
+        pauseBtn.setEnabled(true);
+        prevBtn.setEnabled(true);
+        nextBtn.setEnabled(true);
+        
+        nodeRadSlider.setEnabled(true);
+        idDrawerCheckBox.setEnabled(true);
+        coordDrawerCheckBox.setEnabled(true);
+        edgeDrawerCheckBox.setEnabled(true);
+        stateDebugCheckBox.setEnabled(true);
+        neighborsDebugCheckBox.setEnabled(true);
     }
 }

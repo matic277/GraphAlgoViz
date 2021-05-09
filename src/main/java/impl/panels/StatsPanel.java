@@ -84,7 +84,7 @@ public class StatsPanel extends JPanel {
         return lbl;
     }
     
-    public void setNewGraph(MyGraph graph) {
-    
+    public void onNewGraphImport() {
+        // TODO
     }
 }

@@ -1,7 +1,6 @@
 package impl.graphBuilders;
 
 import core.GraphBuilder;
-import impl.MyGraph;
 import impl.Node;
 
 public class StaticTestGraphBuilder extends GraphBuilder {
@@ -11,7 +10,7 @@ public class StaticTestGraphBuilder extends GraphBuilder {
     }
     
     @Override
-    public MyGraph buildGraph() {
+    public void buildGraph() {
         Node n0 = new Node(100, 280, this.graph.getNextNodeId());
         Node n1 = new Node(100, 100, this.graph.getNextNodeId());
         Node n2 = new Node(50, 170, this.graph.getNextNodeId());
@@ -67,6 +66,5 @@ public class StaticTestGraphBuilder extends GraphBuilder {
         
         n2.getState().setState(1);
         n8.getState().setState(1);
-        return this.graph;
     }
 }

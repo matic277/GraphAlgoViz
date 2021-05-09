@@ -34,7 +34,8 @@ public class AlgorithmController implements Runnable, Observable {
         this.graph = graph;
         this.algo = getAlgorithm();
         
-        assignTasks();
+        initProcessors();
+//        assignTasks();
     }
     
     @Override
@@ -87,7 +88,16 @@ public class AlgorithmController implements Runnable, Observable {
         observers.forEach(obs -> obs.notifyStateChange(currentStateIndex));
     }
     
-    private void assignTasks() {
+    private void initProcessors() {
+//        ThreadFactory factor;
+//        new ExecutorService();
+//
+        for (int i=0; i<PROCESSORS; i++) {
+            EXECUTORS[i] = new AlgorithmExecutor(new HashSet<>(), getAlgorithm(), "PR-"+i);
+        }
+    }
+    
+    public void assignTasks() {
         int nodes = this.graph.getNodes().size();
         int taskSize = nodes / PROCESSORS;
         int lastTaskSize = (nodes - (taskSize * PROCESSORS)) + taskSize;
@@ -95,11 +105,6 @@ public class AlgorithmController implements Runnable, Observable {
         System.out.println("TASK SIZE="+taskSize+", LAST="+lastTaskSize);
         
         Iterator<Node> iter = this.graph.getNodes().stream().iterator();
-        
-        if (EXECUTORS.length != PROCESSORS) {
-            throw new AssertionError("Number of executors expected to be " + PROCESSORS +
-                                     ", but was: " + EXECUTORS.length + " instead.");
-        }
         
         for (int i=0; i<PROCESSORS; i++) {
             // last processor might do more work (task divisibility problem)
@@ -116,17 +121,12 @@ public class AlgorithmController implements Runnable, Observable {
     // one of the executors is processing a node that was removed
     public void removeNode(Node node) {
         for (AlgorithmExecutor ex : EXECUTORS) {
-            // Can't use HashSet.remove on mutating elements...
-            // https://bugs.openjdk.java.net/browse/JDK-8154740
-            // TODO fix slow iteration on remove
-//            boolean foundAndRemoved = ex.nodes.removeIf(n -> n.id == node.id);
-            
             boolean foundAndRemoved = ex.nodes.remove(node);
             if (foundAndRemoved) {
                 return;
             }
         }
-        throw new RuntimeException("Node " + node + " not removed!");
+        throw new RuntimeException("Node " + node + " not found and removed!");
     }
     
     public Algorithm getAlgorithm() {
@@ -171,5 +171,10 @@ public class AlgorithmController implements Runnable, Observable {
         // add new node to some random processor
         int randomProc = Tools.RAND.nextInt(PROCESSORS);
         EXECUTORS[randomProc].nodes.add(newNode); // TODO this operation is not thread safe!
+    }
+    
+    public void setNewGraph(MyGraph graph) {
+        this.graph = graph;
+        assignTasks();
     }
 }

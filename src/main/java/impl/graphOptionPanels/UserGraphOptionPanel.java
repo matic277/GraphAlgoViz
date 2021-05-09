@@ -2,7 +2,6 @@ package impl.graphOptionPanels;
 
 import core.GraphType;
 import core.OptionPanel;
-import impl.SimulationManager;
 
 import java.awt.*;
 import java.awt.event.ActionListener;

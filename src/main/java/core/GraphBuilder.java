@@ -21,9 +21,9 @@ public abstract class GraphBuilder {
     
     protected String fileName;
     
-    public GraphBuilder() { this.graph = new MyGraph(); }
+    public GraphBuilder() { this.graph = MyGraph.getInstance(); }
     
-    public abstract MyGraph buildGraph();
+    public abstract void buildGraph();
     
     public void arrangeNodesInGridLayout(int columns) {
         // place nodes in (columns x INF) grid

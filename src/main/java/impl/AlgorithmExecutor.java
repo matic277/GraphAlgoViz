@@ -13,6 +13,11 @@ public class AlgorithmExecutor implements Runnable {
     
     String name;
     
+    // this is a workaround to the problem of naming threads
+    // in ExecutorService
+    // renames thread once, then does nothing
+    Runnable threadNamer = () -> { Thread.currentThread().setName(name); threadNamer = () -> {};};
+    
     public AlgorithmExecutor(Set<Node> nodes, Algorithm algorithm, String threadName) {
         this.nodes = nodes;
         this.algorithm = algorithm;
@@ -22,7 +27,7 @@ public class AlgorithmExecutor implements Runnable {
     
     @Override
     public void run() {
-        Thread.currentThread().setName(name);
+        threadNamer.run();
 //        System.out.println("Thread '"+name+"' stared.");
         
         nodes.forEach(n -> {
@@ -34,7 +39,7 @@ public class AlgorithmExecutor implements Runnable {
 //            LOG.out("  ->", "Algo done on node     " + n + ".");
         });
         
-//        LOG.out("  ->", "AlgoExecutor done for all nodes, waiting on barrier.");
+        LOG.out("  ->", "AlgoExecutor done for all nodes, waiting on barrier.");
         
         try { AlgorithmController.BARRIER.await(); }
         catch (InterruptedException | BrokenBarrierException e) { e.printStackTrace(); }

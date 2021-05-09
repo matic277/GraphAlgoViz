@@ -7,6 +7,7 @@ import impl.tools.Tools;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.Arrays;
 
 public class StateHistoryTab extends JPanel implements Observer {
     
@@ -65,5 +66,24 @@ public class StateHistoryTab extends JPanel implements Observer {
         if (newStateIndex <= stateBox.length-1) {
             stateBox[newStateIndex].setBorder(SELECTED_BORDER);
         }
+    }
+    
+    public void setCurrentActiveState(int currentStateIndex) {
+        for (int i=0; i<stateBox.length; i++) {
+            stateBox[i].setBorder(DEFAULT_BORDER);
+            if (AlgorithmController.totalStates < i) break;
+        }
+        
+        stateBox[currentStateIndex].setBorder(SELECTED_BORDER);
+    }
+    
+    public void onNewGraphImport() {
+        // disable all but first button (first state)
+        for (int i=1; i<stateBox.length; i++) {
+            stateBox[i].setBorder(DEFAULT_BORDER);
+            stateBox[i].setEnabled(false);
+        }
+        stateBox[0].setBorder(SELECTED_BORDER);
+        stateBox[0].setEnabled(true);
     }
 }

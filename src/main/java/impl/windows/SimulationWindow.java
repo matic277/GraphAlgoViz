@@ -4,11 +4,9 @@ import core.GraphBuilder;
 import core.Window;
 import impl.AlgorithmController;
 import impl.MyGraph;
-import impl.SimulationManager;
 import impl.panels.*;
 import impl.tools.Tools;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class SimulationWindow extends Window {
@@ -25,9 +23,15 @@ public class SimulationWindow extends Window {
         this.frame.remove(this.panel);
         this.frame.setLayout(new BorderLayout());
         
-        mainPanel = new MainPanel(this);
+        this.graph = MyGraph.getInstance();
+        
+        this.mainPanel = new MainPanel(this);
         this.frame.add(mainPanel, BorderLayout.CENTER);
         
+        this.algoController = new AlgorithmController(MyGraph.getInstance());
+        this.algoController.addObserver(this.mainPanel.getTopPanel().getSimulationPanel());
+        this.algoController.addObserver(this.mainPanel.getBottomPanel().getTabsPanel().getStateHistoryTab());
+    
         this.frame.pack();
     }
     
@@ -36,16 +40,20 @@ public class SimulationWindow extends Window {
     //   buttons, history!, listeners, ...
     //   algorithmController needs to be re-inited (workers need new nodes)
     public void onNewGraphImport(GraphBuilder builder) {
-        this.graph = builder.buildGraph();
+        AlgorithmController.totalStates = 1;
+        AlgorithmController.currentStateIndex = 0;
+        
+        this.graph.clearGraph();
+        builder.buildGraph();
         this.graph.drawEdges(true);
         
+        // TODO: unnecessary if graph is singleton
         // re-links graph to all children
-        mainPanel.setNewGraph(graph);
-    
-        algoController = new AlgorithmController(graph);
-        algoController.addObserver(this.mainPanel.getTopPanel().getSimulationPanel());
-        algoController.addObserver(this.mainPanel.getBottomPanel().getTabsPanel().getStateHistoryTab());
-    
+        mainPanel.onNewGraphImport();
+        
+        
+        algoController.setNewGraph(graph);
+        
         Thread controller = new Thread(algoController);
         controller.start();
     }
