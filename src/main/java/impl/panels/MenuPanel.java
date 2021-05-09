@@ -20,12 +20,13 @@ public class MenuPanel extends JPanel {
     MyGraph graph;
     
     JButton importBtn;
-    MyButton addNodeBtn;
+    JButton clearBtn;
+    JButton addNodeBtn;
     public static JButton nextBtn; // TODO: could these not be static
     public static JButton prevBtn;
     
     JLabel pauseInfo;
-    MyButton pauseBtn;
+    JButton pauseBtn;
     
     JLabel sliderInfo;
     JSlider nodeRadSlider;
@@ -63,6 +64,18 @@ public class MenuPanel extends JPanel {
             SwingUtilities.invokeLater(() -> new ImportGraphWindow(this.parent.getSimulationWindow()));
         });
         this.add(importBtn);
+    
+        clearBtn = new JButton("Clear graph");
+        clearBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        clearBtn.addActionListener(a -> {
+            this.graph.clearGraph();
+            this.parent.getSimulationWindow().getAlgorithmController().assignTasks();
+            AlgorithmController.totalStates = 1;
+            AlgorithmController.currentStateIndex = 0;
+            parent.getMainPanel().onNewGraphImport();
+        });
+        this.add(clearBtn);
+        
         
         // spacers
         this.add(Tools.getDumyPlaceholder());
@@ -88,7 +101,7 @@ public class MenuPanel extends JPanel {
             // will enable it back on (same with prevBtn)
             nextBtn.setEnabled(false);
             prevBtn.setEnabled(false);
-    
+            
             // when pressing continue, jump to latest state
             // (just like pause/cont button)
             // TODO: ^
@@ -103,7 +116,7 @@ public class MenuPanel extends JPanel {
         });
         this.add(nextBtn);
         
-        addNodeBtn = new MyButton("new node");
+        addNodeBtn = new JButton("new node");
         addNodeBtn.setToolTipText("Add new node");
         addNodeBtn.setSize(Tools.MENU_BUTTON_SIZE);
         addNodeBtn.addActionListener(a -> {
@@ -116,6 +129,23 @@ public class MenuPanel extends JPanel {
                 newNode.addState(new State(0));
             }
             
+            // clear future history
+            AlgorithmController.totalStates = AlgorithmController.currentStateIndex + 1;
+            this.parent.getSimulationWindow().getMainPanel().getBottomPanel().getTabsPanel().getStateHistoryTab()
+                    .setCurrentActiveState(AlgorithmController.currentStateIndex);
+            
+            // TODO move this to some method in MyGraph, like onNodeRemoveOrAdd()
+            //   same lambda is in deleteNodeBtn action method!
+            // clear future history of states of nodes
+            this.graph.getNodes().forEach(n -> {
+                // optimization?
+                // remove elements from back to middle
+                // instead of from middle to the back
+                for (int i=n.states.size()-1; i>=AlgorithmController.totalStates; i--) {
+                    n.states.remove(i);
+                }
+            });
+            
             // adding new node takes calling 2 separate methods
             // - not ideal, should refactor
             // Maybe AlgoCtrl should be subscribed (observer) to
@@ -123,6 +153,12 @@ public class MenuPanel extends JPanel {
             // node inserts?
             graph.addNode(newNode);
             simWindow.getAlgorithmController().addNewNode(newNode);
+            
+            // TODO
+            //  calling onNewGraphImport is convient but not nice
+            //  (buttons get enabled if the graph is not empty - and
+            //  in this case it won't be since a node has just been added)
+            this.parent.getSimulationWindow().getMainPanel().onNewGraphImport();
             System.out.println("new node added");
         });
         this.add(addNodeBtn);
@@ -137,7 +173,7 @@ public class MenuPanel extends JPanel {
         pauseInfo.setFont(Tools.getFont(12));
         this.add(pauseInfo);
         
-        pauseBtn = new MyButton("CONTINUE");
+        pauseBtn = new JButton("CONTINUE");
         pauseBtn.setToolTipText("Pause or continue simulation.");
         pauseBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
         pauseBtn.setEnabled(false);
@@ -214,7 +250,7 @@ public class MenuPanel extends JPanel {
                     ComponentDrawer.getIdDrawer() : ComponentDrawer.getNullDrawer();
         });
         this.add(idDrawerCheckBox);
-    
+        
         coordDrawerCheckBox = new JCheckBox("Draw node coords");
         coordDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         coordDrawerCheckBox.setFont(Tools.getFont(12));
@@ -234,7 +270,7 @@ public class MenuPanel extends JPanel {
             graph.drawEdges(edgeDrawerCheckBox.isSelected());
         });
         this.add(edgeDrawerCheckBox);
-    
+        
         stateDebugCheckBox = new JCheckBox("Draw states (debug)");
         stateDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         stateDebugCheckBox.setFont(Tools.getFont(12));
@@ -245,7 +281,7 @@ public class MenuPanel extends JPanel {
                     ComponentDrawer.getStateDebugDrawer() : ComponentDrawer.getNullDrawer();
         });
         this.add(stateDebugCheckBox);
-    
+        
         neighborsDebugCheckBox = new JCheckBox("Draw node neighbors");
         neighborsDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         neighborsDebugCheckBox.setFont(Tools.getFont(12));
@@ -265,20 +301,25 @@ public class MenuPanel extends JPanel {
         gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         
-        gr.setColor(Color.ORANGE);
+        gr.setColor(Tools.MEUN_COLORS);
         gr.fillRect(0, 0, getWidth(), getHeight());
-        
-        gr.setColor(Color.BLACK);
-        gr.drawString("MENU", getWidth()/2-20, getHeight()-30);
-//        gr.drawRect(0, 0, this.getWidth(), this.getHeight());
-//        System.out.println(this.getBounds());
-    
-        // TODO this panel does not need to be repainted
-//        Tools.sleep(1000/144);
-//        super.repaint();
     }
     
     public void onNewGraphImport() {
+        if (graph.getNodes().isEmpty()) {
+            pauseBtn.setEnabled(false);
+            prevBtn.setEnabled(false);
+            nextBtn.setEnabled(false);
+    
+            nodeRadSlider.setEnabled(false);
+            idDrawerCheckBox.setEnabled(false);
+            coordDrawerCheckBox.setEnabled(false);
+            edgeDrawerCheckBox.setEnabled(false);
+            stateDebugCheckBox.setEnabled(false);
+            neighborsDebugCheckBox.setEnabled(false);
+            return;
+        }
+        
         pauseBtn.setEnabled(true);
         prevBtn.setEnabled(true);
         nextBtn.setEnabled(true);

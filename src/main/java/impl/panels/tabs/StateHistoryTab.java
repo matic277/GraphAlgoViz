@@ -7,7 +7,6 @@ import impl.tools.Tools;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.util.Arrays;
 
 public class StateHistoryTab extends JPanel implements Observer {
     
@@ -75,6 +74,8 @@ public class StateHistoryTab extends JPanel implements Observer {
         }
         
         stateBox[currentStateIndex].setBorder(SELECTED_BORDER);
+        
+        for (int i=AlgorithmController.totalStates; i<stateBox.length; i++) stateBox[i].setEnabled(false);
     }
     
     public void onNewGraphImport() {

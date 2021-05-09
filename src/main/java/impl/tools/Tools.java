@@ -1,6 +1,5 @@
 package impl.tools;
 
-import impl.listeners.ButtonListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -18,8 +17,6 @@ public class Tools {
     public static final Dimension MENU_BUTTON_SIZE = new Dimension(40, 40);
     public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(100, 40);
     public static final Dimension MENU_CHECKBOX_SIZE = new Dimension(125, 15);
-    
-    public static final ButtonListener buttonListener = new ButtonListener();
     
     public static final Stroke PLAIN_STROKE = new BasicStroke(1);
     public static final Stroke BOLD_STROKE = new BasicStroke(1.7f);
@@ -53,10 +50,10 @@ public class Tools {
     }
     
     public static JLabel getDumyPlaceholder() {
-        JLabel obj = new JLabel(" DUMMY OBJ");
+        JLabel obj = new JLabel(" DUMMY SEPARATOR");
         obj.setForeground(Color.white);
-        obj.setPreferredSize(new Dimension(MENU_BUTTON_SIZE.width * 3, 20));
-        obj.setSize(new Dimension(MENU_BUTTON_SIZE.width * 3, 20));
+        obj.setPreferredSize(new Dimension((int)(MENU_BUTTON_SIZE.width * 3.5), 20));
+        obj.setSize(new Dimension((int)(MENU_BUTTON_SIZE.width * 3.5), 20));
         obj.setOpaque(true);
         obj.setBackground(Color.BLACK);
         return obj;

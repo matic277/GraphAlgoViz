@@ -98,6 +98,11 @@ public class AlgorithmController implements Runnable, Observable {
     }
     
     public void assignTasks() {
+        // if there are no nodes, then just clear executors of work
+        if (graph.nodes.isEmpty()) {
+            for (int i=0; i<EXECUTORS.length; i++) EXECUTORS[i].nodes.clear();
+            return;
+        }
         int nodes = this.graph.getNodes().size();
         int taskSize = nodes / PROCESSORS;
         int lastTaskSize = (nodes - (taskSize * PROCESSORS)) + taskSize;
@@ -114,7 +119,7 @@ public class AlgorithmController implements Runnable, Observable {
             while(iter.hasNext() && --nodeCounter >= 0) {
                 nodesToProcess.add(iter.next());
             }
-            EXECUTORS[i] = new AlgorithmExecutor(nodesToProcess, getAlgorithm(), "PR-"+i);
+            EXECUTORS[i].nodes.addAll(nodesToProcess);
         }
     }
     
