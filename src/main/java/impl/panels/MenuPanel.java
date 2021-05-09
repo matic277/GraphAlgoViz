@@ -1,12 +1,10 @@
 package impl.panels;
 
 import core.ComponentDrawer;
-import impl.AlgorithmController;
-import impl.Node;
-import impl.State;
+import impl.*;
 import impl.tools.Tools;
+import impl.windows.ImportGraphWindow;
 import impl.windows.SimulationWindow;
-import impl.MyButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +17,9 @@ public class MenuPanel extends JPanel {
     SimulationWindow simWindow;
     SimulationPanel simPanel;
     
+    MyGraph graph;
+    
+    JButton importBtn;
     MyButton addNodeBtn;
     public static JButton nextBtn; // TODO: could these not be static
     public static JButton prevBtn;
@@ -39,6 +40,7 @@ public class MenuPanel extends JPanel {
         this.parent = parent;
         this.simWindow = parent.getSimulationWindow();
         this.simPanel  = parent.getSimulationPanel();
+        this.graph = NullGraph.getInstance();
     
         // so that this panel can be squished, hiding its components
         // otherwise components dictate smallest possible size
@@ -55,7 +57,12 @@ public class MenuPanel extends JPanel {
         this.setVisible(true);
         this.setBackground(Color.blue);
         
-        
+        importBtn = new JButton("Import graph");
+        importBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        importBtn.addActionListener(a -> {
+            SwingUtilities.invokeLater(() -> new ImportGraphWindow(this.parent.getSimulationWindow()));
+        });
+        this.add(importBtn);
         
         // spacers
         this.add(Tools.getDumyPlaceholder());
@@ -94,7 +101,7 @@ public class MenuPanel extends JPanel {
         addNodeBtn.setToolTipText("Add new node");
         addNodeBtn.setSize(Tools.MENU_BUTTON_SIZE);
         addNodeBtn.addActionListener(a -> {
-            Node newNode = new Node(50, 50, simPanel.getGraph().getNextNodeId());
+            Node newNode = new Node(50, 50, graph.getNextNodeId());
             
             // when node is added in the middle of the simulation
             // prefill its history (state list) with uninformed states!
@@ -108,8 +115,8 @@ public class MenuPanel extends JPanel {
             // Maybe AlgoCtrl should be subscribed (observer) to
             // graph, and graph should notify AlgoCtrl about new
             // node inserts?
-            simPanel.getGraph().addNode(newNode);
-            simWindow.getSimulationManager().getAlgorithmController().addNewNode(newNode);
+            graph.addNode(newNode);
+            simWindow.getAlgorithmController().addNewNode(newNode);
             System.out.println("new node added");
         });
         this.add(addNodeBtn);
@@ -213,7 +220,7 @@ public class MenuPanel extends JPanel {
         edgeDrawerCheckBox.setFont(Tools.getFont(12));
         edgeDrawerCheckBox.setSelected(true);
         edgeDrawerCheckBox.addActionListener(a -> {
-            simPanel.getGraph().drawEdges(edgeDrawerCheckBox.isSelected());
+            graph.drawEdges(edgeDrawerCheckBox.isSelected());
         });
         this.add(edgeDrawerCheckBox);
     
@@ -256,5 +263,9 @@ public class MenuPanel extends JPanel {
         // TODO this panel does not need to be repainted
 //        Tools.sleep(1000/144);
 //        super.repaint();
+    }
+    
+    public void setNewGraph(MyGraph graph) {
+        this.graph = graph;
     }
 }

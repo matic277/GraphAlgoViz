@@ -5,6 +5,7 @@ import core.GraphType;
 import core.OptionPanel;
 import impl.SimulationManager;
 import impl.tools.*;
+import impl.windows.ImportGraphWindow;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -15,10 +16,10 @@ public class FileGraphOptionPanel extends OptionPanel {
     JLabel inputText, informedNodesText;
     JTextField inputField, informedNodesInput;
     
-    private static final FileGraphOptionPanel instance = new FileGraphOptionPanel();
+    private static final FileGraphOptionPanel instance = new FileGraphOptionPanel(null);
     
-    private FileGraphOptionPanel() {
-        super();
+    private FileGraphOptionPanel(ImportGraphWindow parent) {
+        super(parent);
         inputText = new JLabel(" Input path to graph file:");
         inputText.setBounds(50, 70, 170, 30);
         inputText.setOpaque(true);
@@ -57,7 +58,7 @@ public class FileGraphOptionPanel extends OptionPanel {
                     .setFileName(inputField.getText())
                     .setInformedProbability(isPercentage ? nodesToInform : null)
                     .setTotalInformed(isPercentage ? null : nodesToInform);
-            new SimulationManager(builder);
+            super.simWindow.onNewGraphImport(builder);
         };
     }
     

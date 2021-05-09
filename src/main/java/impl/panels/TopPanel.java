@@ -1,5 +1,7 @@
 package impl.panels;
 
+import impl.MyGraph;
+import impl.NullGraph;
 import impl.tools.Tools;
 import impl.windows.SimulationWindow;
 
@@ -15,7 +17,7 @@ public class TopPanel extends JSplitPane {
     public TopPanel(MainPanel parent) {
         this.parent = parent;
         
-        simPanel = new SimulationPanel(this, parent.getSimulationWindow().getSimulationManager().getGraph());
+        simPanel = new SimulationPanel(this);
         menuPanel = new MenuPanel(this);
         this.setLeftComponent(menuPanel);
         this.setRightComponent(simPanel);
@@ -30,4 +32,9 @@ public class TopPanel extends JSplitPane {
     public SimulationPanel getSimulationPanel() { return this.simPanel; }
     
     public MainPanel getMainPanel() { return this.parent; }
+    
+    public void setNewGraph(MyGraph graph) {
+        simPanel.setNewGraph(graph);
+        menuPanel.setNewGraph(graph);
+    }
 }

@@ -13,7 +13,9 @@ import java.awt.geom.Point2D;
 import static impl.tools.Tools.getBoldFont;
 import static javax.swing.UIManager.getFont;
 
-public class StartupWindow extends Window {
+public class ImportGraphWindow extends Window {
+    
+    SimulationWindow parent;
     
     JLabel titleText1;
     JLabel titleText2;
@@ -24,10 +26,11 @@ public class StartupWindow extends Window {
     OptionPanel optionPanel;
     Point2D optionPanelStartCoordinates;
     
-    JButton contButton;
+    JButton importBtn;
     
-    public StartupWindow() {
+    public ImportGraphWindow(SimulationWindow parent) {
         super(new Dimension(500, 550));
+        this.parent = parent;
         
         optionPanelStartCoordinates = new Point(50, 220);
         
@@ -63,26 +66,26 @@ public class StartupWindow extends Window {
         dropdown.setBackground(Tools.bgColor);
         dropdown.setVisible(true);
         dropdown.setEnabled(true);
-        dropdown.addActionListener(new ComboBoxListener(this));
+        dropdown.addActionListener(new ComboBoxListener(this, parent));
         this.panel.add(dropdown);
         selectedGraphType = GraphType.STATIC_TEST;
+        selectedGraphType.getPanel().setSimulationWindow(parent);
         
         optionPanel = selectedGraphType.getPanel();
         optionPanel.setStartingCoordiantes(optionPanelStartCoordinates);
         this.panel.add(optionPanel);
-    
-        // TODO continue button
-        contButton = new JButton("Continue");
-        contButton.setFont(Tools.getFont(14));
-        contButton.setBounds(200, 500, 100, 35);
-        contButton.addActionListener(a -> {
+        
+        importBtn = new JButton("Import");
+        importBtn.setFont(Tools.getFont(14));
+        importBtn.setBounds(200, 500, 100, 35);
+        importBtn.addActionListener(a -> {
             // default behaviour
             this.getFrame().removeAll();
             this.getFrame().dispose();
         });
-        contButton.addActionListener(optionPanel.getButtonAction(selectedGraphType));
+        importBtn.addActionListener(optionPanel.getButtonAction(selectedGraphType));
         
-        this.panel.add(contButton);
+        this.panel.add(importBtn);
         
         // test
 //        JLabel l = new JLabel();
@@ -100,8 +103,8 @@ public class StartupWindow extends Window {
         optionPanel.setStartingCoordiantes(optionPanelStartCoordinates);
         optionPanel.repaint();
 //        System.out.println("listeners: " + contButton.getActionListeners().length);
-        this.contButton.removeActionListener(contButton.getActionListeners()[0]);
-        this.contButton.addActionListener(panel.getButtonAction(selectedGraphType));
+        this.importBtn.removeActionListener(importBtn.getActionListeners()[0]);
+        this.importBtn.addActionListener(panel.getButtonAction(selectedGraphType));
         this.panel.add(optionPanel);
         this.panel.repaint();
         this.panel.updateUI();

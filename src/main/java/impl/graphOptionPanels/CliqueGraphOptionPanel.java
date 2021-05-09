@@ -6,6 +6,7 @@ import core.OptionPanel;
 import impl.SimulationManager;
 import impl.graphBuilders.CliqueGraphBuilder;
 import impl.tools.Tools;
+import impl.windows.ImportGraphWindow;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -15,12 +16,12 @@ public class CliqueGraphOptionPanel extends OptionPanel {
     JLabel inputText, informedNodesText;
     JTextField inputField, informedNodesInput;
     
-    private static final CliqueGraphOptionPanel instance = new CliqueGraphOptionPanel();
+    private static final CliqueGraphOptionPanel instance = new CliqueGraphOptionPanel(null);
     
     public static OptionPanel getInstance() { return instance; }
     
-    public CliqueGraphOptionPanel() {
-        super();
+    public CliqueGraphOptionPanel(ImportGraphWindow parent) {
+        super(parent);
         inputText = new JLabel(" Number of nodes: ");
         inputText.setBounds(50, 100, 110, 30);
         inputText.setOpaque(true);
@@ -56,7 +57,7 @@ public class CliqueGraphOptionPanel extends OptionPanel {
                     .setNumberOfNodes(Integer.parseInt(inputField.getText()))
                     .setInformedProbability(isPercentage ? nodesToInform : null)
                     .setTotalInformed(isPercentage ? null : nodesToInform);
-            new SimulationManager(builder);
+            type.getSimulationWindow().onNewGraphImport(builder);
         };
     }
 }

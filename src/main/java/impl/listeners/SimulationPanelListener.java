@@ -87,7 +87,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         deleteNodeBtn.addActionListener(a -> {
             if (!AlgorithmController.PAUSE.get()) return;
             Node nodeToDelete = rightClickedNode;
-            panel.getSimulationWindow().getSimulationManager().getAlgorithmController().removeNode(nodeToDelete);
+            panel.getSimulationWindow().getAlgorithmController().removeNode(nodeToDelete);
             graph.deleteNode(nodeToDelete);
             
             // delete history from current state on?
@@ -275,4 +275,8 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     
     @Override public void mouseEntered(MouseEvent e) { }
     @Override public void mouseExited(MouseEvent e) { }
+    
+    public void setNewGraph(MyGraph graph) {
+        this.graph = graph;
+    }
 }

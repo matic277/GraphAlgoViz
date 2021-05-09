@@ -12,7 +12,7 @@ public class UserGraphOptionPanel extends OptionPanel {
     private static final UserGraphOptionPanel instance = new UserGraphOptionPanel();
     
     public UserGraphOptionPanel() {
-        super();
+        super(null);
         this.setOpaque(true);
         this.setBackground(Color.red);
     }
@@ -22,7 +22,7 @@ public class UserGraphOptionPanel extends OptionPanel {
         // do nothing, create empty graph
         return a -> {
             System.out.println("Listening: " + this.getClass().getSimpleName());
-            new SimulationManager(type.getGraphBuilder());
+            type.getSimulationWindow().onNewGraphImport(type.getGraphBuilder());
         };
     }
     

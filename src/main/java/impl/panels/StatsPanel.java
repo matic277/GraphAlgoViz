@@ -1,5 +1,6 @@
 package impl.panels;
 
+import impl.MyGraph;
 import impl.tools.Tools;
 
 import javax.swing.*;
@@ -81,5 +82,9 @@ public class StatsPanel extends JPanel {
 //        lbl.setBackground(Color.white);
 //        lbl.setOpaque(true);
         return lbl;
+    }
+    
+    public void setNewGraph(MyGraph graph) {
+    
     }
 }

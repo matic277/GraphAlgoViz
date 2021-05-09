@@ -29,9 +29,9 @@ public class SimulationPanel extends JPanel implements Observer {
     
     NumberFormat formatter = new DecimalFormat(); { formatter.setMaximumFractionDigits(2); }
     
-    public SimulationPanel(TopPanel parent, MyGraph g) {
+    public SimulationPanel(TopPanel parent) {
         this.parent = parent;
-        this.graph = g;
+        this.graph = NullGraph.getInstance();
         
         this.setLayout(null);
         this.setOpaque(true);
@@ -129,4 +129,9 @@ public class SimulationPanel extends JPanel implements Observer {
     public SimulationPanelListener getPanelListener() { return this.listener; }
     
     public SimulationWindow getSimulationWindow() { return this.parent.getSimulationWindow(); }
+    
+    public void setNewGraph(MyGraph graph) {
+        this.graph = graph;
+        this.listener.setNewGraph(graph);
+    }
 }

@@ -25,7 +25,7 @@ public class SimulationManager {
         // open main window
         SwingUtilities.invokeLater(() -> {
             Dimension simSize = new Dimension(1400, 1000);
-            simWindow = new SimulationWindow(graph, this);
+//            simWindow = new SimulationWindow(graph, this);
             
             algoController.addObserver(simWindow.getSimulationPanel());
             algoController.addObserver(simWindow.getMainPanel().getBottomPanel().getTabsPanel().getStateHistoryTab());

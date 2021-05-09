@@ -18,7 +18,7 @@ public class RandomGraphOptionPanel extends OptionPanel {
     private static final RandomGraphOptionPanel instance = new RandomGraphOptionPanel();
     
     public RandomGraphOptionPanel() {
-        super();
+        super(null);
         this.setOpaque(true);
         this.setBackground(Color.blue);
         this.repaint();
@@ -71,7 +71,7 @@ public class RandomGraphOptionPanel extends OptionPanel {
                     .setNumberOfNodes(Integer.parseInt(nodesInput.getText()))
                     .setInformedProbability(isPercentage ? nodesToInform : null)
                     .setTotalInformed(isPercentage ? null : nodesToInform);
-            new SimulationManager(builder);
+            type.getSimulationWindow().onNewGraphImport(builder);
         };
     }
     

@@ -1,6 +1,7 @@
 package impl.panels.tabs;
 
 import impl.MyGraph;
+import impl.NullGraph;
 import impl.panels.BottomPanel;
 import impl.tools.Tools;
 
@@ -14,9 +15,9 @@ public class TabsPanel extends JTabbedPane {
     
     StateHistoryTab historyTab;
     
-    public TabsPanel(BottomPanel parent, MyGraph g) {
+    public TabsPanel(BottomPanel parent) {
         this.parent = parent;
-        this.graph = g;
+        this.graph = NullGraph.getInstance();
         
         this.setBackground(Color.red);
         
@@ -29,4 +30,7 @@ public class TabsPanel extends JTabbedPane {
     
     public StateHistoryTab getStateHistoryTab() { return this.historyTab; }
     
+    public void setNewGraph(MyGraph graph) {
+        this.graph = graph;
+    }
 }

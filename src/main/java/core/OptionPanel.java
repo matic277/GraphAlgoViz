@@ -1,6 +1,8 @@
 package core;
 
 import impl.tools.Tools;
+import impl.windows.ImportGraphWindow;
+import impl.windows.SimulationWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,12 +13,16 @@ import java.util.List;
 
 public abstract class OptionPanel extends JPanel {
     
+    protected ImportGraphWindow parent;
+    protected SimulationWindow simWindow;
+    
     protected Dimension panelSize;
     List<JComponent> components;
     
 //    protected MyButton continueBtn;
     
-    public OptionPanel() {
+    public OptionPanel(ImportGraphWindow parent) {
+        this.parent = parent;
         this.panelSize = new Dimension(400,265);
         this.setVisible(true);
         this.setLayout(null);
@@ -53,6 +59,10 @@ public abstract class OptionPanel extends JPanel {
             components.add(c);
             this.add(c);
         }
+    }
+    
+    public void setSimulationWindow(SimulationWindow simWindow) {
+        this.simWindow = simWindow;
     }
     
     public abstract ActionListener getButtonAction(GraphType type);

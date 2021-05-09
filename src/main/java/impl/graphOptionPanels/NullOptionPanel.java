@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class NullOptionPanel extends OptionPanel {
     
     public  NullOptionPanel() {
-        super();
+        super(null);
         
 //        this.setOpaque(true);
 //        this.setBackground(Color.pink);

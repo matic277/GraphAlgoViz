@@ -1,16 +1,16 @@
 package impl.listeners;
 
 import core.GraphBuilder;
-import impl.windows.StartupWindow;
+import impl.windows.ImportGraphWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StartupListener implements ActionListener {
     
-    StartupWindow parent;
+    ImportGraphWindow parent;
     
-    public StartupListener(StartupWindow w) {
+    public StartupListener(ImportGraphWindow w) {
         this.parent = w;
     }
     

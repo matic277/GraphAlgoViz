@@ -1,7 +1,8 @@
 package impl.listeners;
 
 import core.GraphType;
-import impl.windows.StartupWindow;
+import impl.windows.ImportGraphWindow;
+import impl.windows.SimulationWindow;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,17 +10,20 @@ import java.awt.event.ActionListener;
 
 public class ComboBoxListener implements ActionListener {
     
-    StartupWindow parent;
+    SimulationWindow simWindow;
+    ImportGraphWindow parent;
     GraphType selectedType = null;
     
-    public ComboBoxListener(StartupWindow parent) {
+    public ComboBoxListener(ImportGraphWindow parent, SimulationWindow simWindow) {
         this.parent = parent;
+        this.simWindow = simWindow;
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
         String text = String.valueOf(((JComboBox) e.getSource()).getSelectedItem());
         GraphType selectedType = GraphType.getByDescription(text);
+        selectedType.getPanel().setSimulationWindow(simWindow); // un
 //        selectedType = selected;
         parent.setSelectedGraphType(selectedType);
         parent.setNewOptionPanel(selectedType.getPanel());
