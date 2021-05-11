@@ -99,7 +99,7 @@ public class AlgorithmController implements Runnable, Observable {
     
     public void assignTasks() {
         // if there are no nodes, then just clear executors of work
-        if (graph.nodes.isEmpty()) {
+        if (graph.getGraph().vertexSet().isEmpty()) {
             for (int i=0; i<EXECUTORS.length; i++) EXECUTORS[i].nodes.clear();
             return;
         }
@@ -134,20 +134,24 @@ public class AlgorithmController implements Runnable, Observable {
         throw new RuntimeException("Node " + node + " not found and removed!");
     }
     
+    
+    
+    
+    
+    
     public Algorithm getAlgorithm() {
         return node -> {
             // if you have info, don't do anything
             if (node.getState().info > 0) return new State(node.getState().info);
             
-            // TODO
             // Some nodes have no neighbors, so
             // in this case don't do anything.
             // Return the same state you're in.
-            if (node.neighbors.isEmpty()) return new State(node.getState().info);
+            if (node.getNeighbors().isEmpty()) return new State(node.getState().info);
             
             // get two random neighbors
-            Node randNeigh1 = node.neighbors.get(Tools.RAND.nextInt(node.neighbors.size()));
-            Node randNeigh2 = node.neighbors.get(Tools.RAND.nextInt(node.neighbors.size()));
+            Node randNeigh1 = node.getNeighbors().get(Tools.RAND.nextInt(node.getNeighbors().size()));
+            Node randNeigh2 = node.getNeighbors().get(Tools.RAND.nextInt(node.getNeighbors().size()));
             State stateOfNeigh1 = randNeigh1.getState();
             State stateOfNeigh2 = randNeigh2.getState();
             
@@ -157,6 +161,11 @@ public class AlgorithmController implements Runnable, Observable {
             return new State(newStateInfo);
         };
     }
+    
+    
+    
+    
+    
     
     public void setAlgorithm(Algorithm a) { algo = a; }
     

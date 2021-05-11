@@ -6,6 +6,7 @@ import core.Selectable;
 import impl.tools.Edge;
 import impl.tools.Tools;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.jgrapht.Graphs;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -13,6 +14,7 @@ import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.geom.Point2D;
+import java.util.Set;
 
 public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
@@ -21,13 +23,13 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     public Shape ts;
     
     public int info = 0;
-    public List<Node> neighbors;
+//    public Set<Node> neighbors;
     
     public List<State> states;
     int messagesReceived = 0;
     int messagesSent = 0;
     
-    static final Color INFORMED = Color.decode("#34A853");
+    static final Color INFORMED = Tools.GREEN;
     static final Color UNINFORMED = Color.black;
     
     public static ComponentDrawer idDrawer = ComponentDrawer.getNullDrawer();
@@ -45,7 +47,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         
         this.ts = this;
         
-        neighbors = new ArrayList<>(5);
+//        neighbors = new ArrayList<>(5);
         states = new ArrayList<>(10);
         states.add(new State(0)); // uninformed on initialize
     }
@@ -103,7 +105,9 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
     @Override
     public String toString() {
-        return "[N="+id+"]{"+Edge.edgesListToString(this.neighbors)+"}";
+        // do not call getNeighbors() in here!
+        // produces StackOverflow when node is deleted
+        return "[N="+id+"]{"+"}";
     }
     
     public int getId() { return this.id; }
@@ -123,5 +127,23 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         return new HashCodeBuilder()
                 .append(this.id)
                 .toHashCode();
+    }
+    
+    public List<Node> getNeighbors() {
+        return Graphs.neighborListOf(MyGraph.getInstance().getGraph(), this);
+//        return MyGraph.getInstance().getGraph().getEdgeTarget(MyGraph.getInstance().getGraph().edgesOf(this));
+    }
+    
+    public Node getRandomNeighbor() {
+//        int size = myHashSet.size();
+//        int item = new Random().nextInt(size); // In real life, the Random object should be rather more shared than this
+//        int i = 0;
+//        for(Object obj : myhashSet)
+//        {
+//            if (i == item)
+//                return obj;
+//            i++;
+//        }
+        return null;
     }
 }

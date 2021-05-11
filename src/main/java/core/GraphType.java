@@ -19,7 +19,6 @@ public enum GraphType {
     private String description;
     private OptionPanel panel;
     private GraphBuilder builder;
-    private static SimulationWindow simWindow;
     
     GraphType(int id, String desc, OptionPanel panel, GraphBuilder builder) {
         this.id = id;
@@ -34,13 +33,6 @@ public enum GraphType {
         }
         throw new RuntimeException("Unknown graph type " + desc + ".");
     }
-    
-    public void setSimulationWindow(SimulationWindow simWindow) {
-//        panel.setSimulationWindow(simWindow);
-        this.simWindow = simWindow;
-    }
-    
-    public SimulationWindow getSimulationWindow() { return this.simWindow; }
     
     public OptionPanel getPanel() { return this.panel; }
     public GraphBuilder getGraphBuilder() { return this.builder; }

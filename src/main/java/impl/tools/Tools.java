@@ -12,6 +12,7 @@ public class Tools {
     public static final Color borderColor = new Color(118, 118, 118);
     public static final Color RED = Color.decode("#ea4335");
     public static final Color GRAY = Color.decode("#BFBDBD");
+    public static final Color GREEN = Color.decode("#34A853");
     public static final Color MEUN_COLORS = Color.decode("#E0DDDD");
     
     public static final Dimension MENU_BUTTON_SIZE = new Dimension(40, 40);

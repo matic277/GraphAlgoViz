@@ -3,6 +3,8 @@ package impl.tools;
 import impl.Node;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class Edge {
@@ -16,15 +18,17 @@ public class Edge {
     public Node getN1() { return n1; }
     public Node getN2() { return n2; }
     
-    public static String edgesListToString(List<Node> list) {
+    public static String edgesListToString(Collection<Node> col) {
         StringBuilder sb = new StringBuilder()
                 .append("[");
-        if (list.isEmpty()) return sb.append("]").toString();
-        
-        for (int i=0; i<list.size()-1; i++) {
-            sb.append(list.get(i).id).append(", ");
+        if (col.isEmpty()) return sb.append("]").toString();
+    
+        Iterator<Node> iter = col.iterator();
+        for (; iter.hasNext();) {
+            Node n = iter.next();
+            sb.append(n.id).append(iter.hasNext() ? ", " : "]");
         }
-        sb.append(list.get(list.size()-1).id);
+//        sb.append(list.get(list.size()-1).id);
         return sb.append("]").toString();
     }
     

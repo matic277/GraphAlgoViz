@@ -1,9 +1,12 @@
 package core;
 
+import impl.MyGraph;
 import impl.Node;
 import impl.State;
 import impl.tools.Edge;
 import impl.tools.Tools;
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultEdge;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -35,12 +38,13 @@ public interface ComponentDrawer {
         };
     }
     
-    static ComponentDrawer getEdgeDrawer(Set<Edge> edges) {
+    static ComponentDrawer getEdgeDrawer(Graph<Node, DefaultEdge> graph) {
         return (g, at, n) -> {
             g.setColor(Color.black);
-            for (Edge e : edges) {
-                Node n1 = e.getN1();
-                Node n2 = e.getN2();
+//            System.out.println("edges="+graph.edgeSet().size());
+            for (DefaultEdge e : graph.edgeSet()) {
+                Node n1 = graph.getEdgeSource(e);
+                Node n2 = graph.getEdgeTarget(e);
                 g.drawLine((int)n1.ts.getBounds().getCenterX(), (int)n1.ts.getBounds().getCenterY(),
                         (int)n2.ts.getBounds().getCenterX(), (int)n2.ts.getBounds().getCenterY());
             }
@@ -61,7 +65,7 @@ public interface ComponentDrawer {
         return (g, at, n) -> {
             g.setColor(Color.black);
             g.drawString(
-                    "NG: " + Edge.edgesListToString(n.neighbors) + "",
+                    "NG: " + Edge.edgesListToString(n.getNeighbors()) + "",
                     (int)n.ts.getBounds().getCenterX()-30,
                     (int)(n.ts.getBounds().getCenterY()+n.ts.getBounds().getHeight()/1.2)+15);
         };

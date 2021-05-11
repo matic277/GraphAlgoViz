@@ -25,7 +25,7 @@ public class FileGraphBuilder extends GraphBuilder {
     
     @Override
     public void buildGraph() {
-        // graph reading with JgraphT lib
+        // graph reading with JGraphT lib
         Graph<Integer, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         Graph6Sparse6Importer<Integer, DefaultEdge> importer = new Graph6Sparse6Importer<>();
         var ref = new Object(){ int x = 0; };
@@ -62,5 +62,23 @@ public class FileGraphBuilder extends GraphBuilder {
         this.getNodeInformator().run();
         
 //        this.arrangeNodesInCircularLayout(400);
+        
+        
+        
+        
+        
+        
+        Graph<Node, DefaultEdge> graph2 = new SimpleGraph<>(DefaultEdge.class);
+        Graph6Sparse6Importer<Node, DefaultEdge> importer2 = new Graph6Sparse6Importer<>();
+        var ref2 = new Object(){ int x = 0; };
+        importer2.setVertexFactory((t) -> new Node(-ref2.x, ref2.x, ref2.x++));
+        importer2.importGraph(graph2, new File(this.fileName));
+        
+        
+        
+        
+        
+        
+        
     }
 }

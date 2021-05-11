@@ -120,7 +120,10 @@ public class MenuPanel extends JPanel {
         addNodeBtn.setToolTipText("Add new node");
         addNodeBtn.setSize(Tools.MENU_BUTTON_SIZE);
         addNodeBtn.addActionListener(a -> {
-            Node newNode = new Node(50, 50, graph.getNextNodeId());
+//            Node newNode = new Node(50, 50, graph.getNextNodeId()); // TODO
+            Node newNode = MyGraph.getNode();
+            newNode.x = 50;
+            newNode.y = 50;
             
             // when node is added in the middle of the simulation
             // prefill its history (state list) with uninformed states!
