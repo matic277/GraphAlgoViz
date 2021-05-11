@@ -19,6 +19,7 @@ public class MyGraph implements Drawable {
     Set<Node> nodes;
     Set<Edge> edges;
     
+    
     private ComponentDrawer edgeDrawer = ComponentDrawer.getNullDrawer();
     
     // singleton

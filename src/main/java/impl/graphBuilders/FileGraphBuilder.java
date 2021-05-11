@@ -2,12 +2,18 @@ package impl.graphBuilders;
 
 import impl.Node;
 import org.jgrapht.Graph;
+import org.jgrapht.alg.drawing.*;
+import org.jgrapht.alg.drawing.model.Box2D;
+import org.jgrapht.alg.drawing.model.LayoutModel2D;
+import org.jgrapht.alg.drawing.model.MapLayoutModel2D;
+import org.jgrapht.alg.drawing.model.Point2D;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.nio.graph6.Graph6Sparse6Importer;
 
 import core.GraphBuilder;
 
+import java.awt.*;
 import java.io.File;
 
 
@@ -26,11 +32,24 @@ public class FileGraphBuilder extends GraphBuilder {
         importer.setVertexFactory((t) -> ref.x++);
         importer.importGraph(graph, new File(this.fileName));
         
-//        System.out.println(graph.vertexSet().size() + " | " + graph.edgeSet().size());
+        // random
+//        LayoutModel2D<Integer> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
+//        RandomLayoutAlgorithm2D<Integer, DefaultEdge> rand = new RandomLayoutAlgorithm2D<>();
+//        rand.layout(graph, model);
         
+        LayoutModel2D<Integer> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
+        LayoutAlgorithm2D<Integer, DefaultEdge> rand = new FRLayoutAlgorithm2D<>();
+        rand.layout(graph, model);
+        
+        
+        // Covert from JGraphT to MyGraph
         // create nodes
         for (Integer node : graph.vertexSet()) {
-            this.graph.addNode(new Node(node, -node, node));
+            Node n = new Node(node, -node, node);
+            Point2D p = model.get(node);
+            n.x = p.getX();
+            n.y = p.getY();
+            this.graph.addNode(n);
         }
         // create edges
         for (DefaultEdge edge : graph.edgeSet()) {
@@ -42,6 +61,6 @@ public class FileGraphBuilder extends GraphBuilder {
         // initialize nodes (informed or not)
         this.getNodeInformator().run();
         
-        this.arrangeNodesInCircularLayout(400);
+//        this.arrangeNodesInCircularLayout(400);
     }
 }

@@ -56,7 +56,7 @@ public class CliqueGraphOptionPanel extends OptionPanel {
                     .setNumberOfNodes(Integer.parseInt(inputField.getText()))
                     .setInformedProbability(isPercentage ? nodesToInform : null)
                     .setTotalInformed(isPercentage ? null : nodesToInform);
-            type.getSimulationWindow().onNewGraphImport(builder);
+            super.simWindow.onNewGraphImport(builder);
         };
     }
 }

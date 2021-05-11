@@ -2,6 +2,7 @@ package impl.graphOptionPanels;
 
 import core.GraphType;
 import core.OptionPanel;
+import impl.graphBuilders.EmptyGraphBuilder;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -21,7 +22,7 @@ public class UserGraphOptionPanel extends OptionPanel {
         // do nothing, create empty graph
         return a -> {
             System.out.println("Listening: " + this.getClass().getSimpleName());
-            type.getSimulationWindow().onNewGraphImport(type.getGraphBuilder());
+            super.simWindow.onNewGraphImport(new EmptyGraphBuilder());
         };
     }
     

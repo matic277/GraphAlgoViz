@@ -107,7 +107,7 @@ public class AlgorithmController implements Runnable, Observable {
         int taskSize = nodes / PROCESSORS;
         int lastTaskSize = (nodes - (taskSize * PROCESSORS)) + taskSize;
         
-        System.out.println("TASK SIZE="+taskSize+", LAST="+lastTaskSize);
+        // System.out.println("TASK SIZE="+taskSize+", LAST="+lastTaskSize);
         
         Iterator<Node> iter = this.graph.getNodes().stream().iterator();
         
