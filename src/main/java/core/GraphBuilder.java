@@ -4,6 +4,12 @@ import impl.MyGraph;
 import impl.Node;
 import impl.tools.Tools;
 import impl.tools.Vector;
+import org.jgrapht.alg.drawing.CircularLayoutAlgorithm2D;
+import org.jgrapht.alg.drawing.LayoutAlgorithm2D;
+import org.jgrapht.alg.drawing.model.Box2D;
+import org.jgrapht.alg.drawing.model.LayoutModel2D;
+import org.jgrapht.alg.drawing.model.MapLayoutModel2D;
+import org.jgrapht.graph.DefaultEdge;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -38,10 +44,18 @@ public abstract class GraphBuilder {
         }
     }
     
+    public void arrangeNodesInCircularLayoutJGraphT() {
+        LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
+        LayoutAlgorithm2D<Node, DefaultEdge> rand = new CircularLayoutAlgorithm2D<>(390);
+        rand.layout(this.graph.getGraph(), model);
+        
+        // set positions from model to nodes
+        model.collect().forEach(Node::setPosition);
+    }
+    
+    @Deprecated
     public void arrangeNodesInCircularLayout(int radius) {
         // place nodes in circle of diameter
-        // x^2 + y^2 = 300^2
-        // y = sqrt(300^2 - x^2)
         Point centerCircle = new Point(400, 400);
         Vector center = new Vector(-radius, 0);
         double angle = 360D / this.graph.getNodes().size();

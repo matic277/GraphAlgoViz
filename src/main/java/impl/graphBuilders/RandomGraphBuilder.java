@@ -33,7 +33,7 @@ public class RandomGraphBuilder extends GraphBuilder {
         
         this.getNodeInformator().run();
         
-        this.arrangeNodesInCircularLayout(400);
+        this.arrangeNodesInCircularLayoutJGraphT();
     }
     
 }

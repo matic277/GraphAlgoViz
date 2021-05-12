@@ -3,7 +3,6 @@ package impl;
 import core.ComponentDrawer;
 import core.Drawable;
 import core.Selectable;
-import impl.tools.Edge;
 import impl.tools.Tools;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jgrapht.Graphs;
@@ -14,7 +13,6 @@ import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.geom.Point2D;
-import java.util.Set;
 
 public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
@@ -37,6 +35,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     public static ComponentDrawer stateDebugDrawer = ComponentDrawer.getNullDrawer();
     public static ComponentDrawer neighborsDrawer = ComponentDrawer.getNullDrawer();
     
+    @Deprecated(since = "Do not use this constructor, use MyGraph.newNode()")
     public Node(int x, int y, int id) {
         this.x = x;
         this.y = y;
@@ -145,5 +144,9 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
 //            i++;
 //        }
         return null;
+    }
+    
+    public void setPosition(org.jgrapht.alg.drawing.model.Point2D p) {
+        this.x = p.getX(); this.y = p.getY();
     }
 }

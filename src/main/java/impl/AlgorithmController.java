@@ -134,11 +134,6 @@ public class AlgorithmController implements Runnable, Observable {
         throw new RuntimeException("Node " + node + " not found and removed!");
     }
     
-    
-    
-    
-    
-    
     public Algorithm getAlgorithm() {
         return node -> {
             // if you have info, don't do anything
@@ -161,11 +156,6 @@ public class AlgorithmController implements Runnable, Observable {
             return new State(newStateInfo);
         };
     }
-    
-    
-    
-    
-    
     
     public void setAlgorithm(Algorithm a) { algo = a; }
     

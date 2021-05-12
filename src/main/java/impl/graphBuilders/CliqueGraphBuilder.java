@@ -1,6 +1,7 @@
 package impl.graphBuilders;
 
 import core.GraphBuilder;
+import impl.MyGraph;
 import impl.Node;
 
 public class CliqueGraphBuilder extends GraphBuilder {
@@ -8,7 +9,7 @@ public class CliqueGraphBuilder extends GraphBuilder {
     @Override
     public void buildGraph() {
         for (int i=0; i<this.totalNodes; i++) {
-            this.graph.addNode(new Node(i, -i, i));
+            this.graph.addNode(MyGraph.getNode());
         }
         
         for (Node n1 : this.graph.getNodes()) {
@@ -20,6 +21,6 @@ public class CliqueGraphBuilder extends GraphBuilder {
         
         this.getNodeInformator().run();
         
-        this.arrangeNodesInCircularLayout(400);
+        this.arrangeNodesInCircularLayoutJGraphT();
     }
 }

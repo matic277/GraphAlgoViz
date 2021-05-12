@@ -37,8 +37,6 @@ public class Vector {
     public void set(int x_, int y_) { x = x_; y = y_; }
     public void set(double x_, double y_) { x = x_; y = y_; }
     
-    // rotates for a random value from [0, Var.vectorAngle]
-    // in both directions (clockwise or counter-clockwise)
     public void rotate(double angle, double len) {
         if (angle == 0) return;
         

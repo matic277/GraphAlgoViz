@@ -1,5 +1,6 @@
 package impl.graphBuilders;
 
+import impl.MyGraph;
 import impl.Node;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.drawing.*;
@@ -26,59 +27,28 @@ public class FileGraphBuilder extends GraphBuilder {
     @Override
     public void buildGraph() {
         // graph reading with JGraphT lib
-        Graph<Integer, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
-        Graph6Sparse6Importer<Integer, DefaultEdge> importer = new Graph6Sparse6Importer<>();
-        var ref = new Object(){ int x = 0; };
-        importer.setVertexFactory((t) -> ref.x++);
-        importer.importGraph(graph, new File(this.fileName));
+        Graph6Sparse6Importer<Node, DefaultEdge> importer = new Graph6Sparse6Importer<>();
+        importer.setVertexFactory((t) -> MyGraph.getNode());
+        importer.importGraph(this.graph.getGraph(), new File(this.fileName));
+    
+        System.out.println("Graph="+graph.getNodes().size());
         
         // random
 //        LayoutModel2D<Integer> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
 //        RandomLayoutAlgorithm2D<Integer, DefaultEdge> rand = new RandomLayoutAlgorithm2D<>();
 //        rand.layout(graph, model);
         
-        LayoutModel2D<Integer> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
-        LayoutAlgorithm2D<Integer, DefaultEdge> rand = new FRLayoutAlgorithm2D<>();
-        rand.layout(graph, model);
-        
-        
-        // Covert from JGraphT to MyGraph
-        // create nodes
-        for (Integer node : graph.vertexSet()) {
-            Node n = new Node(node, -node, node);
-            Point2D p = model.get(node);
-            n.x = p.getX();
-            n.y = p.getY();
-            this.graph.addNode(n);
-        }
-        // create edges
-        for (DefaultEdge edge : graph.edgeSet()) {
-            Integer n1 = graph.getEdgeSource(edge);
-            Integer n2 = graph.getEdgeTarget(edge);
-            this.graph.connectById(n1, n2);
-        }
+        // map layout
+//        LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
+//        LayoutAlgorithm2D<Node, DefaultEdge> rand = new FRLayoutAlgorithm2D<>();
+//        rand.layout(this.graph.getGraph(), model);
+//
+//        // set positions from model to nodes
+//        model.collect().forEach(Node::setPosition);
         
         // initialize nodes (informed or not)
         this.getNodeInformator().run();
         
-//        this.arrangeNodesInCircularLayout(400);
-        
-        
-        
-        
-        
-        
-        Graph<Node, DefaultEdge> graph2 = new SimpleGraph<>(DefaultEdge.class);
-        Graph6Sparse6Importer<Node, DefaultEdge> importer2 = new Graph6Sparse6Importer<>();
-        var ref2 = new Object(){ int x = 0; };
-        importer2.setVertexFactory((t) -> new Node(-ref2.x, ref2.x, ref2.x++));
-        importer2.importGraph(graph2, new File(this.fileName));
-        
-        
-        
-        
-        
-        
-        
+        this.arrangeNodesInCircularLayoutJGraphT();
     }
 }
