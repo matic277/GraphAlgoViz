@@ -2,6 +2,8 @@ package impl;
 
 import core.ComponentDrawer;
 import core.Drawable;
+import core.GraphChangeObserver;
+import core.GraphObservable;
 import impl.tools.Edge;
 import impl.tools.Tools;
 import org.jgrapht.Graph;
@@ -9,16 +11,16 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultUndirectedGraph;
 
 import java.awt.*;
+import java.awt.List;
 import java.awt.geom.AffineTransform;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
-public class MyGraph implements Drawable {
+public class MyGraph implements Drawable, GraphObservable {
     
     public int numOfNodes = 0;
     static private int nextId = -1;
+    
+    public int informedNodes = 0;
     
     Graph<Node, DefaultEdge> graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
     
@@ -49,6 +51,8 @@ public class MyGraph implements Drawable {
         graph.removeAllEdges(copy);
         LinkedList<Node> copy2 = new LinkedList<>(graph.vertexSet());
         graph.removeAllVertices(copy2);
+    
+        observers.forEach(GraphChangeObserver::onGraphClear);
     }
     
     // TODO: increasing nextId on getNode call, not node is not necessarily added to graph
@@ -82,16 +86,19 @@ public class MyGraph implements Drawable {
     public void deleteNode(Node node) {
         boolean removed = this.graph.removeVertex(node);
         System.out.println("REMOVING NODE="+node+"="+removed);
+        observers.forEach(GraphChangeObserver::onNodeDeleted);
     }
     
     public void addNode(Node n) {
         this.graph.addVertex(n);
+        observers.forEach(GraphChangeObserver::onNodeAdded);
         numOfNodes++;
     }
     
     public boolean addEdge(Node n1, Node n2) {
         DefaultEdge e = this.graph.addEdge(n1, n2);
         System.out.println("ADDED EDGE: " + e);
+        observers.forEach(GraphChangeObserver::onEdgeAdded);
         return e != null;
     }
     
@@ -114,4 +121,16 @@ public class MyGraph implements Drawable {
     }
     
     public Graph<Node, DefaultEdge> getGraph() { return this.graph; }
+    
+    Set<GraphChangeObserver> observers = new HashSet<>(5);
+    
+    @Override
+    public void addObserver(GraphChangeObserver observer) {
+        this.observers.add(observer);
+    }
+    
+    @Override
+    public void removeObserver(GraphChangeObserver observer) {
+        this.observers.remove(observer);
+    }
 }

@@ -19,7 +19,7 @@ public class BottomPanel extends JSplitPane {
         this.parent = parent;
         this.graph = MyGraph.getInstance();
         
-        statsPanel = new StatsPanel(this);
+        statsPanel = new StatsPanel(this, new Content());
         tabPanel = new TabsPanel(this);
         
         this.setLeftComponent(statsPanel);

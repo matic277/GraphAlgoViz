@@ -29,7 +29,7 @@ public class SimulationWindow extends Window {
         this.frame.add(mainPanel, BorderLayout.CENTER);
         
         this.algoController = new AlgorithmController(MyGraph.getInstance());
-        this.algoController.addObserver(this.mainPanel.getTopPanel().getSimulationPanel());
+//        this.algoController.addObserver(this.mainPanel.getTopPanel().getSimulationPanel());
         this.algoController.addObserver(this.mainPanel.getBottomPanel().getTabsPanel().getStateHistoryTab());
     
         this.frame.pack();

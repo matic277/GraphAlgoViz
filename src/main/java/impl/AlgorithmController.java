@@ -1,8 +1,8 @@
 package impl;
 
 import core.Algorithm;
-import core.Observable;
-import core.Observer;
+import core.StateObservable;
+import core.StateObserver;
 import impl.panels.MenuPanel;
 import impl.tools.LOG;
 import impl.tools.Tools;
@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class AlgorithmController implements Runnable, Observable {
+public class AlgorithmController implements Runnable, StateObservable {
     
     static final int PROCESSORS = 3;
     
@@ -85,7 +85,7 @@ public class AlgorithmController implements Runnable, Observable {
     private void incrementState() {
         totalStates++;
         currentStateIndex++;
-        observers.forEach(obs -> obs.notifyStateChange(currentStateIndex));
+        observers.forEach(StateObserver::onStateChange);
     }
     
     private void initProcessors() {
@@ -159,15 +159,15 @@ public class AlgorithmController implements Runnable, Observable {
     
     public void setAlgorithm(Algorithm a) { algo = a; }
     
-    Set<Observer> observers = new HashSet<>(8);
+    Set<StateObserver> observers = new HashSet<>(8);
     
     @Override
-    public void addObserver(Observer obsever) {
+    public void addObserver(StateObserver obsever) {
         this.observers.add(obsever);
     }
     
     @Override
-    public void removeObserver(Observer observer) {
+    public void removeObserver(StateObserver observer) {
         this.observers.remove(observer);
     }
     

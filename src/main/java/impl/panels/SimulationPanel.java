@@ -1,6 +1,7 @@
 package impl.panels;
 
 import core.Observer;
+import core.StateObserver;
 import impl.*;
 import impl.listeners.SimulationPanelListener;
 import impl.tools.Tools;
@@ -13,7 +14,7 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class SimulationPanel extends JPanel implements Observer {
+public class SimulationPanel extends JPanel {
     
     TopPanel parent;
     MyGraph graph;
@@ -111,11 +112,6 @@ public class SimulationPanel extends JPanel implements Observer {
                     (int)mouse.getY());
             g.setStroke(Tools.PLAIN_STROKE);
         }
-    }
-    
-    @Override
-    public void notifyStateChange(int newStateIndex) {
-        // remove this
     }
     
     public void setGraph(MyGraph g) { this.graph = g; }

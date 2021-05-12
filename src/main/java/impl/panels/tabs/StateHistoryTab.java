@@ -1,6 +1,7 @@
 package impl.panels.tabs;
 
 import core.Observer;
+import core.StateObserver;
 import impl.AlgorithmController;
 import impl.tools.Tools;
 
@@ -8,7 +9,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class StateHistoryTab extends JPanel implements Observer {
+public class StateHistoryTab extends JPanel implements StateObserver {
     
     final int NUM_OF_STATES = 15;
     
@@ -56,16 +57,16 @@ public class StateHistoryTab extends JPanel implements Observer {
         stateBox[0].setBorder(SELECTED_BORDER);
     }
     
-    @Override
-    public void notifyStateChange(int newStateIndex) {
-        for (int i=0; i<stateBox.length; i++) {
-            stateBox[i].setBorder(DEFAULT_BORDER);
-            stateBox[i].setEnabled(i <= newStateIndex); // enable new buttons
-        }
-        if (newStateIndex <= stateBox.length-1) {
-            stateBox[newStateIndex].setBorder(SELECTED_BORDER);
-        }
-    }
+//    @Override
+//    public void notifyStateChange(int newStateIndex) {
+//        for (int i=0; i<stateBox.length; i++) {
+//            stateBox[i].setBorder(DEFAULT_BORDER);
+//            stateBox[i].setEnabled(i <= newStateIndex); // enable new buttons
+//        }
+//        if (newStateIndex <= stateBox.length-1) {
+//            stateBox[newStateIndex].setBorder(SELECTED_BORDER);
+//        }
+//    }
     
     public void setCurrentActiveState(int currentStateIndex) {
         for (int i=0; i<stateBox.length; i++) {
@@ -86,5 +87,23 @@ public class StateHistoryTab extends JPanel implements Observer {
         }
         stateBox[0].setBorder(SELECTED_BORDER);
         stateBox[0].setEnabled(true);
+    }
+    
+    @Override
+    public void onStateChange() {
+        for (int i=0; i<stateBox.length; i++) {
+            stateBox[i].setBorder(DEFAULT_BORDER);
+            stateBox[i].setEnabled(i <= AlgorithmController.currentStateIndex); // enable new buttons
+        }
+        if (AlgorithmController.currentStateIndex <= stateBox.length-1) {
+            stateBox[AlgorithmController.currentStateIndex].setBorder(SELECTED_BORDER);
+        }
+    }
+    
+    @Override
+    public void onTotalStateChange() {
+        for (int i=1; i<stateBox.length; i++) {
+            stateBox[i].setEnabled(i < AlgorithmController.totalStates);
+        }
     }
 }
