@@ -1,7 +1,5 @@
 package impl.panels;
 
-import core.Observer;
-import core.StateObserver;
 import impl.*;
 import impl.listeners.SimulationPanelListener;
 import impl.tools.Tools;
@@ -38,6 +36,21 @@ public class SimulationPanel extends JPanel {
         this.setOpaque(true);
         this.setVisible(true);
         this.setBackground(Color.red);
+        
+//        this.setMinimumSize(new Dimension(Tools.INITIAL_WINDOW_WIDTH - Tools.MAXIMUM_LEFT_MENU_WIDTH, 0));
+        // this is needed to limit the max width of MenuPanel
+        // (because JSplitPane does not respect MenuPanel.setMaximumSize)
+//        this.addComponentListener(new ComponentListener() {
+//            @Override
+//            public void componentResized(ComponentEvent e) {
+//                SimulationPanel.this.setMinimumSize(new Dimension((int) (SimulationPanel.this.parent.parent.getSimulationWindow().getWindowSize().getWidth() - 2*Tools.MAXIMUM_LEFT_MENU_WIDTH), 0));
+//                System.out.println("frm width="+(int) (SimulationPanel.this.parent.parent.getSimulationWindow().getWindowSize().getWidth()));
+//                System.out.println("min width="+(int) (SimulationPanel.this.parent.parent.getSimulationWindow().getWindowSize().getWidth() - Tools.MAXIMUM_LEFT_MENU_WIDTH));
+//            }
+//            @Override public void componentMoved(ComponentEvent e) { }
+//            @Override public void componentShown(ComponentEvent e) { }
+//            @Override public void componentHidden(ComponentEvent e) { }
+//        });
         
         listener = new SimulationPanelListener(this);
         this.addMouseMotionListener(listener);

@@ -23,8 +23,8 @@ public class MainPanel extends JSplitPane {
         super(VERTICAL_SPLIT, null, null);
         this.parent = parent;
         
-        this.setSize(parent.getWindowSize());
-        this.setPreferredSize(parent.getWindowSize());
+        this.setSize(parent.getInitialWindowSize());
+        this.setPreferredSize(parent.getInitialWindowSize());
         
         this.topPanel = new TopPanel(this);
         this.bottomPanel = new BottomPanel(this);

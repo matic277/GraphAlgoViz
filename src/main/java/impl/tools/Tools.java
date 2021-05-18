@@ -15,8 +15,8 @@ public class Tools {
     public static final Color GREEN = Color.decode("#34A853");
     public static final Color MEUN_COLORS = Color.decode("#E0DDDD");
     
-    public static final Dimension MENU_BUTTON_SIZE = new Dimension(40, 40);
-    public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(100, 40);
+    public static final Dimension MENU_BUTTON_SIZE = new Dimension(40, 37);
+    public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(100, 37);
     public static final Dimension MENU_CHECKBOX_SIZE = new Dimension(125, 15);
     
     public static final Stroke PLAIN_STROKE = new BasicStroke(1);
@@ -26,7 +26,8 @@ public class Tools {
     
     public static final int INITIAL_WINDOW_WIDTH = 1400;
     public static final int INITIAL_WINDOW_HEIGHT = 1000;
-    public static final int INITIAL_LEFT_MENU_WIDTH = 150;
+    public static final int INITIAL_LEFT_MENU_WIDTH = 220;
+    public static final int MAXIMUM_LEFT_MENU_WIDTH = 220;
     public static final int INITIAL_BOTTOM_MENU_HEIGHT = 200;
     public static final int INITIAL_STATS_PANEL_WIDTH = 150;
     
@@ -57,6 +58,7 @@ public class Tools {
         obj.setSize(new Dimension((int)(MENU_BUTTON_SIZE.width * 3.5), 20));
         obj.setOpaque(true);
         obj.setBackground(Color.BLACK);
+        //obj.setAlignmentX(Component.CENTER_ALIGNMENT);
         return obj;
     }
     

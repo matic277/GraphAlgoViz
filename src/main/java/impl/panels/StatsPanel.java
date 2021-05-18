@@ -9,6 +9,8 @@ import java.awt.*;
 
 public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     
+    BottomPanel parent;
+    
     Content content;
     MyGraph graph = MyGraph.getInstance();
     
@@ -18,6 +20,7 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     public StatsPanel(BottomPanel parent, Content content) {
         super(content);
         this.content = content;
+        this.parent = parent;
         
         Dimension panelSize = new Dimension(Tools.INITIAL_STATS_PANEL_WIDTH, parent.getHeight());
         this.setSize(panelSize);

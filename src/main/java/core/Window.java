@@ -4,6 +4,7 @@ import impl.tools.Tools;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public abstract class Window {
     
@@ -54,6 +55,8 @@ public abstract class Window {
         
     
         try {
+            System.out.println(Arrays.toString(Arrays.stream(UIManager.getInstalledLookAndFeels()).map(UIManager.LookAndFeelInfo::getName).toArray()));
+            //System.out.println(Arrays.toString(Arrays.stream(UIManager.getAuxiliaryLookAndFeels()).map(LookAndFeel::getName).toArray()));
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {e.printStackTrace();}
         
@@ -61,7 +64,11 @@ public abstract class Window {
         frame.pack();
     }
     
-    public Dimension getWindowSize() {
+    public Dimension getInitialWindowSize() {
         return this.windowSize;
+    }
+    
+    public Dimension getWindowSize() {
+        return this.frame.getSize();
     }
 }

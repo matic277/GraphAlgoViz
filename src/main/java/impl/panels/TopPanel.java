@@ -24,6 +24,7 @@ public class TopPanel extends JSplitPane {
         // set location of divider, so that width
         // of left menu is set to initial state
         this.setDividerLocation(Tools.INITIAL_LEFT_MENU_WIDTH);
+        this.setResizeWeight(0);
     }
     
     public SimulationWindow getSimulationWindow() { return this.parent.getSimulationWindow(); }

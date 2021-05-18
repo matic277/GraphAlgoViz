@@ -13,7 +13,6 @@ import java.util.Hashtable;
 public class MenuPanel extends JPanel {
     
     TopPanel parent;
-//    Dimension panelSize;
     SimulationWindow simWindow;
     SimulationPanel simPanel;
     
@@ -25,7 +24,6 @@ public class MenuPanel extends JPanel {
     public static JButton nextBtn; // TODO: could these not be static
     public static JButton prevBtn;
     
-    JLabel pauseInfo;
     JButton pauseBtn;
     
     JLabel sliderInfo;
@@ -42,31 +40,54 @@ public class MenuPanel extends JPanel {
         this.simWindow = parent.getSimulationWindow();
         this.simPanel  = parent.getSimulationPanel();
         this.graph = MyGraph.getInstance();
-    
+        
         // so that this panel can be squished, hiding its components
         // otherwise components dictate smallest possible size
         this.setMinimumSize(new Dimension(0, 0));
         
-//        this.setPreferredSize(panelSize);
-//        this.setSize(panelSize);
         Dimension menuPanelSize = new Dimension(Tools.INITIAL_LEFT_MENU_WIDTH, parent.getHeight());
         this.setSize(menuPanelSize);
         this.setPreferredSize(menuPanelSize);
         
-        this.setLayout(new FlowLayout());
         this.setOpaque(true);
-        this.setVisible(true);
-        this.setBackground(Color.blue);
+        this.setBackground(Tools.MEUN_COLORS);
+        
+        JPanel MAIN_PANEL = new JPanel();
+        MAIN_PANEL.setOpaque(true);
+        MAIN_PANEL.setBackground(Tools.MEUN_COLORS);
+        MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
+        this.add(MAIN_PANEL);
+        
+        JPanel graphOptionsPnl = new JPanel();
+//        graphOptionsPnl.setOpaque(true);
+//        graphOptionsPnl.setBackground(Color.WHITE);
+        graphOptionsPnl.setLayout(new BoxLayout(graphOptionsPnl, BoxLayout.Y_AXIS));
+        graphOptionsPnl.add(getSeparator());
+        MAIN_PANEL.add(graphOptionsPnl);
+        
+        JLabel graphOptionsTitle = new JLabel(" Graph options ");
+        graphOptionsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        graphOptionsTitle.setFont(Tools.getBoldFont(16));
+        graphOptionsPnl.add(graphOptionsTitle);
+        graphOptionsPnl.add(getSeparator());
         
         importBtn = new JButton("Import graph");
+        importBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         importBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        importBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        importBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        importBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
         importBtn.addActionListener(a -> {
             SwingUtilities.invokeLater(() -> new ImportGraphWindow(this.parent.getSimulationWindow()));
         });
-        this.add(importBtn);
-    
+        graphOptionsPnl.add(importBtn);
+        
         clearBtn = new JButton("Clear graph");
+        clearBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         clearBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        clearBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        clearBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        clearBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
         clearBtn.addActionListener(a -> {
             this.graph.clearGraph();
             this.parent.getSimulationWindow().getAlgorithmController().assignTasks();
@@ -74,51 +95,15 @@ public class MenuPanel extends JPanel {
             AlgorithmController.currentStateIndex = 0;
             parent.getMainPanel().onNewGraphImport();
         });
-        this.add(clearBtn);
+        graphOptionsPnl.add(clearBtn);
         
-        
-        // spacers
-        this.add(Tools.getDumyPlaceholder());
-        
-        
-        prevBtn = new JButton("<");
-        prevBtn.setToolTipText("Previous round");
-        prevBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
-        prevBtn.setEnabled(false);
-        prevBtn.addActionListener(a -> {
-            AlgorithmController.currentStateIndex = Math.max(0, AlgorithmController.currentStateIndex - 1);
-            parent.getMainPanel().getBottomPanel().getTabsPanel().getStateHistoryTab().setCurrentActiveState(AlgorithmController.currentStateIndex);
-        });
-        this.add(prevBtn);
-    
-        nextBtn = new JButton(">");
-        nextBtn.setToolTipText("Next round");
-        nextBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
-        nextBtn.setEnabled(false);
-        nextBtn.addActionListener(a -> {
-            // when button is pressed, it disables itself
-            // when the round is finished, AlgoController
-            // will enable it back on (same with prevBtn)
-            nextBtn.setEnabled(false);
-            prevBtn.setEnabled(false);
-            
-            // when pressing continue, jump to latest state
-            // (just like pause/cont button)
-            // TODO: ^
-            //  if states of nodes have been altered, history(future, if any)
-            //  must be deleted or handled somehow
-            AlgorithmController.currentStateIndex = AlgorithmController.totalStates - 1;
-            
-            synchronized (AlgorithmController.PAUSE_LOCK) {
-                AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.set(true);
-                AlgorithmController.PAUSE_LOCK.notify();
-            }
-        });
-        this.add(nextBtn);
-        
-        addNodeBtn = new JButton("new node");
-        addNodeBtn.setToolTipText("Add new node");
-        addNodeBtn.setSize(Tools.MENU_BUTTON_SIZE);
+        addNodeBtn = new JButton("Add node");
+        addNodeBtn.setToolTipText("Adds a new node to graph");
+        addNodeBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addNodeBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        addNodeBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        addNodeBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        addNodeBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
         addNodeBtn.addActionListener(a -> {
 //            Node newNode = new Node(50, 50, graph.getNextNodeId()); // TODO
             Node newNode = MyGraph.getNode();
@@ -164,21 +149,27 @@ public class MenuPanel extends JPanel {
             this.parent.getSimulationWindow().getMainPanel().onNewGraphImport();
             System.out.println("new node added");
         });
-        this.add(addNodeBtn);
+        graphOptionsPnl.add(addNodeBtn);
         
         
-        // spacer
-        this.add(Tools.getDumyPlaceholder());
         
+        // HISTORY PANEL
         
-        pauseInfo = new JLabel("Pause/continue simulation");
-        pauseInfo.setSize(new Dimension(30, 100));
-        pauseInfo.setFont(Tools.getFont(12));
-        this.add(pauseInfo);
+        JPanel historyOptionsPnl = new JPanel();
+        historyOptionsPnl.setLayout(new BoxLayout(historyOptionsPnl, BoxLayout.Y_AXIS));
+        MAIN_PANEL.add(historyOptionsPnl);
         
+        JLabel historyOptionsTitle = new JLabel(" History and simulation options ");
+        historyOptionsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        historyOptionsTitle.setFont(Tools.getBoldFont(14));
+        historyOptionsPnl.add(getSeparator());
+        historyOptionsPnl.add(historyOptionsTitle);
+        historyOptionsPnl.add(getSeparator());
+    
         pauseBtn = new JButton("CONTINUE");
         pauseBtn.setToolTipText("Pause or continue simulation.");
         pauseBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        pauseBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         pauseBtn.setEnabled(false);
         pauseBtn.addActionListener(a -> {
             // Thread safe atomic boolean flip
@@ -210,20 +201,74 @@ public class MenuPanel extends JPanel {
             }
             pauseBtn.setText(pauseBtn.getText().equals("CONTINUE") ? "PAUSE" : "CONTINUE");
         });
-        this.add(pauseBtn);
+        historyOptionsPnl.add(pauseBtn);
         
+        JPanel leftRightPnl = new JPanel();
+        leftRightPnl.setLayout(new FlowLayout());
+//        leftRightPnl.setBackground(Color.yellow);
+        historyOptionsPnl.add(leftRightPnl);
+    
+        prevBtn = new JButton("<");
+        prevBtn.setToolTipText("Previous round");
+        prevBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
+        prevBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        prevBtn.setEnabled(false);
+        prevBtn.addActionListener(a -> {
+            AlgorithmController.currentStateIndex = Math.max(0, AlgorithmController.currentStateIndex - 1);
+            parent.getMainPanel().getBottomPanel().getTabsPanel().getStateHistoryTab().setCurrentActiveState(AlgorithmController.currentStateIndex);
+        });
+        leftRightPnl.add(prevBtn);
         
-        // spacer
-        this.add(Tools.getDumyPlaceholder());
+        nextBtn = new JButton(">");
+        nextBtn.setToolTipText("Next round");
+        nextBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
+        nextBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        nextBtn.setEnabled(false);
+        nextBtn.addActionListener(a -> {
+            // when button is pressed, it disables itself
+            // when the round is finished, AlgoController
+            // will enable it back on (same with prevBtn)
+            nextBtn.setEnabled(false);
+            prevBtn.setEnabled(false);
+            
+            // when pressing continue, jump to latest state
+            // (just like pause/cont button)
+            // TODO: ^
+            //  if states of nodes have been altered, history(future, if any)
+            //  must be deleted or handled somehow
+            AlgorithmController.currentStateIndex = AlgorithmController.totalStates - 1;
+            
+            synchronized (AlgorithmController.PAUSE_LOCK) {
+                AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.set(true);
+                AlgorithmController.PAUSE_LOCK.notify();
+            }
+        });
+        leftRightPnl.add(nextBtn);
+    
+    
+    
+        // DRAWING OPTIONS PANEL
         
+        JPanel drawingOptionsPnl = new JPanel();
+        drawingOptionsPnl.setLayout(new BoxLayout(drawingOptionsPnl, BoxLayout.Y_AXIS));
+        MAIN_PANEL.add(drawingOptionsPnl);
+        
+        JLabel drawingOptionsTitle = new JLabel(" History and simulation options ");
+        drawingOptionsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        drawingOptionsTitle.setFont(Tools.getBoldFont(14));
+        drawingOptionsPnl.add(getSeparator());
+        drawingOptionsPnl.add(drawingOptionsTitle);
+        drawingOptionsPnl.add(getSeparator());
         
         sliderInfo = new JLabel("Change node radius");
+        sliderInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
         sliderInfo.setSize(new Dimension(30, 100));
         sliderInfo.setFont(Tools.getFont(12));
-        this.add(sliderInfo);
+        drawingOptionsPnl.add(sliderInfo);
         
         int sliderMin = 5, sliderMax = 100;
         nodeRadSlider = new JSlider(5, 100, Node.rad);
+        nodeRadSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
         Hashtable<Integer, JLabel> sliderMap = new Hashtable<>();
         Font lblFont = Tools.getFont(12);
         JLabel minLbl = new JLabel(sliderMin+""); minLbl.setFont(lblFont);
@@ -234,17 +279,23 @@ public class MenuPanel extends JPanel {
         nodeRadSlider.setMajorTickSpacing(30);
         nodeRadSlider.setPaintTicks(true);
         nodeRadSlider.setPaintLabels(true);
-        nodeRadSlider.setPreferredSize(new Dimension(120, 40));
+        nodeRadSlider.setPreferredSize(new Dimension(150, 40));
+        nodeRadSlider.setMaximumSize(new Dimension(150, 40));
+        nodeRadSlider.setMinimumSize(new Dimension(150, 40));
         nodeRadSlider.setFont(Tools.getFont(12));
         nodeRadSlider.setEnabled(false);
         nodeRadSlider.addChangeListener(c -> Node.rad = nodeRadSlider.getValue());
-        this.add(nodeRadSlider);
+        drawingOptionsPnl.add(nodeRadSlider);
         
+        drawingOptionsPnl.add(getSeparator());
         
-        this.add(Tools.getDumyPlaceholder());
+        JPanel chekcBoxPnl = new JPanel();
+        chekcBoxPnl.setLayout(new BoxLayout(chekcBoxPnl, BoxLayout.Y_AXIS));
+        chekcBoxPnl.setAlignmentX(Component.CENTER_ALIGNMENT);
+        drawingOptionsPnl.add(chekcBoxPnl);
         
-        
-        idDrawerCheckBox = new JCheckBox("Draw node IDs     "); // extra spaces so checkboxes are (almost!) aligned - flow layout sucks
+        idDrawerCheckBox = new JCheckBox("Draw node IDs"); // extra spaces so checkboxes are (almost!) aligned - flow layout sucks
+        idDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         idDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         idDrawerCheckBox.setFont(Tools.getFont(12));
         idDrawerCheckBox.setEnabled(false);
@@ -252,9 +303,11 @@ public class MenuPanel extends JPanel {
             Node.idDrawer = idDrawerCheckBox.isSelected() ?
                     ComponentDrawer.getIdDrawer() : ComponentDrawer.getNullDrawer();
         });
-        this.add(idDrawerCheckBox);
+        chekcBoxPnl.add(idDrawerCheckBox);
         
-        coordDrawerCheckBox = new JCheckBox("Draw node coords");
+        coordDrawerCheckBox = new JCheckBox("Draw node coordinates");
+        coordDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+//        coordDrawerCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
         coordDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         coordDrawerCheckBox.setFont(Tools.getFont(12));
         coordDrawerCheckBox.setEnabled(false);
@@ -262,9 +315,10 @@ public class MenuPanel extends JPanel {
             Node.coordDrawer = coordDrawerCheckBox.isSelected() ?
                     ComponentDrawer.getCoordDrawer() : ComponentDrawer.getNullDrawer();
         });
-        this.add(coordDrawerCheckBox);
+        chekcBoxPnl.add(coordDrawerCheckBox);
         
         edgeDrawerCheckBox = new JCheckBox("Draw edges");
+        edgeDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         edgeDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         edgeDrawerCheckBox.setFont(Tools.getFont(12));
         edgeDrawerCheckBox.setSelected(true);
@@ -272,9 +326,10 @@ public class MenuPanel extends JPanel {
         edgeDrawerCheckBox.addActionListener(a -> {
             graph.drawEdges(edgeDrawerCheckBox.isSelected());
         });
-        this.add(edgeDrawerCheckBox);
+        chekcBoxPnl.add(edgeDrawerCheckBox);
         
         stateDebugCheckBox = new JCheckBox("Draw states (debug)");
+        stateDebugCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         stateDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         stateDebugCheckBox.setFont(Tools.getFont(12));
         stateDebugCheckBox.setSelected(false);
@@ -283,9 +338,10 @@ public class MenuPanel extends JPanel {
             Node.stateDebugDrawer = stateDebugCheckBox.isSelected() ?
                     ComponentDrawer.getStateDebugDrawer() : ComponentDrawer.getNullDrawer();
         });
-        this.add(stateDebugCheckBox);
+        chekcBoxPnl.add(stateDebugCheckBox);
         
         neighborsDebugCheckBox = new JCheckBox("Draw node neighbors");
+        neighborsDebugCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         neighborsDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         neighborsDebugCheckBox.setFont(Tools.getFont(12));
         neighborsDebugCheckBox.setSelected(false);
@@ -294,19 +350,28 @@ public class MenuPanel extends JPanel {
             Node.neighborsDrawer = neighborsDebugCheckBox.isSelected() ?
                     ComponentDrawer.getNeighborsDrawer() : ComponentDrawer.getNullDrawer();
         });
-        this.add(neighborsDebugCheckBox);
+        chekcBoxPnl.add(neighborsDebugCheckBox);
     }
     
-    @Override
-    public void paintComponent(Graphics g) {
-        // anti-aliasing
-        Graphics2D gr = (Graphics2D) g;
-        gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        
-        gr.setColor(Tools.MEUN_COLORS);
-        gr.fillRect(0, 0, getWidth(), getHeight());
+    private JLabel getSeparator() {
+        JLabel l = Tools.getDumyPlaceholder();
+        l.setText(" . : : : : : : .");
+        l.setForeground(Color.darkGray);
+        l.setOpaque(false);
+        l.setPreferredSize(new Dimension(l.getWidth(), 10));
+        return l;
     }
+    
+//    @Override
+//    public void paintComponent(Graphics g) {
+//        // anti-aliasing
+//        Graphics2D gr = (Graphics2D) g;
+//        gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//        gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+////
+////        gr.setColor(Tools.MEUN_COLORS);
+////        gr.fillRect(0, 0, getWidth(), getHeight());
+//    }
     
     public void onNewGraphImport() {
         if (graph.getNodes().isEmpty()) {
