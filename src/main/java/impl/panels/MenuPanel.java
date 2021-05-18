@@ -48,18 +48,16 @@ public class MenuPanel extends JPanel {
         Dimension menuPanelSize = new Dimension(Tools.INITIAL_LEFT_MENU_WIDTH, parent.getHeight());
         this.setSize(menuPanelSize);
         this.setPreferredSize(menuPanelSize);
-        
+        this.setLayout(new BorderLayout());
         this.setOpaque(true);
         this.setBackground(Tools.MEUN_COLORS);
         
         JPanel MAIN_PANEL = new JPanel();
-        MAIN_PANEL.setOpaque(true);
-        MAIN_PANEL.setBackground(Tools.MEUN_COLORS);
+//        MAIN_PANEL.setBackground(Tools.RED);
         MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
-        this.add(MAIN_PANEL);
+        this.add(MAIN_PANEL, BorderLayout.CENTER);
         
         JPanel graphOptionsPnl = new JPanel();
-//        graphOptionsPnl.setOpaque(true);
 //        graphOptionsPnl.setBackground(Color.WHITE);
         graphOptionsPnl.setLayout(new BoxLayout(graphOptionsPnl, BoxLayout.Y_AXIS));
         graphOptionsPnl.add(getSeparator());
@@ -156,6 +154,7 @@ public class MenuPanel extends JPanel {
         // HISTORY PANEL
         
         JPanel historyOptionsPnl = new JPanel();
+//        historyOptionsPnl.setBackground(Color.yellow);
         historyOptionsPnl.setLayout(new BoxLayout(historyOptionsPnl, BoxLayout.Y_AXIS));
         MAIN_PANEL.add(historyOptionsPnl);
         
@@ -168,8 +167,10 @@ public class MenuPanel extends JPanel {
     
         pauseBtn = new JButton("CONTINUE");
         pauseBtn.setToolTipText("Pause or continue simulation.");
-        pauseBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
         pauseBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pauseBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        pauseBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        pauseBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
         pauseBtn.setEnabled(false);
         pauseBtn.addActionListener(a -> {
             // Thread safe atomic boolean flip
@@ -205,7 +206,7 @@ public class MenuPanel extends JPanel {
         
         JPanel leftRightPnl = new JPanel();
         leftRightPnl.setLayout(new FlowLayout());
-//        leftRightPnl.setBackground(Color.yellow);
+//        leftRightPnl.setBackground(Color.blue);
         historyOptionsPnl.add(leftRightPnl);
     
         prevBtn = new JButton("<");
@@ -244,7 +245,7 @@ public class MenuPanel extends JPanel {
             }
         });
         leftRightPnl.add(nextBtn);
-    
+        leftRightPnl.setMaximumSize(new Dimension(150, 45)); // needed to limit height for some reason, or this component gets vertically stretched
     
     
         // DRAWING OPTIONS PANEL
@@ -355,6 +356,7 @@ public class MenuPanel extends JPanel {
     
     private JLabel getSeparator() {
         JLabel l = Tools.getDumyPlaceholder();
+        l.setAlignmentX(Component.CENTER_ALIGNMENT);
         l.setText(" . : : : : : : .");
         l.setForeground(Color.darkGray);
         l.setOpaque(false);

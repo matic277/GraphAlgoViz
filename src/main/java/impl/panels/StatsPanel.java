@@ -5,6 +5,7 @@ import impl.MyGraph;
 import impl.tools.Tools;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 
 public class StatsPanel extends JScrollPane implements GraphChangeObserver {
@@ -65,15 +66,14 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         this.content.edgesNumLbl.setText("   " + this.graph.getGraph().edgeSet().size());
     }
     
-    private int informedNodes = 0;
-    
     @Override
     public void onNewInformedNode() {
-//        informedNodes++;
-//        this.content.totalInformedNumLbl.setText("   " + informedNodes);
-//
+        this.content.totalInformedNumLbl.setText("   " + this.graph.getNumberOfInformedNodes());
+        this.content.percentInformedNumLbl.setText("   " + (int)(100*((double) this.graph.getNumberOfInformedNodes() / this.graph.numOfNodes)) + " %");
+        System.out.println((long) this.graph.getNumberOfInformedNodes() + " / "+ this.graph.numOfNodes);
     }
     
+    // TODO these methods are usless, rename and combine onNewUninformed & onNewInformed -> onInformedChange
     @Override
     public void onNewUninformedNode() {
 //        informedNodes--;
@@ -84,7 +84,7 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     public void onGraphClear() {
         this.content.nodesNumLbl.setText("   0");
         this.content.edgesNumLbl.setText("   0");
-        this.content.totalInformedNumLbl.setText("   " + informedNodes);
+        this.content.totalInformedNumLbl.setText("   " + this.graph.getNumberOfInformedNodes());
         this.content.percentInformedNumLbl.setText("   0 %");
     }
 }

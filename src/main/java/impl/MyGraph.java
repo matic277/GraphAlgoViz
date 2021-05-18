@@ -11,16 +11,16 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultUndirectedGraph;
 
 import java.awt.*;
-import java.awt.List;
 import java.awt.geom.AffineTransform;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MyGraph implements Drawable, GraphObservable {
     
     public int numOfNodes = 0;
     static private int nextId = -1;
     
-    public int informedNodes = 0;
+    public AtomicInteger informedNodes = new AtomicInteger(0);
     
     Graph<Node, DefaultEdge> graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
     
@@ -54,6 +54,21 @@ public class MyGraph implements Drawable, GraphObservable {
     
         observers.forEach(GraphChangeObserver::onGraphClear);
     }
+    
+    public void onInformedNodesChange() {
+        observers.forEach(GraphChangeObserver::onNewInformedNode);
+    }
+    
+    public synchronized void signalNewInformedNode() {
+        this.informedNodes.incrementAndGet();
+        onInformedNodesChange();
+    }
+    
+    public void signalNewUninformedNode() {
+        this.informedNodes.decrementAndGet();
+        onInformedNodesChange();
+    }
+    
     
     // TODO: increasing nextId on getNode call, not node is not necessarily added to graph
     @SuppressWarnings("deprecation")
@@ -133,4 +148,8 @@ public class MyGraph implements Drawable, GraphObservable {
     public void removeObserver(GraphChangeObserver observer) {
         this.observers.remove(observer);
     }
+    
+    public void setNumberOfInformedNodes(int num) { this.informedNodes.set(num); }
+    
+    public int getNumberOfInformedNodes() { return this.informedNodes.get(); }
 }

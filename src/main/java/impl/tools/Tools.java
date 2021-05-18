@@ -15,7 +15,7 @@ public class Tools {
     public static final Color GREEN = Color.decode("#34A853");
     public static final Color MEUN_COLORS = Color.decode("#E0DDDD");
     
-    public static final Dimension MENU_BUTTON_SIZE = new Dimension(40, 37);
+    public static final Dimension MENU_BUTTON_SIZE = new Dimension(47, 37);
     public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(100, 37);
     public static final Dimension MENU_CHECKBOX_SIZE = new Dimension(125, 15);
     

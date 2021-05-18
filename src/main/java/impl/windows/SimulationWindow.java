@@ -47,9 +47,11 @@ public class SimulationWindow extends Window {
         builder.buildGraph();
         this.graph.drawEdges(true);
         
-        // TODO: unnecessary if graph is singleton
-        // re-links graph to all children
+        // re-enables buttons and such
         mainPanel.onNewGraphImport();
+        
+        this.graph.setNumberOfInformedNodes(builder.getNumberOfInitiallyInformedNodes());
+        this.graph.onInformedNodesChange();
         
         
         algoController.setNewGraph(graph);

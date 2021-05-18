@@ -57,7 +57,7 @@ public interface ComponentDrawer {
             g.drawString(
                     "ST: " + State.stateListToString(n.states) + "",
                     (int)n.ts.getBounds().getCenterX()-30,
-                    (int)(n.ts.getBounds().getCenterY()+n.ts.getBounds().getHeight()/1.2));
+                    (int)(n.ts.getBounds().getCenterY()+n.ts.getBounds().getHeight()/1.2 + 30));
         };
     }
     

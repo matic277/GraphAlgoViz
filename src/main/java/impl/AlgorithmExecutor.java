@@ -36,6 +36,11 @@ public class AlgorithmExecutor implements Runnable {
             State newState = algorithm.run(n);
             n.addState(newState);
             
+            if (newState.getState() == 1 &&
+                n.states.get(AlgorithmController.currentStateIndex).getState() == 0) {
+                MyGraph.getInstance().signalNewInformedNode();
+            }
+            
 //            LOG.out("  ->", "Algo done on node     " + n + ".");
         });
         

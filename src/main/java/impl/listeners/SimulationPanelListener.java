@@ -74,6 +74,8 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
             boolean isInform = informBtn.getText().equalsIgnoreCase("inform");
             rightClickedNode.getState().setState(isInform ? 1 : 0);
             informBtn.setText(isInform ? "Uninform" : "Inform");
+            if (isInform) this.graph.signalNewInformedNode();
+            else          this.graph.signalNewUninformedNode();
         });
         nodeInfoLbl.add(informBtn);
         

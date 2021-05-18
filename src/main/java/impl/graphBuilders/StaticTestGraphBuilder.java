@@ -67,5 +67,6 @@ public class StaticTestGraphBuilder extends GraphBuilder {
 
         n2.getState().setState(1);
         n8.getState().setState(1);
+        this.initiallyInformedNodesNum = 2;
     }
 }

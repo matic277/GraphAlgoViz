@@ -25,6 +25,8 @@ public abstract class GraphBuilder {
     protected Integer informedProbability;
     protected Integer totalInformed;
     
+    protected int initiallyInformedNodesNum = 0;
+    
     protected String fileName;
     
     public GraphBuilder() { this.graph = MyGraph.getInstance(); }
@@ -92,12 +94,15 @@ public abstract class GraphBuilder {
         return this;
     }
     
+    public int getNumberOfInitiallyInformedNodes() { return this.initiallyInformedNodesNum; }
+    
     // This is slow in some cases
     // TODO optimize when creating nodes in the first place
     public Runnable getNodeInformator() {
         return totalInformed != null ?
                 // inform number of nodes (randomly)
                 () -> {
+                    this.initiallyInformedNodesNum = totalInformed;
                     Set<Integer> alreadyInformed = new HashSet<>(totalInformed);
                     while (totalInformed-- > 0) {
                         int randId = Tools.RAND.nextInt(this.graph.getNodes().size());
@@ -111,9 +116,11 @@ public abstract class GraphBuilder {
                 } :
                 // inform based on probability (randomly)
                 () -> {
-                    this.graph.getNodes().forEach(n ->
-                            n.getState().setState(
-                                    Tools.RAND.nextInt(100) <= informedProbability ? 1 : 0));
+                    this.graph.getNodes().forEach(n -> {
+                            boolean inform = Tools.RAND.nextInt(100) <= informedProbability;
+                            if (inform) this.initiallyInformedNodesNum++;
+                            n.getState().setState(inform ? 1 : 0);
+                    });
                 };
     }
 }
