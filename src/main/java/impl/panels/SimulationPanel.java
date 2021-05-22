@@ -70,17 +70,17 @@ public class SimulationPanel extends JPanel {
         gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
         
         g.setFont(Tools.getMonospacedFont(14));
-        gr.drawString("status:  " + (AlgorithmController.PAUSE.get() && !AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.get() ? "PAUSED" : "RUNNING"),
-                getWidth()-120,
+        gr.drawString("status: " + (AlgorithmController.PAUSE.get() && !AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.get() ? "PAUSED" : "RUNNING"),
+                getWidth()-140,
                 20);
-        gr.drawString("scale:   " + formatter.format(listener.scale),
-                getWidth()-120,
+        gr.drawString("scale:  " + formatter.format(listener.scale),
+                getWidth()-140,
                 35);
-        gr.drawString("state:   " + AlgorithmController.currentStateIndex,
-                getWidth()-120,
+        gr.drawString("state:  " + AlgorithmController.currentStateIndex,
+                getWidth()-140,
                 60);
-        gr.drawString("states:  " + AlgorithmController.totalStates,
-                getWidth()-120,
+        gr.drawString("states: " + AlgorithmController.totalStates,
+                getWidth()-140,
                 75);
         
         drawComponents(gr);
