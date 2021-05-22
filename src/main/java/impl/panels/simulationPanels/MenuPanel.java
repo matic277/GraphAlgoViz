@@ -1,4 +1,4 @@
-package impl.panels;
+package impl.panels.simulationPanels;
 
 import core.ComponentDrawer;
 import impl.*;

@@ -1,19 +1,19 @@
-package impl.graphOptionPanels;
+package impl.panels.importPanels.graphOptionPanels;
 
-import core.GraphBuilder;
+import impl.graphBuilders.GraphBuilder;
 import core.GraphType;
-import core.OptionPanel;
 import impl.graphBuilders.CliqueGraphBuilder;
 import impl.tools.Tools;
 import impl.windows.ImportGraphWindow;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class CliqueGraphOptionPanel extends OptionPanel {
     
-    JLabel inputText, informedNodesText;
-    JTextField inputField, informedNodesInput;
+    JLabel nodesText, informedNodesText;
+    JTextField nodesInput, informedNodesInput;
     
     private static final CliqueGraphOptionPanel instance = new CliqueGraphOptionPanel(null);
     
@@ -21,27 +21,37 @@ public class CliqueGraphOptionPanel extends OptionPanel {
     
     public CliqueGraphOptionPanel(ImportGraphWindow parent) {
         super(parent);
-        inputText = new JLabel(" Number of nodes: ");
-        inputText.setBounds(50, 100, 110, 30);
-        inputText.setOpaque(true);
-        inputText.setFont(Tools.getFont(14));
-//        text.setBackground(Color.red);
-        
-        inputField = new JTextField();
-        inputField.setBounds(180, 100, 80, 30);
-        inputField.setFont(Tools.getFont(14));
-        
-        informedNodesText = new JLabel(" Informed nodes:");
-        informedNodesText.setBounds(50, 150, 110, 30);
-        informedNodesText.setOpaque(true);
-        informedNodesText.setFont(Tools.getFont(14));
-//        informedNodesText.setBackground(Color.red);
-        
-        informedNodesInput = new JTextField();
-        informedNodesInput.setBounds(180, 150, 80, 30);
-        informedNodesInput.setFont(Tools.getFont(14));
     
-        this.addComponents(inputText, inputField, informedNodesText, informedNodesInput);
+        JPanel container1 = new JPanel();
+        container1.setOpaque(false);
+        nodesText = new JLabel(" Number of nodes:");
+        nodesText.setOpaque(true);
+        nodesText.setBackground(Tools.GRAY);
+        nodesText.setFont(Tools.getFont(14));
+    
+        nodesInput = new JTextField();
+        nodesInput.setFont(Tools.getFont(14));
+        nodesInput.setPreferredSize(new Dimension(100, nodesInput.getPreferredSize().height));
+        container1.add(nodesText);
+        container1.add(nodesInput);
+    
+        JPanel container2 = new JPanel();
+        container2.setOpaque(false);
+        informedNodesText = new JLabel(" Informed nodes:");
+        informedNodesText.setFont(Tools.getFont(14));
+        informedNodesText.setOpaque(true);
+        informedNodesText.setBackground(Tools.GRAY);
+    
+        informedNodesInput = new JTextField();
+        informedNodesInput.setPreferredSize(new Dimension(100, informedNodesInput.getPreferredSize().height));
+        informedNodesInput.setFont(Tools.getFont(14));
+        container2.add(informedNodesText);
+        container2.add(informedNodesInput);
+    
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(new JLabel(" "));
+        this.add(container1);
+        this.add(container2);
     }
     
     @Override
@@ -53,7 +63,7 @@ public class CliqueGraphOptionPanel extends OptionPanel {
                     Integer.parseInt(informedNodesInput.getText());
             
             GraphBuilder builder = new CliqueGraphBuilder()
-                    .setNumberOfNodes(Integer.parseInt(inputField.getText()))
+                    .setNumberOfNodes(Integer.parseInt(nodesInput.getText()))
                     .setInformedProbability(isPercentage ? nodesToInform : null)
                     .setTotalInformed(isPercentage ? null : nodesToInform);
             super.simWindow.onNewGraphImport(builder);

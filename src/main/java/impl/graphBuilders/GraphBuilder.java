@@ -1,11 +1,10 @@
-package core;
+package impl.graphBuilders;
 
 import impl.MyGraph;
 import impl.Node;
 import impl.tools.Tools;
 import impl.tools.Vector;
-import org.jgrapht.alg.drawing.CircularLayoutAlgorithm2D;
-import org.jgrapht.alg.drawing.LayoutAlgorithm2D;
+import org.jgrapht.alg.drawing.*;
 import org.jgrapht.alg.drawing.model.Box2D;
 import org.jgrapht.alg.drawing.model.LayoutModel2D;
 import org.jgrapht.alg.drawing.model.MapLayoutModel2D;
@@ -48,11 +47,38 @@ public abstract class GraphBuilder {
     
     public void arrangeNodesInCircularLayoutJGraphT() {
         LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
-        LayoutAlgorithm2D<Node, DefaultEdge> rand = new CircularLayoutAlgorithm2D<>(390);
-        rand.layout(this.graph.getGraph(), model);
+        LayoutAlgorithm2D<Node, DefaultEdge> layout = new CircularLayoutAlgorithm2D<>(390);
+        layout.layout(this.graph.getGraph(), model);
         
         // set positions from model to nodes
         model.collect().forEach(Node::setPosition);
+    }
+    
+    private void a() {
+        // Needs:
+        // Set<Node> partition, Comparator<Node> vertexComparator
+        TwoLayeredBipartiteLayout2D<Node, DefaultEdge>   x9 = new TwoLayeredBipartiteLayout2D<>();
+        
+        // Needs:
+        // Set<Node> partition, Comparator<Node> vertexComparator
+        BarycenterGreedyTwoLayeredBipartiteLayout2D<Node, DefaultEdge>   x1 = new BarycenterGreedyTwoLayeredBipartiteLayout2D<>();
+        
+        // Needs:
+        // Set<Node> partition, Comparator<Node> vertexComparator
+        MedianGreedyTwoLayeredBipartiteLayout2D<Node, DefaultEdge>   x6 = new MedianGreedyTwoLayeredBipartiteLayout2D<>();
+        
+        // Needs:
+        // (int iterations, double normalizationFactor), or just iterations
+        FRLayoutAlgorithm2D<Node, DefaultEdge>   x4 = new FRLayoutAlgorithm2D<>();
+        
+        // Needs
+        // (int iterations, double theta, double normalizationFactor)
+        // (int iterations)
+        // or nothing
+        IndexedFRLayoutAlgorithm2D<Node, DefaultEdge>    x5 = new IndexedFRLayoutAlgorithm2D<>();
+        
+        // Needs: nothing
+        RandomLayoutAlgorithm2D<Node, DefaultEdge>   x7 = new RandomLayoutAlgorithm2D<>();
     }
     
     @Deprecated

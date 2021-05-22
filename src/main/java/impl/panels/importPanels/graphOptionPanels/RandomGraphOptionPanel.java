@@ -1,8 +1,7 @@
-package impl.graphOptionPanels;
+package impl.panels.importPanels.graphOptionPanels;
 
-import core.GraphBuilder;
+import impl.graphBuilders.GraphBuilder;
 import core.GraphType;
-import core.OptionPanel;
 import impl.tools.Tools;
 
 import javax.swing.*;
@@ -18,40 +17,51 @@ public class RandomGraphOptionPanel extends OptionPanel {
     
     public RandomGraphOptionPanel() {
         super(null);
-        this.setOpaque(true);
-        this.setBackground(Color.blue);
-        this.repaint();
         
+        JPanel container1 = new JPanel();
+        container1.setOpaque(false);
         nodesText = new JLabel(" Number of nodes:");
-        nodesText.setBounds(100, 80, 110, 30);
         nodesText.setOpaque(true);
+        nodesText.setBackground(Tools.GRAY);
         nodesText.setFont(Tools.getFont(14));
-//        text.setBackground(Color.red);
         
         nodesInput = new JTextField();
-        nodesInput.setBounds(220, 82, 70, 30);
-        
+        nodesInput.setFont(Tools.getFont(14));
+        nodesInput.setPreferredSize(new Dimension(100, nodesInput.getPreferredSize().height));
+        container1.add(nodesText);
+        container1.add(nodesInput);
+    
+        JPanel container2 = new JPanel();
+        container2.setOpaque(false);
         edgedText = new JLabel(" Edge probability:");
-        edgedText.setBounds(100, 130, 110, 30);
-        edgedText.setOpaque(true);
         edgedText.setFont(Tools.getFont(14));
-//        text.setBackground(Color.red);
+        edgedText.setOpaque(true);
+        edgedText.setBackground(Tools.GRAY);
         
         edgesInput = new JTextField();
-        edgesInput.setBounds(220, 132, 70, 30);
         edgesInput.setFont(Tools.getFont(14));
-        
+        edgesInput.setPreferredSize(new Dimension(100, edgesInput.getPreferredSize().height));
+        container2.add(edgedText);
+        container2.add(edgesInput);
+    
+        JPanel container3 = new JPanel();
+        container3.setOpaque(false);
         informedNodesText = new JLabel(" Informed nodes:");
-        informedNodesText.setBounds(100, 180, 110, 30);
-        informedNodesText.setOpaque(true);
         informedNodesText.setFont(Tools.getFont(14));
-//        informedNodesText.setBackground(Color.red);
+        informedNodesText.setOpaque(true);
+        informedNodesText.setBackground(Tools.GRAY);
         
         informedNodesInput = new JTextField();
-        informedNodesInput.setBounds(220, 180, 70, 30);
+        informedNodesInput.setPreferredSize(new Dimension(100, informedNodesInput.getPreferredSize().height));
         informedNodesInput.setFont(Tools.getFont(14));
+        container3.add(informedNodesText);
+        container3.add(informedNodesInput);
         
-        this.addComponents(nodesText, edgedText, edgesInput, nodesInput, informedNodesText, informedNodesInput);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(new JLabel(" "));
+        this.add(container1);
+        this.add(container2);
+        this.add(container3);
     }
     
     @Override

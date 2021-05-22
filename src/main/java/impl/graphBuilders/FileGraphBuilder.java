@@ -2,19 +2,9 @@ package impl.graphBuilders;
 
 import impl.MyGraph;
 import impl.Node;
-import org.jgrapht.Graph;
-import org.jgrapht.alg.drawing.*;
-import org.jgrapht.alg.drawing.model.Box2D;
-import org.jgrapht.alg.drawing.model.LayoutModel2D;
-import org.jgrapht.alg.drawing.model.MapLayoutModel2D;
-import org.jgrapht.alg.drawing.model.Point2D;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.nio.graph6.Graph6Sparse6Importer;
 
-import core.GraphBuilder;
-
-import java.awt.*;
 import java.io.File;
 
 

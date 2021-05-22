@@ -1,9 +1,8 @@
 package core;
 
 import impl.graphBuilders.*;
-import impl.graphOptionPanels.*;
-import impl.windows.ImportGraphWindow;
-import impl.windows.SimulationWindow;
+import impl.panels.importPanels.graphOptionPanels.*;
+
 
 public enum GraphType {
     

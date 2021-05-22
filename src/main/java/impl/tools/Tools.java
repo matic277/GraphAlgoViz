@@ -36,6 +36,7 @@ public class Tools {
     public static final int MAXIMUM_STATS_PANEL_WIDTH = 345;
     public static final int INITIAL_BOTTOM_MENU_HEIGHT = 200;
     public static final int INITIAL_STATS_PANEL_WIDTH = MAXIMUM_STATS_PANEL_WIDTH;
+    public static final Dimension INITIAL_IMPORT_WINDOW_SIZE = new Dimension(500, 550);
     
     public static final Random RAND = new Random();
     

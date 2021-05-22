@@ -1,11 +1,10 @@
 package impl.panels.tabs;
 
 import impl.MyGraph;
-import impl.panels.BottomPanel;
+import impl.panels.simulationPanels.BottomPanel;
 import impl.tools.Tools;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;

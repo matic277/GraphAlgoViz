@@ -3,7 +3,7 @@ package impl.listeners;
 import impl.AlgorithmController;
 import impl.MyGraph;
 import impl.Node;
-import impl.panels.SimulationPanel;
+import impl.panels.simulationPanels.SimulationPanel;
 import impl.tools.Tools;
 
 import javax.swing.*;

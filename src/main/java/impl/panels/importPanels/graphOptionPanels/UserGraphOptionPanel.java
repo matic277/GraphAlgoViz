@@ -1,7 +1,6 @@
-package impl.graphOptionPanels;
+package impl.panels.importPanels.graphOptionPanels;
 
 import core.GraphType;
-import core.OptionPanel;
 import impl.graphBuilders.EmptyGraphBuilder;
 
 import java.awt.*;
@@ -13,8 +12,6 @@ public class UserGraphOptionPanel extends OptionPanel {
     
     public UserGraphOptionPanel() {
         super(null);
-        this.setOpaque(true);
-        this.setBackground(Color.red);
     }
     
     @Override

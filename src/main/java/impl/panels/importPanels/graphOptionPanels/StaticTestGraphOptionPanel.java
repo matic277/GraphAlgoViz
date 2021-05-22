@@ -1,16 +1,13 @@
-package impl.graphOptionPanels;
+package impl.panels.importPanels.graphOptionPanels;
 
-import core.GraphBuilder;
+import impl.graphBuilders.GraphBuilder;
 import core.GraphType;
-import core.OptionPanel;
 import impl.tools.Tools;
 import impl.windows.ImportGraphWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class StaticTestGraphOptionPanel extends OptionPanel {
     
@@ -22,7 +19,6 @@ public class StaticTestGraphOptionPanel extends OptionPanel {
         JLabel lbl = new JLabel("DEBUG: Load predefined graph");
         lbl.setOpaque(true);
         lbl.setBackground(Color.red);
-        lbl.setBounds(80, 80, 210, 30);
         lbl.setFont(Tools.getFont(14));
         this.add(lbl);
     }

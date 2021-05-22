@@ -1,12 +1,12 @@
-package impl.graphOptionPanels;
+package impl.panels.importPanels.graphOptionPanels;
 
-import core.GraphBuilder;
+import impl.graphBuilders.GraphBuilder;
 import core.GraphType;
-import core.OptionPanel;
 import impl.tools.*;
 import impl.windows.ImportGraphWindow;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 
@@ -19,28 +19,34 @@ public class FileGraphOptionPanel extends OptionPanel {
     
     private FileGraphOptionPanel(ImportGraphWindow parent) {
         super(parent);
+    
+        JPanel container1 = new JPanel();
+        container1.setOpaque(false);
         inputText = new JLabel(" Input path to graph file:");
-        inputText.setBounds(50, 70, 170, 30);
         inputText.setOpaque(true);
         inputText.setFont(Tools.getFont(14));
-//        text.setBackground(Color.red);
+        container1.add(inputText);
         
         inputField = new JTextField();
-        inputField.setBounds(47, 100, 300, 30);
         inputField.setFont(Tools.getFont(14));
         inputField.setText(".\\graphs\\graph1.g6");
-        
+        container1.add(inputField);
+    
+        JPanel container2 = new JPanel();
+        container2.setOpaque(false);
         informedNodesText = new JLabel(" Informed nodes:");
-        informedNodesText.setBounds(47, 150, 110, 30);
         informedNodesText.setOpaque(true);
         informedNodesText.setFont(Tools.getFont(14));
 //        informedNodesText.setBackground(Color.red);
+        container2.add(informedNodesText);
         
         informedNodesInput = new JTextField();
-        informedNodesInput.setBounds(47, 180, informedNodesText.getWidth(), 30);
+        informedNodesInput.setPreferredSize(new Dimension(100, informedNodesInput.getPreferredSize().height));
         informedNodesInput.setFont(Tools.getFont(14));
+        container2.add(informedNodesInput);
         
-        this.addComponents(inputText, inputField, informedNodesText, informedNodesInput);
+       this.add(container1);
+       this.add(container2);
     }
     
     @Override

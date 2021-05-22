@@ -1,4 +1,4 @@
-package impl.panels;
+package impl.panels.simulationPanels;
 
 import impl.MyGraph;
 import impl.panels.tabs.TabsPanel;

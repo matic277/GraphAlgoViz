@@ -3,7 +3,7 @@ package impl;
 import core.Algorithm;
 import core.StateObservable;
 import core.StateObserver;
-import impl.panels.MenuPanel;
+import impl.panels.simulationPanels.MenuPanel;
 import impl.tools.LOG;
 import impl.tools.Tools;
 

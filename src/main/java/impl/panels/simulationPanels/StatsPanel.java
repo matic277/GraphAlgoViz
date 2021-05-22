@@ -1,4 +1,4 @@
-package impl.panels;
+package impl.panels.simulationPanels;
 
 import core.GraphChangeObserver;
 import impl.MyGraph;
@@ -6,11 +6,8 @@ import impl.tools.Tools;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.util.Arrays;
 

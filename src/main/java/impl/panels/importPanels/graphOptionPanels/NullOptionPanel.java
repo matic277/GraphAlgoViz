@@ -1,7 +1,6 @@
-package impl.graphOptionPanels;
+package impl.panels.importPanels.graphOptionPanels;
 
 import core.GraphType;
-import core.OptionPanel;
 
 import java.awt.event.ActionListener;
 
@@ -9,10 +8,6 @@ public class NullOptionPanel extends OptionPanel {
     
     public  NullOptionPanel() {
         super(null);
-        
-//        this.setOpaque(true);
-//        this.setBackground(Color.pink);
-//        super.paintPanel();
     }
     
     @Override

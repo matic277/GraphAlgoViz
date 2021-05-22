@@ -1,5 +1,6 @@
-package core;
+package impl.panels.importPanels.graphOptionPanels;
 
+import core.GraphType;
 import impl.tools.Tools;
 import impl.windows.ImportGraphWindow;
 import impl.windows.SimulationWindow;
@@ -19,39 +20,36 @@ public abstract class OptionPanel extends JPanel {
     protected Dimension panelSize;
     List<JComponent> components;
     
-//    protected MyButton continueBtn;
-    
     public OptionPanel(ImportGraphWindow parent) {
         this.parent = parent;
-        this.panelSize = new Dimension(400,265);
+        this.panelSize = new Dimension(300,200);
         this.setVisible(true);
-        this.setLayout(null);
-        this.setSize(panelSize);
-    
-//        continueBtn = new MyButton("Continue");
-//        continueBtn.setBounds(this.getWidth()/2-50, this.getHeight()-35, 100, 35);
-//        this.add(continueBtn);
+        this.setPreferredSize(panelSize);
+        this.setMaximumSize(panelSize);
+        
+        this.setOpaque(true);
+        this.setBackground(Tools.bgColor);
         
         this.components = new ArrayList<>(10);
     }
     
     @Override
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        
         Graphics2D gr = (Graphics2D) g;
         // anti-aliasing
         gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-    
-        g.setColor(Tools.bgColor);
-        g.fillRect(0, 0, panelSize.width, panelSize.height);
-    
-        gr.setColor(Tools.borderColor);
-        gr.drawRoundRect(0, 0, panelSize.width-1, panelSize.height-1, 15, 15);
-    }
-    
-    public void setStartingCoordiantes(Point2D point) {
-        this.setBounds((int)point.getX(), (int)point.getY(),
-                panelSize.width, panelSize.height);
+
+//        g.setColor(Tools.GRAY3);
+//        g.fillRect(0, 0, getWidth(), getHeight());
+        
+        g.setColor(Tools.GRAY3);
+        gr.fillRoundRect(80, 5, getWidth()-160, getHeight()-10, 15, 15);
+        
+        gr.setColor(Tools.GRAY);
+        gr.drawRoundRect(80, 5, getWidth()-160, getHeight()-10, 15, 15);
     }
     
     public void addComponents(JComponent... cmps) {

@@ -1,10 +1,10 @@
 package impl.windows;
 
-import core.GraphBuilder;
-import core.Window;
+import impl.graphBuilders.GraphBuilder;
 import impl.AlgorithmController;
 import impl.MyGraph;
-import impl.panels.*;
+import impl.panels.simulationPanels.MainPanel;
+import impl.panels.simulationPanels.SimulationPanel;
 import impl.tools.Tools;
 
 import java.awt.*;
@@ -20,19 +20,14 @@ public class SimulationWindow extends Window {
     
     public SimulationWindow() {
         super(new Dimension(Tools.INITIAL_WINDOW_WIDTH, Tools.INITIAL_WINDOW_HEIGHT));
-        this.frame.remove(this.panel);
-        this.frame.setLayout(new BorderLayout());
         
         this.graph = MyGraph.getInstance();
-        
         this.mainPanel = new MainPanel(this);
-        this.frame.add(mainPanel, BorderLayout.CENTER);
+        this.addMainComponent(mainPanel);
         
         this.algoController = new AlgorithmController(MyGraph.getInstance());
 //        this.algoController.addObserver(this.mainPanel.getTopPanel().getSimulationPanel());
         this.algoController.addObserver(this.mainPanel.getBottomPanel().getTabsPanel().getStateHistoryTab());
-    
-        this.frame.pack();
     }
     
     // TODO
@@ -52,7 +47,6 @@ public class SimulationWindow extends Window {
         
         this.graph.setNumberOfInformedNodes(builder.getNumberOfInitiallyInformedNodes());
         this.graph.onInformedNodesChange();
-        
         
         algoController.setNewGraph(graph);
         
