@@ -20,13 +20,14 @@ public class BottomPanel extends JSplitPane {
         this.parent = parent;
         this.graph = MyGraph.getInstance();
         
-        statsPanel = new StatsPanel(this, new Content());
+        statsPanel = new StatsPanel(this);
         tabPanel = new TabsPanel(this);
     
         statsPanel.setMaximumSize(new Dimension(325, Integer.MAX_VALUE));
         
         this.setLeftComponent(statsPanel);
         this.setRightComponent(tabPanel);
+        this.setBackground(Tools.GRAY3);
         
         // set location of divider, so that width
         // of statsPanel is set to initial state

@@ -5,6 +5,8 @@ import impl.MyGraph;
 import impl.tools.Tools;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
@@ -16,7 +18,6 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     
     BottomPanel parent;
     
-    Content content;
     JPanel mainPanel;
     MyGraph graph = MyGraph.getInstance();
     
@@ -40,21 +41,34 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         TableKey(int id_, String displayStr_) { id=id_; displayStr=displayStr_; }
     }
     
-    public StatsPanel(BottomPanel parent, Content content) {
-//        super(content);
-//        this.content = content;
+    public StatsPanel(BottomPanel parent) {
         this.parent = parent;
+        graph.addObserver(this);
         
         Dimension panelSize = new Dimension(Tools.INITIAL_STATS_PANEL_WIDTH, parent.getHeight());
         this.setSize(panelSize);
         this.setPreferredSize(panelSize);
         
-        graph.addObserver(this);
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBackground(Tools.GRAY3);
         
+        JLabel title = new JLabel(" Graph statistics");
+        title.setFont(Tools.getBoldFont(14));
+        title.setOpaque(true);
+        title.setBackground(Tools.GRAY2);
+        title.setAlignmentX(Component.LEFT_ALIGNMENT);
+        title.setPreferredSize(new Dimension(title.getPreferredSize().width, 30));
+        title.setBorder(new MatteBorder(0, 0, 1, 0, Color.lightGray));
+    
         initTable();
         
-        mainPanel = new JPanel();
-        mainPanel.add(table);
+        JPanel tablePanel = new JPanel();
+        tablePanel.setOpaque(false);
+        tablePanel.add(table);
+        
+        mainPanel.add(title, BorderLayout.NORTH);
+        mainPanel.add(tablePanel, BorderLayout.CENTER);
         
         this.setViewportView(mainPanel);
         
@@ -96,6 +110,11 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         
         table.getTableHeader().getColumnModel().getColumn(0).setPreferredWidth(250);
         table.getTableHeader().getColumnModel().getColumn(1).setPreferredWidth(75);
+        table.setRowHeight(25);
+        table.setBorder(new MatteBorder(1,1, 1, 1,Color.darkGray));
+    
+//        table.getTableHeader().getColumnModel().getColumn(0).setPreferredHeight(250);
+//        table.getTableHeader().getColumnModel().getColumn(1).setPreferredWidth(75);
     }
     
     public void onNewGraphImport() {
@@ -104,40 +123,28 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     
     @Override
     public void onNodeAdded() {
-        this.content.nodesNumLbl.setText("   " + this.graph.getNodes().size());
     }
     
     @Override
     public void onNodeDeleted() {
-        this.content.nodesNumLbl.setText("   " + this.graph.getNodes().size());
-        this.onEdgeAdded();
+//        this.onEdgeAdded();
     }
     
     @Override
     public void onEdgeAdded() {
-        this.content.edgesNumLbl.setText("   " + this.graph.getGraph().edgeSet().size());
     }
     
     @Override
     public void onNewInformedNode() {
-        this.content.totalInformedNumLbl.setText("   " + this.graph.getNumberOfInformedNodes());
-        this.content.percentInformedNumLbl.setText("   " + (int)(100*((double) this.graph.getNumberOfInformedNodes() / this.graph.numOfNodes)) + " %");
-        System.out.println((long) this.graph.getNumberOfInformedNodes() + " / "+ this.graph.numOfNodes);
     }
     
     // TODO these methods are usless, rename and combine onNewUninformed & onNewInformed -> onInformedChange
     
     @Override
     public void onNewUninformedNode() {
-//        informedNodes--;
-//        this.content.totalInformedNumLbl.setText("   " + informedNodes);
     }
     @Override
     public void onGraphClear() {
-        this.content.nodesNumLbl.setText("   0");
-        this.content.edgesNumLbl.setText("   0");
-        this.content.totalInformedNumLbl.setText("   " + this.graph.getNumberOfInformedNodes());
-        this.content.percentInformedNumLbl.setText("   0 %");
     }
     
     private JLabel dummySeparator() {

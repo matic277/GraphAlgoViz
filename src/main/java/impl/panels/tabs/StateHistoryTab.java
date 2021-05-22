@@ -26,6 +26,7 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         
         this.setLayout(new FlowLayout());
         this.setMinimumSize(new Dimension(0, 0));
+        this.setBackground(Tools.GRAY3);
         
         int width  = 45;
         int height = 30;

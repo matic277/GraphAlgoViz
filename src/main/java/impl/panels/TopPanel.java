@@ -18,6 +18,7 @@ public class TopPanel extends JSplitPane {
         
         simPanel = new SimulationPanel(this);
         menuPanel = new MenuPanel(this);
+        
         this.setLeftComponent(menuPanel);
         this.setRightComponent(simPanel);
         

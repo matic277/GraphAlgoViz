@@ -21,13 +21,16 @@ public class TabsPanel extends JTabbedPane {
         this.parent = parent;
         this.graph = MyGraph.getInstance();
         
+        this.setBackground(Tools.GRAY3);
         this.setFont(Tools.getFont(14));
         
         historyTab = new StateHistoryTab(this);
         this.addTab("State history", historyTab);
+        this.setBackgroundAt(0, Tools.GRAY3);
         
         JPanel p1 = new JPanel(); p1.setBackground(Color.pink);
         this.addTab("Some other tab", p1);
+        this.setBackgroundAt(1, Tools.GRAY3);
         
         // Set min width, so that LeftPanel can't get stretched out too much.
         // Needed because JSplitPane does not respect maxSize, but one minSize
@@ -38,7 +41,6 @@ public class TabsPanel extends JTabbedPane {
             @Override public void componentShown(ComponentEvent e) { }
             @Override public void componentHidden(ComponentEvent e) { }
         });
-        
     }
     
     public StateHistoryTab getStateHistoryTab() { return this.historyTab; }

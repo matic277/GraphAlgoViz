@@ -7,6 +7,7 @@ import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.nio.graph6.Graph6Sparse6Importer;
 
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +36,8 @@ public class Main {
             //Handle exception
             e.printStackTrace();
         }
+        // Change nimbus coloring to lighter
+        UIManager.put("nimbusBase", new ColorUIResource(150, 150, 150));
         
         SwingUtilities.invokeLater(SimulationWindow::new);
     }
