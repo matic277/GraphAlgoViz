@@ -2,18 +2,22 @@ package core;
 
 public enum LayoutType {
     
-    RANDOM(0),
-    CIRCILAR(1),
-    TWO_LAYERED_BIPARTITIE(2),
-    BARY_CENTER_GREEDY_TWO_LAYERED_BIPARTITE(3),
-    MEDIAN_GREEDY_TWO_LAYERED_BIPARTITE(4),
-    FR(5),
-    INDEXED_FR(6),
+    CIRCULAR(0, "Circular"),
+    RANDOM(1, "Random"),
+    TWO_LAYERED_BIPARTITE(2, "Two layered bipartite"),
+    BARY_CENTER_GREEDY_TWO_LAYERED_BIPARTITE(3, "Barry center greedy two layered biparite"),
+    MEDIAN_GREEDY_TWO_LAYERED_BIPARTITE(4, "Median greedy two layered bipartite"),
+    FR(5, "FR"),
+    INDEXED_FR(6, "Indexed FR"),
     ;
     
     int id;
+    String displayValue;
     
-    LayoutType(int id_) { id = id_; }
+    LayoutType(int id_, String displayValue_) { id = id_; displayValue = displayValue_; }
     
 //    private static Map<LayoutType,>
+    
+    @Override
+    public String toString() { return displayValue; }
 }

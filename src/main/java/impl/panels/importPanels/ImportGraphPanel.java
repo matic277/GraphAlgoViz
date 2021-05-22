@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 
 import static impl.tools.Tools.getBoldFont;
-import static javax.swing.UIManager.getFont;
 
 public class ImportGraphPanel extends JPanel {
     
@@ -48,17 +47,15 @@ public class ImportGraphPanel extends JPanel {
         this.setBackground(Tools.bgColor);
         this.setPreferredSize(Tools.INITIAL_IMPORT_WINDOW_SIZE);
         this.setLayout(new BorderLayout());
-    
+
+        selectedLayoutType = LayoutType.CIRCULAR;
         selectedGraphType = GraphType.STATIC_TEST;
-        selectedGraphType.getPanel().setSimulationWindow(parent.getSimulationWindow());
-        
         optionPanel = selectedGraphType.getPanel();
+
+//        selectedGraphType.getPanel().setSimulationWindow(parent.getSimulationWindow());
         
         initNorth();
         initCenter();
-        
-//        initGraphTypeOptions();
-        
         
         
         JPanel container = new JPanel();

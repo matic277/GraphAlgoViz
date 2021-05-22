@@ -23,6 +23,8 @@ public class FileGraphBuilder extends GraphBuilder {
     
         System.out.println("Graph="+graph.getNodes().size());
         
+        
+        
         // random
 //        LayoutModel2D<Integer> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
 //        RandomLayoutAlgorithm2D<Integer, DefaultEdge> rand = new RandomLayoutAlgorithm2D<>();

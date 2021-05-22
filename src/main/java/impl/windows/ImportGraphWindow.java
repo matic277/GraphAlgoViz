@@ -2,18 +2,13 @@ package impl.windows;
 
 import impl.panels.importPanels.ImportGraphPanel;
 
+import javax.swing.*;
 import java.awt.*;
-
-import static javax.swing.UIManager.getFont;
 
 public class ImportGraphWindow extends Window {
     
     SimulationWindow parent;
     ImportGraphPanel panel;
-    
-    
-    
-    
     
     public ImportGraphWindow(SimulationWindow parent) {
         super(new Dimension(500, 550));
@@ -22,11 +17,11 @@ public class ImportGraphWindow extends Window {
         this.panel = new ImportGraphPanel(this);
         
         this.addMainComponent(panel);
+        this.frame.setResizable(false);
+        this.frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
     
     public SimulationWindow getSimulationWindow() { return this.parent; }
     
     public Frame getFrame() { return this.frame; }
-
-    
 }

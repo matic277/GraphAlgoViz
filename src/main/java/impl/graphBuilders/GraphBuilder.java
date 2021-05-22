@@ -125,6 +125,15 @@ public abstract class GraphBuilder {
     // This is slow in some cases
     // TODO optimize when creating nodes in the first place
     public Runnable getNodeInformator() {
+        // If user specified:
+        //  number of informed nodes = 100
+        //  but graph has less than 100 nodes
+        //  then this must be corrected !!!
+        //  (otherwise this runnable hangs)
+        if (this.totalInformed != null && this.totalInformed > graph.getNodes().size()) {
+            this.totalInformed = Math.min(graph.getNodes().size(), this.totalInformed);
+        }
+        
         return totalInformed != null ?
                 // inform number of nodes (randomly)
                 () -> {
