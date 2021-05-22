@@ -4,8 +4,6 @@ package impl.tools;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.Random;
 
 public class Tools {
@@ -13,11 +11,11 @@ public class Tools {
     public static final Color bgColor = Color.white;
     public static final Color borderColor = new Color(227, 227, 227);
     public static final Color RED = Color.decode("#ea4335");
-    public static final Color BACKGROUND_RED = new Color(255, 242, 242);
     public static final Color GRAY = Color.decode("#BFBDBD");
     public static final Color GRAY2 = Color.decode("#E0E0E0");
     public static final Color GRAY3 = new Color(243, 243, 243);
     public static final Color GREEN = Color.decode("#34A853");
+    public static final Color BACKGROUND_RED = new Color(255, 242, 242);
     public static final Color BACKGROUND_GREEN = new Color(236, 255, 236);
     public static final Color LIGHT_GRAY = new Color(243, 243, 243);
     public static final Color MEUN_COLORS = Color.decode("#E0DDDD");
@@ -35,15 +33,13 @@ public class Tools {
     public static final int INITIAL_WINDOW_HEIGHT = 1000;
     public static final int INITIAL_LEFT_MENU_WIDTH = 220;
     public static final int MAXIMUM_LEFT_MENU_WIDTH = 220;
+    public static final int MAXIMUM_STATS_PANEL_WIDTH = 345;
     public static final int INITIAL_BOTTOM_MENU_HEIGHT = 200;
-    public static final int INITIAL_STATS_PANEL_WIDTH = 150;
+    public static final int INITIAL_STATS_PANEL_WIDTH = MAXIMUM_STATS_PANEL_WIDTH;
     
     public static final Random RAND = new Random();
     
     
-    public static final Font font = null; static {
-    
-    }
     
     public static Font getBoldFont(int size) { return new Font("Source sans pro bold", Font.BOLD, size); }
     

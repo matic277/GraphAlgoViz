@@ -5,6 +5,7 @@ import impl.panels.tabs.TabsPanel;
 import impl.tools.Tools;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class BottomPanel extends JSplitPane {
     
@@ -21,13 +22,15 @@ public class BottomPanel extends JSplitPane {
         
         statsPanel = new StatsPanel(this, new Content());
         tabPanel = new TabsPanel(this);
+    
+        statsPanel.setMaximumSize(new Dimension(325, Integer.MAX_VALUE));
         
         this.setLeftComponent(statsPanel);
         this.setRightComponent(tabPanel);
-    
+        
         // set location of divider, so that width
         // of statsPanel is set to initial state
-        this.setDividerLocation(Tools.INITIAL_LEFT_MENU_WIDTH);
+        this.setDividerLocation(Tools.MAXIMUM_STATS_PANEL_WIDTH);
     }
     
     public StatsPanel getStatsPanel() { return this.statsPanel; }
