@@ -2,6 +2,7 @@ package impl.panels.simulationPanels;
 
 import core.ComponentDrawer;
 import impl.*;
+import impl.tools.Edge;
 import impl.tools.Tools;
 import impl.windows.ImportGraphWindow;
 import impl.windows.SimulationWindow;
@@ -26,8 +27,8 @@ public class MenuPanel extends JPanel {
     
     JButton pauseBtn;
     
-    JLabel sliderInfo;
     JSlider nodeRadSlider;
+    JSlider edgeOpacitySlider;
     
     JCheckBox idDrawerCheckBox;
     JCheckBox coordDrawerCheckBox;
@@ -269,14 +270,14 @@ public class MenuPanel extends JPanel {
         drawingOptionsPnl.add(drawingOptionsTitle);
         drawingOptionsPnl.add(getSeparator());
         
-        sliderInfo = new JLabel("Change node radius");
+        JLabel sliderInfo = new JLabel("Change node radius");
         sliderInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
         sliderInfo.setSize(new Dimension(30, 100));
         sliderInfo.setFont(Tools.getFont(14));
         drawingOptionsPnl.add(sliderInfo);
         
         int sliderMin = 5, sliderMax = 100;
-        nodeRadSlider = new JSlider(5, 100, Node.rad);
+        nodeRadSlider = new JSlider(sliderMin, sliderMax, Node.rad);
         nodeRadSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
         Hashtable<Integer, JLabel> sliderMap = new Hashtable<>();
         Font lblFont = Tools.getFont(12);
@@ -295,6 +296,35 @@ public class MenuPanel extends JPanel {
         nodeRadSlider.setEnabled(false);
         nodeRadSlider.addChangeListener(c -> Node.rad = nodeRadSlider.getValue());
         drawingOptionsPnl.add(nodeRadSlider);
+        
+        
+        JLabel sliderInfo2 = new JLabel("Change edge opacity");
+        sliderInfo2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sliderInfo2.setSize(new Dimension(30, 100));
+        sliderInfo2.setFont(Tools.getFont(14));
+        drawingOptionsPnl.add(sliderInfo2);
+    
+        int sliderMin2 = 0, sliderMax2 = 255;
+        edgeOpacitySlider = new JSlider(sliderMin2, sliderMax2, Node.rad);
+        edgeOpacitySlider.setValue(sliderMax2);
+        edgeOpacitySlider.setAlignmentX(Component.CENTER_ALIGNMENT);
+        Hashtable<Integer, JLabel> sliderMap2 = new Hashtable<>();
+        Font lblFont2 = Tools.getFont(12);
+        JLabel minLbl2 = new JLabel(sliderMin2+""); minLbl2.setFont(lblFont2);
+        JLabel maxLbl2 = new JLabel(sliderMax2+""); maxLbl2.setFont(lblFont2);
+        sliderMap2.put(sliderMin2, minLbl2);
+        sliderMap2.put(sliderMax2, maxLbl2);
+        edgeOpacitySlider.setLabelTable(sliderMap2);
+        edgeOpacitySlider.setMajorTickSpacing(30);
+        edgeOpacitySlider.setPaintTicks(true);
+        edgeOpacitySlider.setPaintLabels(true);
+        edgeOpacitySlider.setPreferredSize(new Dimension(150, 40));
+        edgeOpacitySlider.setMaximumSize(new Dimension(150, 40));
+        edgeOpacitySlider.setMinimumSize(new Dimension(150, 40));
+        edgeOpacitySlider.setFont(Tools.getFont(14));
+        edgeOpacitySlider.setEnabled(false);
+        edgeOpacitySlider.addChangeListener(c -> Edge.opacity = edgeOpacitySlider.getValue());
+        drawingOptionsPnl.add(edgeOpacitySlider);
         
         drawingOptionsPnl.add(getSeparator());
         
@@ -390,6 +420,7 @@ public class MenuPanel extends JPanel {
             prevBtn.setEnabled(false);
             nextBtn.setEnabled(false);
     
+            edgeOpacitySlider.setEnabled(false);
             nodeRadSlider.setEnabled(false);
             idDrawerCheckBox.setEnabled(false);
             coordDrawerCheckBox.setEnabled(false);
@@ -402,7 +433,8 @@ public class MenuPanel extends JPanel {
         pauseBtn.setEnabled(true);
         prevBtn.setEnabled(true);
         nextBtn.setEnabled(true);
-        
+    
+        edgeOpacitySlider.setEnabled(true);
         nodeRadSlider.setEnabled(true);
         idDrawerCheckBox.setEnabled(true);
         coordDrawerCheckBox.setEnabled(true);

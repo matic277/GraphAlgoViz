@@ -40,7 +40,7 @@ public interface ComponentDrawer {
     
     static ComponentDrawer getEdgeDrawer(Graph<Node, DefaultEdge> graph) {
         return (g, at, n) -> {
-            g.setColor(Color.black);
+            g.setColor(new Color(0, 0, 0, Edge.opacity));
 //            System.out.println("edges="+graph.edgeSet().size());
             for (DefaultEdge e : graph.edgeSet()) {
                 Node n1 = graph.getEdgeSource(e);

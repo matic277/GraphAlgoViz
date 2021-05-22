@@ -9,6 +9,9 @@ import java.util.List;
 
 public class Edge {
     
+    // drawing opacity
+    public static int opacity = 255;
+    
     Node n1, n2;
     
     public Edge(Node n1, Node n2) {
