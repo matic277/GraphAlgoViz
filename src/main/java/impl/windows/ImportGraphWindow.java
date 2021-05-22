@@ -52,7 +52,7 @@ public class ImportGraphWindow extends Window {
         this.panel.add(titleText2);
         
         selectGraphText = new JLabel(" Select type of graph:");
-        selectGraphText.setFont(Tools.getFont(12));
+        selectGraphText.setFont(Tools.getFont(14));
         selectGraphText.setOpaque(true);
         selectGraphText.setBackground(Tools.bgColor);
         selectGraphText.setVisible(true);

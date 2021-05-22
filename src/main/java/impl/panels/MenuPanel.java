@@ -70,6 +70,7 @@ public class MenuPanel extends JPanel {
         graphOptionsPnl.add(getSeparator());
         
         importBtn = new JButton("Import graph");
+        importBtn.setFont(Tools.getFont(14));
         importBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         importBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
         importBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
@@ -81,6 +82,7 @@ public class MenuPanel extends JPanel {
         graphOptionsPnl.add(importBtn);
         
         clearBtn = new JButton("Clear graph");
+        clearBtn.setFont(Tools.getFont(14));
         clearBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         clearBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
         clearBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
@@ -96,6 +98,7 @@ public class MenuPanel extends JPanel {
         graphOptionsPnl.add(clearBtn);
         
         addNodeBtn = new JButton("Add node");
+        addNodeBtn.setFont(Tools.getFont(14));
         addNodeBtn.setToolTipText("Adds a new node to graph");
         addNodeBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         addNodeBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
@@ -166,6 +169,7 @@ public class MenuPanel extends JPanel {
         historyOptionsPnl.add(getSeparator());
     
         pauseBtn = new JButton("CONTINUE");
+        pauseBtn.setFont(Tools.getFont(14));
         pauseBtn.setToolTipText("Pause or continue simulation.");
         pauseBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         pauseBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
@@ -210,6 +214,7 @@ public class MenuPanel extends JPanel {
         historyOptionsPnl.add(leftRightPnl);
     
         prevBtn = new JButton("<");
+        prevBtn.setFont(Tools.getFont(14));
         prevBtn.setToolTipText("Previous round");
         prevBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
         prevBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -221,6 +226,7 @@ public class MenuPanel extends JPanel {
         leftRightPnl.add(prevBtn);
         
         nextBtn = new JButton(">");
+        nextBtn.setFont(Tools.getFont(14));
         nextBtn.setToolTipText("Next round");
         nextBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
         nextBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -264,7 +270,7 @@ public class MenuPanel extends JPanel {
         sliderInfo = new JLabel("Change node radius");
         sliderInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
         sliderInfo.setSize(new Dimension(30, 100));
-        sliderInfo.setFont(Tools.getFont(12));
+        sliderInfo.setFont(Tools.getFont(14));
         drawingOptionsPnl.add(sliderInfo);
         
         int sliderMin = 5, sliderMax = 100;
@@ -283,7 +289,7 @@ public class MenuPanel extends JPanel {
         nodeRadSlider.setPreferredSize(new Dimension(150, 40));
         nodeRadSlider.setMaximumSize(new Dimension(150, 40));
         nodeRadSlider.setMinimumSize(new Dimension(150, 40));
-        nodeRadSlider.setFont(Tools.getFont(12));
+        nodeRadSlider.setFont(Tools.getFont(14));
         nodeRadSlider.setEnabled(false);
         nodeRadSlider.addChangeListener(c -> Node.rad = nodeRadSlider.getValue());
         drawingOptionsPnl.add(nodeRadSlider);
@@ -298,7 +304,7 @@ public class MenuPanel extends JPanel {
         idDrawerCheckBox = new JCheckBox("Draw node IDs"); // extra spaces so checkboxes are (almost!) aligned - flow layout sucks
         idDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         idDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        idDrawerCheckBox.setFont(Tools.getFont(12));
+        idDrawerCheckBox.setFont(Tools.getFont(14));
         idDrawerCheckBox.setEnabled(false);
         idDrawerCheckBox.addActionListener(a -> {
             Node.idDrawer = idDrawerCheckBox.isSelected() ?
@@ -310,7 +316,7 @@ public class MenuPanel extends JPanel {
         coordDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 //        coordDrawerCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
         coordDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        coordDrawerCheckBox.setFont(Tools.getFont(12));
+        coordDrawerCheckBox.setFont(Tools.getFont(14));
         coordDrawerCheckBox.setEnabled(false);
         coordDrawerCheckBox.addActionListener(a -> {
             Node.coordDrawer = coordDrawerCheckBox.isSelected() ?
@@ -321,7 +327,7 @@ public class MenuPanel extends JPanel {
         edgeDrawerCheckBox = new JCheckBox("Draw edges");
         edgeDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         edgeDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        edgeDrawerCheckBox.setFont(Tools.getFont(12));
+        edgeDrawerCheckBox.setFont(Tools.getFont(14));
         edgeDrawerCheckBox.setSelected(true);
         edgeDrawerCheckBox.setEnabled(false);
         edgeDrawerCheckBox.addActionListener(a -> {
@@ -332,7 +338,7 @@ public class MenuPanel extends JPanel {
         stateDebugCheckBox = new JCheckBox("Draw states (debug)");
         stateDebugCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         stateDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        stateDebugCheckBox.setFont(Tools.getFont(12));
+        stateDebugCheckBox.setFont(Tools.getFont(14));
         stateDebugCheckBox.setSelected(false);
         stateDebugCheckBox.setEnabled(false);
         stateDebugCheckBox.addActionListener(a -> {
@@ -344,7 +350,7 @@ public class MenuPanel extends JPanel {
         neighborsDebugCheckBox = new JCheckBox("Draw node neighbors");
         neighborsDebugCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         neighborsDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        neighborsDebugCheckBox.setFont(Tools.getFont(12));
+        neighborsDebugCheckBox.setFont(Tools.getFont(14));
         neighborsDebugCheckBox.setSelected(false);
         neighborsDebugCheckBox.setEnabled(false);
         neighborsDebugCheckBox.addActionListener(a -> {

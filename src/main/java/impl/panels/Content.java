@@ -28,7 +28,7 @@ public class Content extends JComponent {
         titlePanel.setLayout(new GridLayout(1, 1, 0, 0));
         titleLbl = new JLabel("  Graph statistics ");
         titleLbl.setOpaque(true);
-        titleLbl.setFont(Tools.getFont(14));
+        titleLbl.setFont(Tools.getBoldFont(14));
         titleLbl.setBackground(Tools.GRAY);
         titleLbl.setSize(new Dimension(150, 30));
         titleLbl.setPreferredSize(new Dimension(150, 30));
@@ -45,28 +45,28 @@ public class Content extends JComponent {
         nodesNumTextLbl = new JLabel("  Number of nodes:");
         nodesNumTextLbl.setOpaque(true);
         nodesNumTextLbl.setBackground(Color.white);
-        nodesNumTextLbl.setFont(Tools.getFont(12));
+        nodesNumTextLbl.setFont(Tools.getFont(14));
         textPanel.add(nodesNumTextLbl);
         textPanel.add(dummySeparator());
     
         edgesNumTextLbl = new JLabel("  Number of edges:");
         edgesNumTextLbl.setOpaque(true);
         edgesNumTextLbl.setBackground(Color.white);
-        edgesNumTextLbl.setFont(Tools.getFont(12));
+        edgesNumTextLbl.setFont(Tools.getFont(14));
         textPanel.add(edgesNumTextLbl);
         textPanel.add(dummySeparator());
     
         percentInformedNumTextLbl = new JLabel("  Percent of informed nodes:");
         percentInformedNumTextLbl.setOpaque(true);
         percentInformedNumTextLbl.setBackground(Color.white);
-        percentInformedNumTextLbl.setFont(Tools.getFont(12));
+        percentInformedNumTextLbl.setFont(Tools.getFont(14));
         textPanel.add(percentInformedNumTextLbl);
         textPanel.add(dummySeparator());
         
         totalInformedNumTextLbl = new JLabel("  Total informed nodes:");
         totalInformedNumTextLbl.setOpaque(true);
         totalInformedNumTextLbl.setBackground(Color.white);
-        totalInformedNumTextLbl.setFont(Tools.getFont(12));
+        totalInformedNumTextLbl.setFont(Tools.getFont(14));
         textPanel.add(totalInformedNumTextLbl);
         
         
@@ -80,28 +80,28 @@ public class Content extends JComponent {
         nodesNumLbl = new JLabel("  0");
         nodesNumLbl.setOpaque(true);
         nodesNumLbl.setBackground(Color.white);
-        nodesNumLbl.setFont(Tools.getFont(12));
+        nodesNumLbl.setFont(Tools.getFont(14));
         valPanel.add(nodesNumLbl);
         valPanel.add(dummySeparator());
         
         edgesNumLbl = new JLabel("  0");
         edgesNumLbl.setOpaque(true);
         edgesNumLbl.setBackground(Color.white);
-        edgesNumLbl.setFont(Tools.getFont(12));
+        edgesNumLbl.setFont(Tools.getFont(14));
         valPanel.add(edgesNumLbl);
         valPanel.add(dummySeparator());
         
         percentInformedNumLbl = new JLabel("  0");
         percentInformedNumLbl.setOpaque(true);
         percentInformedNumLbl.setBackground(Color.white);
-        percentInformedNumLbl.setFont(Tools.getFont(12));
+        percentInformedNumLbl.setFont(Tools.getFont(14));
         valPanel.add(percentInformedNumLbl);
         valPanel.add(dummySeparator());
         
         totalInformedNumLbl = new JLabel("  0");
         totalInformedNumLbl.setOpaque(true);
         totalInformedNumLbl.setBackground(Color.white);
-        totalInformedNumLbl.setFont(Tools.getFont(12));
+        totalInformedNumLbl.setFont(Tools.getFont(14));
         valPanel.add(totalInformedNumLbl);
         
         this.add(titlePanel, BorderLayout.NORTH);

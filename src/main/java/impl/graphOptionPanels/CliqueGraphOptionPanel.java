@@ -24,22 +24,22 @@ public class CliqueGraphOptionPanel extends OptionPanel {
         inputText = new JLabel(" Number of nodes: ");
         inputText.setBounds(50, 100, 110, 30);
         inputText.setOpaque(true);
-        inputText.setFont(Tools.getFont(12));
+        inputText.setFont(Tools.getFont(14));
 //        text.setBackground(Color.red);
         
         inputField = new JTextField();
         inputField.setBounds(180, 100, 80, 30);
-        inputField.setFont(Tools.getFont(12));
+        inputField.setFont(Tools.getFont(14));
         
         informedNodesText = new JLabel(" Informed nodes:");
         informedNodesText.setBounds(50, 150, 110, 30);
         informedNodesText.setOpaque(true);
-        informedNodesText.setFont(Tools.getFont(12));
+        informedNodesText.setFont(Tools.getFont(14));
 //        informedNodesText.setBackground(Color.red);
         
         informedNodesInput = new JTextField();
         informedNodesInput.setBounds(180, 150, 80, 30);
-        informedNodesInput.setFont(Tools.getFont(12));
+        informedNodesInput.setFont(Tools.getFont(14));
     
         this.addComponents(inputText, inputField, informedNodesText, informedNodesInput);
     }

@@ -23,7 +23,7 @@ public class StaticTestGraphOptionPanel extends OptionPanel {
         lbl.setOpaque(true);
         lbl.setBackground(Color.red);
         lbl.setBounds(80, 80, 210, 30);
-        lbl.setFont(Tools.getFont(12));
+        lbl.setFont(Tools.getFont(14));
         this.add(lbl);
     }
     

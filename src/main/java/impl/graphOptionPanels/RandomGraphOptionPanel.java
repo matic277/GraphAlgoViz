@@ -25,7 +25,7 @@ public class RandomGraphOptionPanel extends OptionPanel {
         nodesText = new JLabel(" Number of nodes:");
         nodesText.setBounds(100, 80, 110, 30);
         nodesText.setOpaque(true);
-        nodesText.setFont(Tools.getFont(12));
+        nodesText.setFont(Tools.getFont(14));
 //        text.setBackground(Color.red);
         
         nodesInput = new JTextField();
@@ -34,22 +34,22 @@ public class RandomGraphOptionPanel extends OptionPanel {
         edgedText = new JLabel(" Edge probability:");
         edgedText.setBounds(100, 130, 110, 30);
         edgedText.setOpaque(true);
-        edgedText.setFont(Tools.getFont(12));
+        edgedText.setFont(Tools.getFont(14));
 //        text.setBackground(Color.red);
         
         edgesInput = new JTextField();
         edgesInput.setBounds(220, 132, 70, 30);
-        edgesInput.setFont(Tools.getFont(12));
+        edgesInput.setFont(Tools.getFont(14));
         
         informedNodesText = new JLabel(" Informed nodes:");
         informedNodesText.setBounds(100, 180, 110, 30);
         informedNodesText.setOpaque(true);
-        informedNodesText.setFont(Tools.getFont(12));
+        informedNodesText.setFont(Tools.getFont(14));
 //        informedNodesText.setBackground(Color.red);
         
         informedNodesInput = new JTextField();
         informedNodesInput.setBounds(220, 180, 70, 30);
-        informedNodesInput.setFont(Tools.getFont(12));
+        informedNodesInput.setFont(Tools.getFont(14));
         
         this.addComponents(nodesText, edgedText, edgesInput, nodesInput, informedNodesText, informedNodesInput);
     }

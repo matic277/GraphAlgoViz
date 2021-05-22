@@ -4,19 +4,26 @@ package impl.tools;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class Tools {
     
     public static final Color bgColor = Color.white;
-    public static final Color borderColor = new Color(118, 118, 118);
+    public static final Color borderColor = new Color(227, 227, 227);
     public static final Color RED = Color.decode("#ea4335");
+    public static final Color BACKGROUND_RED = new Color(255, 242, 242);
     public static final Color GRAY = Color.decode("#BFBDBD");
+    public static final Color GRAY2 = Color.decode("#E0E0E0");
+    public static final Color GRAY3 = new Color(243, 243, 243);
     public static final Color GREEN = Color.decode("#34A853");
+    public static final Color BACKGROUND_GREEN = new Color(236, 255, 236);
+    public static final Color LIGHT_GRAY = new Color(243, 243, 243);
     public static final Color MEUN_COLORS = Color.decode("#E0DDDD");
     
     public static final Dimension MENU_BUTTON_SIZE = new Dimension(47, 37);
-    public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(100, 37);
+    public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(110, 37);
     public static final Dimension MENU_CHECKBOX_SIZE = new Dimension(125, 15);
     
     public static final Stroke PLAIN_STROKE = new BasicStroke(1);
@@ -33,13 +40,14 @@ public class Tools {
     
     public static final Random RAND = new Random();
     
-    public static Font getBoldFont(int size) {
-        return new Font("Tahoma", Font.BOLD, size);
+    
+    public static final Font font = null; static {
+    
     }
     
-    public static Font getFont(int size) {
-        return new Font("Tahoma", Font.PLAIN, size);
-    }
+    public static Font getBoldFont(int size) { return new Font("Source sans pro bold", Font.BOLD, size); }
+    
+    public static Font getFont(int size) { return new Font("Source sans pro", Font.PLAIN, size); }
     
     public static void sleep(int ms) {
         try { Thread.sleep(ms); }

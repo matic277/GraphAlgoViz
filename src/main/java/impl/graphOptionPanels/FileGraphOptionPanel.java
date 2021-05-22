@@ -22,23 +22,23 @@ public class FileGraphOptionPanel extends OptionPanel {
         inputText = new JLabel(" Input path to graph file:");
         inputText.setBounds(50, 70, 170, 30);
         inputText.setOpaque(true);
-        inputText.setFont(Tools.getFont(12));
+        inputText.setFont(Tools.getFont(14));
 //        text.setBackground(Color.red);
         
         inputField = new JTextField();
         inputField.setBounds(47, 100, 300, 30);
-        inputField.setFont(Tools.getFont(12));
+        inputField.setFont(Tools.getFont(14));
         inputField.setText(".\\graphs\\graph1.g6");
         
         informedNodesText = new JLabel(" Informed nodes:");
         informedNodesText.setBounds(47, 150, 110, 30);
         informedNodesText.setOpaque(true);
-        informedNodesText.setFont(Tools.getFont(12));
+        informedNodesText.setFont(Tools.getFont(14));
 //        informedNodesText.setBackground(Color.red);
         
         informedNodesInput = new JTextField();
         informedNodesInput.setBounds(47, 180, informedNodesText.getWidth(), 30);
-        informedNodesInput.setFont(Tools.getFont(12));
+        informedNodesInput.setFont(Tools.getFont(14));
         
         this.addComponents(inputText, inputField, informedNodesText, informedNodesInput);
     }

@@ -2,6 +2,7 @@ package impl.panels.tabs;
 
 import impl.MyGraph;
 import impl.panels.BottomPanel;
+import impl.tools.Tools;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class TabsPanel extends JTabbedPane {
         this.parent = parent;
         this.graph = MyGraph.getInstance();
         
-        this.setBackground(Color.red);
+        this.setFont(Tools.getFont(14));
         
         historyTab = new StateHistoryTab(this);
         this.addTab("State history", historyTab);
