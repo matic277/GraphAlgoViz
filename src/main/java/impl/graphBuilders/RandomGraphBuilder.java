@@ -31,8 +31,7 @@ public class RandomGraphBuilder extends GraphBuilder {
         }
         
         this.getNodeInformator().run();
-        
-        this.arrangeNodesInCircularLayoutJGraphT();
+        GraphBuilder.layoutTypeMap.get(GraphBuilder.layoutType).run();
     }
     
 }

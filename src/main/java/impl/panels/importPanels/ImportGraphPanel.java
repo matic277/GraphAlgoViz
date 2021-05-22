@@ -2,6 +2,7 @@ package impl.panels.importPanels;
 
 import core.GraphType;
 import core.LayoutType;
+import impl.graphBuilders.GraphBuilder;
 import impl.panels.importPanels.graphOptionPanels.OptionPanel;
 import impl.tools.Tools;
 import impl.windows.ImportGraphWindow;
@@ -37,7 +38,6 @@ public class ImportGraphPanel extends JPanel {
     JButton importBtn;
     
     GraphType selectedGraphType;
-    LayoutType selectedLayoutType;
     
     
     public ImportGraphPanel(ImportGraphWindow parent) {
@@ -47,11 +47,9 @@ public class ImportGraphPanel extends JPanel {
         this.setBackground(Tools.bgColor);
         this.setPreferredSize(Tools.INITIAL_IMPORT_WINDOW_SIZE);
         this.setLayout(new BorderLayout());
-
-        selectedLayoutType = LayoutType.CIRCULAR;
+        
         selectedGraphType = GraphType.STATIC_TEST;
         optionPanel = selectedGraphType.getPanel();
-
 //        selectedGraphType.getPanel().setSimulationWindow(parent.getSimulationWindow());
         
         initNorth();
@@ -105,28 +103,6 @@ public class ImportGraphPanel extends JPanel {
         initGraphTypeInputs();
         initLayoutTypeInputs();
         initOptionPanel();
-
-//    // CENTER
-//    JPanel middlePanel;
-//        NORTH
-//        JPanel dropdownPanel;
-//            JPanel graphTypePanel;
-//                JLabel selectGraphText;
-//                JComboBox<GraphType> graphTypeDropdown;
-//            JPanel layoutTypePanel;
-//                JLabel selectLayoutText;
-//                JComboBox<LayoutType> layoutTypeDropdown;
-//
-//        CENTER
-//        JPanel optionPanelContainer;
-//            OptionPanel optionPanel;
-        
-        
-
-
-
-        
-//        this.add(optionPanel);
     }
     
     private void initOptionPanel() {
@@ -152,7 +128,7 @@ public class ImportGraphPanel extends JPanel {
         layoutTypeDropdown.setVisible(true);
         layoutTypeDropdown.setEnabled(true);
         layoutTypeDropdown.addActionListener(a -> {
-            // TODO
+           GraphBuilder.layoutType = (LayoutType) layoutTypeDropdown.getSelectedItem();
         });
         
         // so that components don't get stretched
@@ -184,8 +160,7 @@ public class ImportGraphPanel extends JPanel {
         graphTypeDropdown.setVisible(true);
         graphTypeDropdown.setEnabled(true);
         graphTypeDropdown.addActionListener(a -> {
-            String text = String.valueOf(graphTypeDropdown.getSelectedItem());
-            GraphType selectedType = GraphType.getByDescription(text);
+            GraphType selectedType = (GraphType) graphTypeDropdown.getSelectedItem();
             selectedType.getPanel().setSimulationWindow(parent.getSimulationWindow());
             setSelectedGraphType(selectedType);
             setNewOptionPanel(selectedType.getPanel());
