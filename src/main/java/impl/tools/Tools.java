@@ -20,7 +20,7 @@ public class Tools {
     public static final Color LIGHT_GRAY = new Color(213, 216, 222);
     public static final Color MEUN_COLORS = Color.decode("#E0DDDD");
     
-    public static final Dimension MENU_BUTTON_SIZE = new Dimension(47, 37);
+    public static final Dimension MENU_BUTTON_SIZE = new Dimension(53, 37);
     public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(110, 37);
     public static final Dimension MENU_CHECKBOX_SIZE = new Dimension(125, 15);
     
@@ -44,6 +44,8 @@ public class Tools {
     public static Font getBoldFont(int size) { return new Font("Source sans pro bold", Font.BOLD, size); }
     
     public static Font getFont(int size) { return new Font("Source sans pro", Font.PLAIN, size); }
+    
+    public static Font getMonospacedFont(int size) { return new Font("Roboto  mono thin", Font.PLAIN, size); }
     
     public static void sleep(int ms) {
         try { Thread.sleep(ms); }
