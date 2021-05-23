@@ -194,6 +194,9 @@ public class MenuPanel extends JPanel {
             nextBtn.setEnabled(AlgorithmController.PAUSE.get());
             prevBtn.setEnabled(AlgorithmController.PAUSE.get());
             
+            this.importBtn.setEnabled(!this.importBtn.isEnabled());
+            this.clearBtn.setEnabled(!this.clearBtn.isEnabled());
+            
             // when pressing continue, jump to latest state
             // TODO
             //  program crash due to node getting drawn from  state 1 when only 1 state existed

@@ -98,16 +98,17 @@ public class AlgorithmController implements Runnable, StateObservable {
     }
     
     public void assignTasks() {
-        // if there are no nodes, then just clear executors of work
+        // Clear all tasks(nodes) from all processors first
+        for (int i=0; i<EXECUTORS.length; i++) EXECUTORS[i].nodes.clear();
+        
+        // There are no tasks(nodes) to assign
         if (graph.getGraph().vertexSet().isEmpty()) {
-            for (int i=0; i<EXECUTORS.length; i++) EXECUTORS[i].nodes.clear();
             return;
         }
+        
         int nodes = this.graph.getNodes().size();
         int taskSize = nodes / PROCESSORS;
         int lastTaskSize = (nodes - (taskSize * PROCESSORS)) + taskSize;
-        
-        // System.out.println("TASK SIZE="+taskSize+", LAST="+lastTaskSize);
         
         Iterator<Node> iter = this.graph.getNodes().stream().iterator();
         
@@ -120,6 +121,12 @@ public class AlgorithmController implements Runnable, StateObservable {
                 nodesToProcess.add(iter.next());
             }
             EXECUTORS[i].nodes.addAll(nodesToProcess);
+        }
+        
+        System.out.println();
+        System.out.println("Assigned tasks:");
+        for (AlgorithmExecutor ex : EXECUTORS) {
+            System.out.println(" -> " + ex.stateToString());
         }
     }
     

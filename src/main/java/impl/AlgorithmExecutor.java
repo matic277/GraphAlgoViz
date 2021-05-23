@@ -51,4 +51,8 @@ public class AlgorithmExecutor implements Runnable {
     
 //        LOG.out("  ->", "Barrier tipped, thread exiting.");
     }
+    
+    public String stateToString() {
+        return name + " -> " + nodes.size();
+    }
 }

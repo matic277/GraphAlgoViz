@@ -48,7 +48,6 @@ public class SimulationWindow extends Window {
         mainPanel.onNewGraphImport();
         
         this.graph.setNumberOfInformedNodes(builder.getNumberOfInitiallyInformedNodes());
-        this.graph.onInformedNodesChange();
         
         algoController.setNewGraph(graph);
         

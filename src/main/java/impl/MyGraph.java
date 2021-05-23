@@ -149,7 +149,7 @@ public class MyGraph implements Drawable, GraphObservable {
         this.observers.remove(observer);
     }
     
-    public void setNumberOfInformedNodes(int num) { this.informedNodes.set(num); }
+    public void setNumberOfInformedNodes(int num) { this.informedNodes.set(num); this.onInformedNodesChange(); }
     
     public int getNumberOfInformedNodes() { return this.informedNodes.get(); }
 }
