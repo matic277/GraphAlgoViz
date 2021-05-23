@@ -125,6 +125,7 @@ public class SimulationPanel extends JPanel {
     public SimulationWindow getSimulationWindow() { return this.parent.getSimulationWindow(); }
     
     public void onNewGraphImport() {
+        this.repaint();
         this.listener.onNewGraphImport();
     }
 }

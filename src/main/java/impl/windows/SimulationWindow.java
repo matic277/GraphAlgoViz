@@ -7,9 +7,11 @@ import impl.panels.simulationPanels.MainPanel;
 import impl.panels.simulationPanels.SimulationPanel;
 import impl.tools.Tools;
 
+import javax.print.attribute.standard.DocumentName;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.concurrent.CompletableFuture;
 
 public class SimulationWindow extends Window {
     
@@ -37,22 +39,27 @@ public class SimulationWindow extends Window {
     //   buttons, history!, listeners, ...
     //   algorithmController needs to be re-inited (workers need new nodes)
     public void onNewGraphImport(GraphBuilder builder) {
-        AlgorithmController.totalStates = 1;
-        AlgorithmController.currentStateIndex = 0;
-        
-        this.graph.clearGraph();
-        builder.buildGraph();
-        this.graph.drawEdges(true);
-        
-        // re-enables buttons and such
-        mainPanel.onNewGraphImport();
-        
-        this.graph.setNumberOfInformedNodes(builder.getNumberOfInitiallyInformedNodes());
-        
-        algoController.setNewGraph(graph);
-        
-        Thread controller = new Thread(algoController);
-        controller.start();
+        // Completable future,
+        // on large graph imports, this makes sure GUI doesn't freeze
+        // TODO: disabling buttons
+        CompletableFuture.runAsync(() ->{
+            AlgorithmController.totalStates = 1;
+            AlgorithmController.currentStateIndex = 0;
+            
+            this.graph.clearGraph();
+            builder.buildGraph();
+            this.graph.drawEdges(true);
+            
+            // re-enables buttons and such
+            mainPanel.onNewGraphImport();
+            
+            this.graph.setNumberOfInformedNodes(builder.getNumberOfInitiallyInformedNodes());
+            
+            algoController.setNewGraph(graph);
+            
+            Thread controller = new Thread(algoController);
+            controller.start();
+        });
     }
     
     public SimulationPanel getSimulationPanel() { return this.mainPanel.getTopPanel().getSimulationPanel(); }

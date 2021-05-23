@@ -48,7 +48,7 @@ public class AlgorithmExecutor implements Runnable {
         
         try { AlgorithmController.BARRIER.await(); }
         catch (InterruptedException | BrokenBarrierException e) { e.printStackTrace(); }
-    
+        
 //        LOG.out("  ->", "Barrier tipped, thread exiting.");
     }
     

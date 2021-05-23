@@ -196,7 +196,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         panel.atx.translate(p1.getX(), p1.getY());
         panel.atx.scale(scale, scale);
         panel.atx.translate(-p2.getX(), -p2.getY());
-    
+        
         // TODO: resizing somewhat working
         if (rightClickedNode != null) {
             nodeInfoLbl.setBounds(

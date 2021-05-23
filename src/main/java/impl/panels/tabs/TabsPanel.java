@@ -15,6 +15,7 @@ public class TabsPanel extends JTabbedPane {
     MyGraph graph;
     
     StateHistoryTab historyTab;
+    ReLayoutTab layoutTab;
     
     public TabsPanel(BottomPanel parent) {
         this.parent = parent;
@@ -26,9 +27,9 @@ public class TabsPanel extends JTabbedPane {
         historyTab = new StateHistoryTab(this);
         this.addTab("State history", historyTab);
         this.setBackgroundAt(0, Tools.GRAY3);
-        
-        JPanel p1 = new JPanel(); p1.setBackground(Color.pink);
-        this.addTab("Some other tab", p1);
+    
+        layoutTab = new ReLayoutTab(this);
+        this.addTab("Graph layout", layoutTab);
         this.setBackgroundAt(1, Tools.GRAY3);
         
         // Set min width, so that LeftPanel can't get stretched out too much.
