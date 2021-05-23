@@ -18,13 +18,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MyGraph implements Drawable, GraphObservable {
     
     public int numOfNodes = 0;
-    static private int nextId = -1;
+    private static int nextId = -1;
     
     public AtomicInteger informedNodes = new AtomicInteger(0);
     
     Graph<Node, DefaultEdge> graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
     
-    private ComponentDrawer edgeDrawer = ComponentDrawer.getEdgeDrawer(graph);
+    private ComponentDrawer edgeDrawer = ComponentDrawer.getEdgeDrawer();
     
     public static final Object LOCK = new Object();
     
@@ -42,17 +42,17 @@ public class MyGraph implements Drawable, GraphObservable {
         //  graph.vertexSet().clear();
         
         // Has its own problems with edge drawing (potentially elsewhere as-well)
-        // graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
+         graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
         
         // Does not work (concurrent exception on library's part)
         // this.graph.removeAllVertices(this.graph.vertexSet());
         
         // Slow but works (creates copy references for every edge and node...)
         // (http://jgrapht-users.107614.n3.nabble.com/remove-all-edges-and-vertices-td4024747.html)
-        LinkedList<DefaultEdge> copy = new LinkedList<>(graph.edgeSet());
-        graph.removeAllEdges(copy);
-        LinkedList<Node> copy2 = new LinkedList<>(graph.vertexSet());
-        graph.removeAllVertices(copy2);
+//        LinkedList<DefaultEdge> copy = new LinkedList<>(graph.edgeSet());
+//        graph.removeAllEdges(copy);
+//        LinkedList<Node> copy2 = new LinkedList<>(graph.vertexSet());
+//        graph.removeAllVertices(copy2);
         
         observers.forEach(GraphChangeObserver::onGraphClear);
     }}
@@ -128,7 +128,7 @@ public class MyGraph implements Drawable, GraphObservable {
     
     public void drawEdges(boolean draw) { synchronized (LOCK) {
         this.edgeDrawer = draw ?
-                ComponentDrawer.getEdgeDrawer(this.graph) : ComponentDrawer.getNullDrawer();
+                ComponentDrawer.getEdgeDrawer() : ComponentDrawer.getNullDrawer();
     }}
     
     public Node getNodeById(int id) {

@@ -38,13 +38,14 @@ public interface ComponentDrawer {
         };
     }
     
-    static ComponentDrawer getEdgeDrawer(Graph<Node, DefaultEdge> graph) {
+    static ComponentDrawer getEdgeDrawer() {
         return (g, at, n) -> {
             g.setColor(new Color(0, 0, 0, Edge.opacity));
 //            System.out.println("edges="+graph.edgeSet().size());
-            for (DefaultEdge e : graph.edgeSet()) {
-                Node n1 = graph.getEdgeSource(e);
-                Node n2 = graph.getEdgeTarget(e);
+            MyGraph graph = MyGraph.getInstance();
+            for (DefaultEdge e : graph.getGraph().edgeSet()) {
+                Node n1 = graph.getGraph().getEdgeSource(e);
+                Node n2 = graph.getGraph().getEdgeTarget(e);
                 g.drawLine((int)n1.ts.getBounds().getCenterX(), (int)n1.ts.getBounds().getCenterY(),
                         (int)n2.ts.getBounds().getCenterX(), (int)n2.ts.getBounds().getCenterY());
             }

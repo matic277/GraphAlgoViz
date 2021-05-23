@@ -69,13 +69,13 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         
         ts = at.createTransformedShape(this);
         
-        g.setStroke(Tools.BOLDEST_STROKE);
+//        g.setStroke(Tools.BOLDEST_STROKE);
         g.setColor(states.get(AlgorithmController.currentStateIndex).getState() == 0 ? UNINFORMED : INFORMED);
         
         // circle & center
-        g.draw(ts);
+        g.fill(ts);
         g.setColor(Tools.RED);
-        g.fillOval((int)ts.getBounds().getCenterX()-ts.getBounds().width/8, (int)ts.getBounds().getCenterY()-ts.getBounds().width/8, ts.getBounds().width/4, ts.getBounds().width/4);
+//        g.fillOval((int)ts.getBounds().getCenterX()-ts.getBounds().width/8, (int)ts.getBounds().getCenterY()-ts.getBounds().width/8, ts.getBounds().width/4, ts.getBounds().width/4);
         
         idDrawer.draw(g, at, this);
         coordDrawer.draw(g, at, this);
