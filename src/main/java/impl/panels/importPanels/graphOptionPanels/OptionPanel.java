@@ -22,7 +22,7 @@ public abstract class OptionPanel extends JPanel {
     
     public OptionPanel(ImportGraphWindow parent) {
         this.parent = parent;
-        this.panelSize = new Dimension(300,200);
+//        this.panelSize = new Dimension(300,200);
         this.setVisible(true);
         this.setPreferredSize(panelSize);
         this.setMaximumSize(panelSize);
@@ -41,15 +41,12 @@ public abstract class OptionPanel extends JPanel {
         // anti-aliasing
         gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-//        g.setColor(Tools.GRAY3);
-//        g.fillRect(0, 0, getWidth(), getHeight());
         
         g.setColor(Tools.GRAY3);
-        gr.fillRoundRect(80, 5, getWidth()-160, getHeight()-10, 15, 15);
+        gr.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
         
         gr.setColor(Tools.GRAY);
-        gr.drawRoundRect(80, 5, getWidth()-160, getHeight()-10, 15, 15);
+        gr.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
     }
     
     public void addComponents(JComponent... cmps) {

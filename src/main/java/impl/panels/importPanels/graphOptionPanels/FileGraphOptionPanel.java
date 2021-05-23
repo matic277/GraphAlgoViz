@@ -22,27 +22,41 @@ public class FileGraphOptionPanel extends OptionPanel {
     
         JPanel container1 = new JPanel();
         container1.setOpaque(false);
-        inputText = new JLabel(" Input path to graph file:");
-        inputText.setOpaque(true);
+        container1.setLayout(new BoxLayout(container1, BoxLayout.Y_AXIS));
+        inputText = new JLabel("Input path to graph file:");
+//        inputText.setOpaque(true);
         inputText.setFont(Tools.getFont(14));
+        inputText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JLabel spacer = new JLabel();
+        spacer.setPreferredSize(new Dimension(100, 10));
+        container1.add(spacer);
         container1.add(inputText);
         
         inputField = new JTextField();
+        inputField.setPreferredSize(new Dimension(300, 30));
         inputField.setFont(Tools.getFont(14));
         inputField.setText(".\\graphs\\graph1.g6");
+        inputField.setHorizontalAlignment(SwingConstants.CENTER);
+        inputField.setAlignmentX(Component.CENTER_ALIGNMENT);
         container1.add(inputField);
+        JLabel spacer2 = new JLabel();
+        spacer2.setPreferredSize(new Dimension(100, 10));
+        container1.add(spacer2);
     
         JPanel container2 = new JPanel();
         container2.setOpaque(false);
-        informedNodesText = new JLabel(" Informed nodes:");
-        informedNodesText.setOpaque(true);
+        container2.setLayout(new BoxLayout(container2, BoxLayout.Y_AXIS));
+        informedNodesText = new JLabel("Informed nodes:");
+//        informedNodesText.setOpaque(true);
         informedNodesText.setFont(Tools.getFont(14));
-//        informedNodesText.setBackground(Color.red);
+        informedNodesText.setAlignmentX(Component.CENTER_ALIGNMENT);
         container2.add(informedNodesText);
         
         informedNodesInput = new JTextField();
-        informedNodesInput.setPreferredSize(new Dimension(100, informedNodesInput.getPreferredSize().height));
+        informedNodesInput.setPreferredSize(new Dimension(120, informedNodesInput.getPreferredSize().height));
         informedNodesInput.setFont(Tools.getFont(14));
+        informedNodesInput.setAlignmentX(Component.CENTER_ALIGNMENT);
         container2.add(informedNodesInput);
         
        this.add(container1);

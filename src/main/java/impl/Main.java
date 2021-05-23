@@ -1,5 +1,6 @@
 package impl;
 
+import impl.windows.ImportGraphWindow;
 import impl.windows.SimulationWindow;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;

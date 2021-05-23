@@ -8,6 +8,7 @@ import impl.tools.Tools;
 import impl.windows.ImportGraphWindow;
 
 import javax.swing.*;
+import javax.swing.border.StrokeBorder;
 import java.awt.*;
 
 import static impl.tools.Tools.getBoldFont;
@@ -48,9 +49,20 @@ public class ImportGraphPanel extends JPanel {
         this.setPreferredSize(Tools.INITIAL_IMPORT_WINDOW_SIZE);
         this.setLayout(new BorderLayout());
         
-        selectedGraphType = GraphType.STATIC_TEST;
-        optionPanel = selectedGraphType.getPanel();
-//        selectedGraphType.getPanel().setSimulationWindow(parent.getSimulationWindow());
+        int borderWidth = 75;
+        JLabel spacer = new JLabel();
+        spacer.setPreferredSize(new Dimension(borderWidth, 100));
+        spacer.setMaximumSize(new Dimension(borderWidth, 100));
+        spacer.setMinimumSize(new Dimension(borderWidth, 100));
+        JLabel spacer2 = new JLabel();
+        spacer2.setPreferredSize(new Dimension(borderWidth, 100));
+        spacer2.setMaximumSize(new Dimension(borderWidth, 100));
+        spacer2.setMinimumSize(new Dimension(borderWidth, 100));
+        this.add(spacer, BorderLayout.WEST);
+        this.add(spacer2, BorderLayout.EAST);
+        
+//        selectedGraphType = GraphType.STATIC_TEST;
+//        optionPanel = selectedGraphType.getPanel();
         
         initNorth();
         initCenter();
@@ -72,34 +84,29 @@ public class ImportGraphPanel extends JPanel {
         this.add(container, BorderLayout.SOUTH);
     }
     
-
-
     private void initCenter() {
         middlePanel = new JPanel();
         middlePanel.setLayout(new BorderLayout());
-//        middlePanel.setOpaque(true); middlePanel.setBackground(Color.blue);
         this.add(middlePanel, BorderLayout.CENTER);
         
         dropdownPanel = new JPanel();
-        dropdownPanel.setLayout(new BorderLayout());
+        dropdownPanel.setLayout(new BoxLayout(dropdownPanel, BoxLayout.Y_AXIS));
         middlePanel.add(dropdownPanel, BorderLayout.NORTH);
-    
-    
+        
         layoutTypePanel = new JPanel();
         layoutTypePanel.setBackground(Tools.bgColor);
-//        layoutTypePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        layoutTypePanel.setLayout(new BoxLayout(layoutTypePanel, BoxLayout.Y_AXIS));
         dropdownPanel.add(layoutTypePanel, BorderLayout.NORTH);
         
         graphTypePanel = new JPanel();
         graphTypePanel.setBackground(Tools.bgColor);
-//        graphTypePanel.setLayout(new BorderLayout());
+        graphTypePanel.setLayout(new BoxLayout(graphTypePanel, BoxLayout.Y_AXIS));
         dropdownPanel.add(graphTypePanel, BorderLayout.CENTER);
-    
+        
         optionPanelContainer = new JPanel();
         optionPanelContainer.setLayout(new BorderLayout());
-//        optionPanelContainer.setBackground(Color.pink);
         middlePanel.add(optionPanelContainer, BorderLayout.CENTER);
-    
+        
         initGraphTypeInputs();
         initLayoutTypeInputs();
         initOptionPanel();
@@ -116,14 +123,10 @@ public class ImportGraphPanel extends JPanel {
     private void initLayoutTypeInputs() {
         selectLayoutText = new JLabel(" Select type of layout:");
         selectLayoutText.setFont(Tools.getFont(14));
-//        selectLayoutText.setOpaque(true);
-//        selectLayoutText.setBackground(Color.magenta);
         selectLayoutText.setAlignmentX(Component.CENTER_ALIGNMENT);
     
         layoutTypeDropdown = new JComboBox<>(LayoutType.values());
         ((JLabel)layoutTypeDropdown.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
-//        layoutTypeDropdown.setOpaque(true);
-//        layoutTypeDropdown.setBackground(Tools.bgColor);
         layoutTypeDropdown.setFont(Tools.getFont(14));
         layoutTypeDropdown.setVisible(true);
         layoutTypeDropdown.setEnabled(true);
@@ -131,27 +134,18 @@ public class ImportGraphPanel extends JPanel {
            GraphBuilder.layoutType = (LayoutType) layoutTypeDropdown.getSelectedItem();
         });
         
-        // so that components don't get stretched
-        JPanel container1 = new JPanel();
-//        container1.setBackground(Color.pink);
-        container1.setBackground(Tools.bgColor);
-        container1.setLayout(new BoxLayout(container1, BoxLayout.Y_AXIS));
-        container1.setAlignmentX(Component.LEFT_ALIGNMENT);
-        container1.add(new JLabel(" "));
-        container1.add(selectLayoutText);
-        container1.add(layoutTypeDropdown);
-        
-        layoutTypePanel.add(container1, BorderLayout.NORTH);
-//        layoutTypePanel.add(container2, BorderLayout.CENTER);
+        JLabel spacer = new JLabel();
+        spacer.setPreferredSize(new Dimension(100, 10));
+        layoutTypePanel.add(spacer);
+        layoutTypePanel.add(selectLayoutText);
+        layoutTypePanel.add(layoutTypeDropdown);
     }
     
     private void initGraphTypeInputs() {
         selectGraphText = new JLabel(" Select type of graph:");
         selectGraphText.setFont(Tools.getFont(14));
-//        selectGraphText.setOpaque(true);
-//        selectGraphText.setBackground(Color.pink);
         selectGraphText.setAlignmentX(Component.CENTER_ALIGNMENT);
-    
+        
         graphTypeDropdown = new JComboBox<>(GraphType.values());
         ((JLabel)graphTypeDropdown.getRenderer()).setHorizontalAlignment(JLabel.CENTER); // center text
 //        graphTypeDropdown.setOpaque(true);
@@ -165,19 +159,13 @@ public class ImportGraphPanel extends JPanel {
             setSelectedGraphType(selectedType);
             setNewOptionPanel(selectedType.getPanel());
         });
-    
-        // so that components don't get stretched
-        JPanel container1 = new JPanel();
-//        container1.setBackground(Color.pink);
-        container1.setBackground(Tools.bgColor);
-        container1.setLayout(new BoxLayout(container1, BoxLayout.Y_AXIS));
-        container1.setAlignmentX(Component.LEFT_ALIGNMENT);
-        container1.add(selectGraphText);
-        container1.add(graphTypeDropdown);
-        container1.add(new JLabel(" "));
         
-        graphTypePanel.add(container1, BorderLayout.NORTH);
-//        graphTypePanel.add(graphTypeDropdown, BorderLayout.CENTER);
+        JLabel spacer = new JLabel();
+        spacer.setPreferredSize(new Dimension(100, 10));
+        graphTypePanel.add(spacer);
+        graphTypePanel.add(selectGraphText);
+        graphTypePanel.add(graphTypeDropdown);
+        graphTypePanel.add(spacer);
     }
     
     public void initNorth() {
@@ -195,9 +183,9 @@ public class ImportGraphPanel extends JPanel {
                 g.fillRect(0, 0, getWidth(), getHeight());
         
                 gr.setColor(Color.BLACK);
-                gr.fillRoundRect(81, 89, 337, 50, 12, 12);
-                gr.drawRoundRect(81, 34, 337, 102, 12, 12);
-                gr.fillRect(81, 80, 337, 20);
+                gr.fillRoundRect(75, 89, 346, 50, 12, 12);
+                gr.drawRoundRect(75, 34, 346, 102, 12, 12);
+                gr.fillRect(75, 80, 346, 20);
                 
 //                Tools.sleep(1000 / 60);
 //                super.repaint();
