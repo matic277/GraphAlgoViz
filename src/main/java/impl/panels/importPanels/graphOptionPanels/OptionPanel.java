@@ -1,16 +1,19 @@
 package impl.panels.importPanels.graphOptionPanels;
 
 import core.GraphType;
+import impl.Pair;
 import impl.tools.Tools;
 import impl.windows.ImportGraphWindow;
 import impl.windows.SimulationWindow;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public abstract class OptionPanel extends JPanel {
     
@@ -49,16 +52,115 @@ public abstract class OptionPanel extends JPanel {
         gr.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
     }
     
-    public void addComponents(JComponent... cmps) {
-        for (JComponent c : cmps) {
-            components.add(c);
-            this.add(c);
+    protected void signalBadInput(String errorMsg, JLabel errorLbl) {
+        CompletableFuture.runAsync(() -> {
+            errorLbl.setText(" " + errorMsg + " ");
+            errorLbl.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Tools.RED));
+            errorLbl.setVisible(true);
+            Tools.sleep(5000);
+            errorLbl.setVisible(false);
+        });
+    }
+    
+    // Returns:
+    // Pair<Parsed_value, isPercentage>
+    // Throws exception if bad input
+    public Pair<Number, Boolean> performInputValidationDoubleOrInteger(String input) {
+        double parsedValue;
+        input = input.trim().replace(",", ".");
+        
+        if (input.isEmpty() || input.isBlank() || (input.equals("%"))) {
+            throw new RuntimeException("Empty value.");
         }
+        
+        boolean isPercentage = input.charAt(input.length()-1) == '%';
+        
+        if (isPercentage) {
+            String number = input.substring(0, input.length()-1);
+            if (!(checkInputDecimal(number) || checkInputInteger(number))) {
+                throw new RuntimeException("Not a number.");
+            }
+            parsedValue = Double.parseDouble(number);
+        } else {
+            if (!checkInputInteger(input)) {
+                throw new RuntimeException("Not an integer.");
+            }
+            parsedValue = Double.parseDouble(input);
+        }
+        
+        if (parsedValue < 0) throw new RuntimeException("Cannot be negative.");
+        
+        return new Pair<>(parsedValue, isPercentage);
+    }
+    
+    public double performInputValidationDouble(String input) {
+        input = input.trim();
+    
+        if (input.isBlank() || input.isEmpty()) throw new RuntimeException("Empty input.");
+    
+        double parsedValue;
+        input = input.trim();
+    
+        try {
+            parsedValue = Double.parseDouble(input);
+        } catch (Exception e) {
+            throw new RuntimeException("Not an integer.");
+        }
+    
+        if (parsedValue < 0) throw new RuntimeException("Cannot be negative.");
+    
+        return parsedValue;
+    }
+    
+    // Returns:
+    // Parsed integer
+    // Throws exception if bad input
+    public int performInputValidationInteger(String input) {
+        input = input.trim();
+        
+        if (input.isBlank() || input.isEmpty()) throw new RuntimeException("Empty input.");
+        
+        int parsedValue;
+        input = input.trim();
+        
+        try {
+            parsedValue = Integer.parseInt(input);
+        } catch (Exception e) {
+            throw new RuntimeException("Not an integer.");
+        }
+    
+        if (parsedValue < 0) throw new RuntimeException("Cannot be negative.");
+        
+        return parsedValue;
+    }
+    
+    public boolean checkInputFileExists(String path) {
+        File f = new File(path);
+        return f.isFile() && f.exists();
+    }
+    
+    public boolean checkInputDecimal(String input) {
+        return (input.contains(",") || input.contains(".")) &&
+                !((input.contains(",") && input.contains(".")) &&
+                (NumberUtils.isNumber(input.replace(",", ""))));
+    }
+    
+    public boolean checkInputInteger(String input) {
+        return !(input.contains(",") || input.contains(".")) && (
+                NumberUtils.isNumber(input));
+    }
+    
+    protected JLabel getErrorLabel() {
+        JLabel lbl = new JLabel();
+        lbl.setForeground(Tools.RED);
+        lbl.setOpaque(false);
+        lbl.setVisible(false);
+        return lbl;
     }
     
     public void setSimulationWindow(SimulationWindow simWindow) {
         this.simWindow = simWindow;
     }
     
-    public abstract ActionListener getButtonAction(GraphType type);
+    public abstract ActionListener getButtonAction(GraphType type, JFrame importWindow);
 }

@@ -8,7 +8,6 @@ import impl.tools.Tools;
 import impl.windows.ImportGraphWindow;
 
 import javax.swing.*;
-import javax.swing.border.StrokeBorder;
 import java.awt.*;
 
 import static impl.tools.Tools.getBoldFont;
@@ -73,12 +72,7 @@ public class ImportGraphPanel extends JPanel {
         importBtn = new JButton("Import");
         importBtn.setFont(Tools.getFont(14));
         importBtn.setPreferredSize(new Dimension(200, 35));
-        importBtn.addActionListener(a -> {
-            // default behaviour
-            parent.getFrame().removeAll();
-            parent.getFrame().dispose();
-        });
-        importBtn.addActionListener(optionPanel.getButtonAction(selectedGraphType));
+        importBtn.addActionListener(optionPanel.getButtonAction(selectedGraphType, parent.getFrame()));
         container.add(importBtn);
         
         this.add(container, BorderLayout.SOUTH);
@@ -220,7 +214,7 @@ public class ImportGraphPanel extends JPanel {
         optionPanel.repaint();
 //        System.out.println("listeners: " + contButton.getActionListeners().length);
         this.importBtn.removeActionListener(importBtn.getActionListeners()[0]);
-        this.importBtn.addActionListener(panel.getButtonAction(selectedGraphType));
+        this.importBtn.addActionListener(panel.getButtonAction(selectedGraphType, parent.getFrame()));
         optionPanelContainer.add(optionPanel, BorderLayout.CENTER);
         this.repaint();
         this.updateUI();

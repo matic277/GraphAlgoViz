@@ -16,6 +16,7 @@ public class TabsPanel extends JTabbedPane {
     
     StateHistoryTab historyTab;
     ReLayoutTab layoutTab;
+    ColorTab colorTab;
     
     public TabsPanel(BottomPanel parent) {
         this.parent = parent;
@@ -31,6 +32,10 @@ public class TabsPanel extends JTabbedPane {
         layoutTab = new ReLayoutTab(this);
         this.addTab("Graph layout", layoutTab);
         this.setBackgroundAt(1, Tools.GRAY3);
+    
+        colorTab = new ColorTab(this);
+        this.addTab("Colors", colorTab);
+        this.setBackgroundAt(2, Tools.GRAY3);
         
         // Set min width, so that LeftPanel can't get stretched out too much.
         // Needed because JSplitPane does not respect maxSize, but one minSize

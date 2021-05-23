@@ -1,7 +1,9 @@
 package impl;
 
+import impl.panels.importPanels.graphOptionPanels.OptionPanel;
 import impl.windows.ImportGraphWindow;
 import impl.windows.SimulationWindow;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
@@ -23,7 +25,7 @@ public class Main {
             GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("./fonts/RobotoMono-SemiBold.ttf")));
             GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("./fonts/RobotoMono-Medium.ttf")));
             GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("./fonts/RobotoMono-Regular.ttf")));
-            
+
             // Source Sans Pro
             // Source Sans Pro Bold
             // Source Sans Pro Light
@@ -32,14 +34,15 @@ public class Main {
             GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("./fonts/SourceSansPro-Regular.ttf")));
             GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("./fonts/SourceSansPro-SemiBold.ttf")));
             GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("./fonts/SourceSansPro-Bold.ttf")));
-            
+
         } catch (Exception e) {
             //Handle exception
             e.printStackTrace();
         }
         // Change nimbus coloring to lighter
         UIManager.put("nimbusBase", new ColorUIResource(150, 150, 150));
-        
+    
+//        SwingUtilities.invokeLater(ImportGraphWindow::new);
         SwingUtilities.invokeLater(SimulationWindow::new);
     }
 }

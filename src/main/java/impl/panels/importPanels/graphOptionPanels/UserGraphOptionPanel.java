@@ -3,7 +3,7 @@ package impl.panels.importPanels.graphOptionPanels;
 import core.GraphType;
 import impl.graphBuilders.EmptyGraphBuilder;
 
-import java.awt.*;
+import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public class UserGraphOptionPanel extends OptionPanel {
@@ -15,7 +15,7 @@ public class UserGraphOptionPanel extends OptionPanel {
     }
     
     @Override
-    public ActionListener getButtonAction(GraphType type) {
+    public ActionListener getButtonAction(GraphType type, JFrame importWindow) {
         // do nothing, create empty graph
         return a -> {
             System.out.println("Listening: " + this.getClass().getSimpleName());

@@ -2,6 +2,7 @@ package impl.panels.importPanels.graphOptionPanels;
 
 import core.GraphType;
 
+import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public class NullOptionPanel extends OptionPanel {
@@ -11,7 +12,7 @@ public class NullOptionPanel extends OptionPanel {
     }
     
     @Override
-    public ActionListener getButtonAction(GraphType type) {
+    public ActionListener getButtonAction(GraphType type, JFrame importWindow) {
         return a -> {
             System.out.println("Listening: " + this.getClass().getSimpleName());
         };

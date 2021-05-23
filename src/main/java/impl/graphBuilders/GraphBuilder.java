@@ -20,7 +20,7 @@ public abstract class GraphBuilder {
     protected int totalNodes;
     protected double edgeProbability;
     
-    protected Integer informedProbability;
+    protected Double informedProbability;
     protected Integer totalInformed;
     
     protected int initiallyInformedNodesNum = 0;
@@ -166,7 +166,7 @@ public abstract class GraphBuilder {
         return this;
     }
     
-    public GraphBuilder setInformedProbability(Integer probability) {
+    public GraphBuilder setInformedProbability(Double probability) {
         this.informedProbability = probability;
         return this;
     }

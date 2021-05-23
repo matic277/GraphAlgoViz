@@ -1,7 +1,7 @@
 package impl.panels.importPanels.graphOptionPanels;
 
-import impl.graphBuilders.GraphBuilder;
 import core.GraphType;
+import impl.graphBuilders.GraphBuilder;
 import impl.tools.*;
 import impl.windows.ImportGraphWindow;
 
@@ -64,7 +64,7 @@ public class FileGraphOptionPanel extends OptionPanel {
     }
     
     @Override
-    public ActionListener getButtonAction(GraphType type) {
+    public ActionListener getButtonAction(GraphType type, JFrame importWindow) {
         return a -> {
             System.out.println("Listening: " + this.getClass().getSimpleName());
     
@@ -75,7 +75,7 @@ public class FileGraphOptionPanel extends OptionPanel {
             
             GraphBuilder builder = type.getGraphBuilder()
                     .setFileName(inputField.getText())
-                    .setInformedProbability(isPercentage ? nodesToInform : null)
+                    .setInformedProbability(isPercentage ? (double)nodesToInform : null)
                     .setTotalInformed(isPercentage ? null : nodesToInform);
             super.simWindow.onNewGraphImport(builder);
         };

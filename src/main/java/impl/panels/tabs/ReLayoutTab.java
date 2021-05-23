@@ -2,19 +2,16 @@ package impl.panels.tabs;
 
 import core.LayoutType;
 import impl.MyGraph;
-import impl.graphBuilders.CliqueGraphBuilder;
 import impl.graphBuilders.GraphBuilder;
 import impl.tools.Tools;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.RunnableFuture;
 
 public class ReLayoutTab extends JPanel {
     
     TabsPanel parent;
-    
     MyGraph graph;
     
     JComboBox<LayoutType> layoutTypeDropdown;

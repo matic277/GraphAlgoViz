@@ -1,7 +1,8 @@
 package impl.panels.importPanels.graphOptionPanels;
 
-import impl.graphBuilders.GraphBuilder;
 import core.GraphType;
+import impl.Pair;
+import impl.graphBuilders.GraphBuilder;
 import impl.tools.Tools;
 
 import javax.swing.*;
@@ -17,10 +18,18 @@ public class RandomGraphOptionPanel extends OptionPanel {
     private int inputWidth = 50;
     private int height = 30;
     
+    JLabel nodesError;
+    JLabel edgesError;
+    JLabel informedNodesError;
+    
     private static final RandomGraphOptionPanel instance = new RandomGraphOptionPanel();
     
     public RandomGraphOptionPanel() {
         super(null);
+    
+        nodesError = getErrorLabel();
+        edgesError = getErrorLabel();
+        informedNodesError = getErrorLabel();
         
         JPanel container1 = new JPanel();
         container1.setOpaque(false);
@@ -35,6 +44,7 @@ public class RandomGraphOptionPanel extends OptionPanel {
         nodesInput.setPreferredSize(new Dimension(textWidth, height));
         container1.add(nodesText);
         container1.add(nodesInput);
+        container1.add(nodesError);
     
         JPanel container2 = new JPanel();
         container2.setOpaque(false);
@@ -49,6 +59,7 @@ public class RandomGraphOptionPanel extends OptionPanel {
         edgesInput.setPreferredSize(new Dimension(textWidth, height));
         container2.add(edgedText);
         container2.add(edgesInput);
+        container2.add(edgesError);
     
         JPanel container3 = new JPanel();
         container3.setOpaque(false);
@@ -63,6 +74,7 @@ public class RandomGraphOptionPanel extends OptionPanel {
         informedNodesInput.setFont(Tools.getFont(14));
         container3.add(informedNodesText);
         container3.add(informedNodesInput);
+        container3.add(informedNodesError);
         
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(new JLabel(" "));
@@ -73,7 +85,7 @@ public class RandomGraphOptionPanel extends OptionPanel {
     }
     
     @Override
-    public ActionListener getButtonAction(GraphType type) {
+    public ActionListener getButtonAction(GraphType type, JFrame importWindow) {
         // read edge probability and number of nodes
         return a -> {
             System.out.println("Listening: " + this.getClass().getSimpleName());
@@ -86,7 +98,7 @@ public class RandomGraphOptionPanel extends OptionPanel {
             GraphBuilder builder = type.getGraphBuilder()
                     .setEdgeProbability(Double.parseDouble(edgesInput.getText()))
                     .setNumberOfNodes(Integer.parseInt(nodesInput.getText()))
-                    .setInformedProbability(isPercentage ? nodesToInform : null)
+                    .setInformedProbability(isPercentage ? (double)nodesToInform : null)
                     .setTotalInformed(isPercentage ? null : nodesToInform);
             super.simWindow.onNewGraphImport(builder);
         };

@@ -32,5 +32,5 @@ public class ImportGraphWindow extends Window {
     
     public SimulationWindow getSimulationWindow() { return this.parent; }
     
-    public Frame getFrame() { return this.frame; }
+    public JFrame getFrame() { return this.frame; }
 }
