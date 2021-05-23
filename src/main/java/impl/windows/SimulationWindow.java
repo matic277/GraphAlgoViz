@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class SimulationWindow extends Window {
     
+    Thread controllerThread;
     AlgorithmController algoController;
     MainPanel mainPanel;
     
@@ -32,6 +33,8 @@ public class SimulationWindow extends Window {
         this.algoController = new AlgorithmController(MyGraph.getInstance());
 //        this.algoController.addObserver(this.mainPanel.getTopPanel().getSimulationPanel());
         this.algoController.addObserver(this.mainPanel.getBottomPanel().getTabsPanel().getStateHistoryTab());
+        
+        this.controllerThread = new Thread(algoController);
     }
     
     // TODO
@@ -50,15 +53,14 @@ public class SimulationWindow extends Window {
             builder.buildGraph();
             this.graph.drawEdges(true);
             
+            algoController.onNewGraphImport(graph);
+            
             // re-enables buttons and such
             mainPanel.onNewGraphImport();
             
+            if (!controllerThread.isAlive()) controllerThread.start();
+    
             this.graph.setNumberOfInformedNodes(builder.getNumberOfInitiallyInformedNodes());
-            
-            algoController.setNewGraph(graph);
-            
-            Thread controller = new Thread(algoController);
-            controller.start();
         });
     }
     

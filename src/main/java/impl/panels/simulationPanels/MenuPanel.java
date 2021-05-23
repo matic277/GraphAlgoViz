@@ -182,9 +182,11 @@ public class MenuPanel extends JPanel {
             // Thread safe atomic boolean flip
             // flip the value of PAUSE
             boolean temp;
-            do { temp = AlgorithmController.PAUSE.get(); }
-            while(!AlgorithmController.PAUSE.compareAndSet(temp, !temp));
-            
+            do {
+                temp = AlgorithmController.PAUSE.get();
+            }
+            while (!AlgorithmController.PAUSE.compareAndSet(temp, !temp));
+
             // disable/enable inform/uniform, delete node buttons
             this.simPanel.getPanelListener().informBtn.setEnabled(!this.simPanel.getPanelListener().informBtn.isEnabled());
             this.simPanel.getPanelListener().deleteNodeBtn.setEnabled(!this.simPanel.getPanelListener().deleteNodeBtn.isEnabled());
@@ -193,10 +195,10 @@ public class MenuPanel extends JPanel {
             // disable/enable next/previous state buttons
             nextBtn.setEnabled(AlgorithmController.PAUSE.get());
             prevBtn.setEnabled(AlgorithmController.PAUSE.get());
-            
+
             this.importBtn.setEnabled(!this.importBtn.isEnabled());
             this.clearBtn.setEnabled(!this.clearBtn.isEnabled());
-            
+
             // when pressing continue, jump to latest state
             // TODO
             //  program crash due to node getting drawn from  state 1 when only 1 state existed
@@ -204,8 +206,8 @@ public class MenuPanel extends JPanel {
             //  g.setColor(states.get(AlgorithmController.currentStateIndex).getState() == 0 ? UNINFORMED : INFORMED);
             //  (index 1 out of range of size of list 1)
             //  -> Happened once, can't reproduce.
-            AlgorithmController.currentStateIndex = AlgorithmController.totalStates-1;
-            
+            AlgorithmController.currentStateIndex = AlgorithmController.totalStates - 1;
+
             synchronized (AlgorithmController.PAUSE_LOCK) {
                 AlgorithmController.PAUSE_LOCK.notify();
             }

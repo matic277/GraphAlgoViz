@@ -46,7 +46,7 @@ public class ReLayoutTab extends JPanel {
         // creating borders makes label visible even when
         // visibility is set to FALSE; -> swing bug??
 //        errorLabel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, Tools.RED));
-        errorLabel.setFont(Tools.getBoldFont(14));
+        errorLabel.setFont(Tools.getMonospacedFont(14));
         errorLabel.setForeground(Tools.RED);
         errorLabel.setVisible(true); // off by default
         
@@ -59,7 +59,9 @@ public class ReLayoutTab extends JPanel {
                 // catch JGraphT exceptions, some graphs can't be laid out
                 // in selected way. Like bipartite layout.
                 errorLabel.setText(" " + e.getLocalizedMessage() + " ");
-                errorLabel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, Tools.RED));
+//                errorLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 10));
+                errorLabel.setBorder(new Tools.RoundBorder(Tools.RED, new BasicStroke(2), 10));
+                errorLabel.setPreferredSize(new Dimension((int) errorLabel.getPreferredSize().getWidth(), 30));
                 errorLabel.setVisible(true);
                 // Turn error reporting off after some seconds
                 CompletableFuture.runAsync(() -> {

@@ -184,8 +184,7 @@ public class AlgorithmController implements Runnable, StateObservable {
         EXECUTORS[randomProc].nodes.add(newNode); // TODO this operation is not thread safe!
     }
     
-    public void setNewGraph(MyGraph graph) {
-        this.graph = graph;
+    public void onNewGraphImport(MyGraph graph) {
         assignTasks();
     }
 }

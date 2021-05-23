@@ -89,15 +89,20 @@ public class Tools {
     }
     
     public static class RoundBorder implements Border {
-        Color clr;
+        private final Color clr;
         private final int rad;
-        Stroke stroke;
+        private final Stroke stroke;
         public RoundBorder(Color clr, Stroke stroke, int rad) { this.rad = rad; this.clr = clr; this.stroke = stroke; }
         
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            g.setColor(clr);
-            ((Graphics2D) g).setStroke(stroke);
-            g.drawRoundRect(x+1, y+1, width-3, height-3, rad, rad);
+            // anti-aliasing
+            Graphics2D gr = (Graphics2D) g;
+            gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            
+            gr.setColor(clr);
+            gr.setStroke(stroke);
+            gr.drawRoundRect(x+1, y+1, width-3, height-3, rad, rad);
         }
         public boolean isBorderOpaque() { return true; }
         public Insets getBorderInsets(Component c) { return new Insets(this.rad+1, this.rad+1, this.rad+2, this.rad); }

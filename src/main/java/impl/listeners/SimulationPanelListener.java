@@ -104,9 +104,9 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
                     n.states.remove(i);
                 }
             });
-            // disable history buttons
-            panel.getSimulationWindow().getMainPanel().getBottomPanel().getTabsPanel().getStateHistoryTab()
-                    .onStateChange();
+            // delete future history
+            panel.getSimulationWindow().getMainPanel().getBottomPanel().getTabsPanel()
+                    .getStateHistoryTab().deleteFutureHistory();
             nodeInfoLbl.setVisible(false);
         });
         nodeInfoLbl.add(deleteNodeBtn);

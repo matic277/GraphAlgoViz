@@ -55,7 +55,8 @@ public abstract class OptionPanel extends JPanel {
     protected void signalBadInput(String errorMsg, JLabel errorLbl) {
         CompletableFuture.runAsync(() -> {
             errorLbl.setText(" " + errorMsg + " ");
-            errorLbl.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Tools.RED));
+            errorLbl.setBorder(new Tools.RoundBorder(Tools.RED, new BasicStroke(2), 10));
+            errorLbl.setPreferredSize(new Dimension((int) errorLbl.getPreferredSize().getWidth(), 30));
             errorLbl.setVisible(true);
             Tools.sleep(5000);
             errorLbl.setVisible(false);
