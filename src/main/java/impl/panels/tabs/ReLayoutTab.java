@@ -27,6 +27,7 @@ public class ReLayoutTab extends JPanel {
         this.parent = parent;
         this.graph = MyGraph.getInstance();
         
+        this.setBackground(Tools.GRAY3);
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         
         initInterface();
@@ -45,9 +46,9 @@ public class ReLayoutTab extends JPanel {
         layoutTypeDropdown.addActionListener(a -> selectedLayout = (LayoutType)layoutTypeDropdown.getSelectedItem());
         
         JLabel errorLabel = new JLabel();
-        // creating thicker borders makes label visible even when
+        // creating borders makes label visible even when
         // visibility is set to FALSE; -> swing bug??
-        errorLabel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, Tools.RED));
+//        errorLabel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, Tools.RED));
         errorLabel.setFont(Tools.getBoldFont(14));
         errorLabel.setForeground(Tools.RED);
         errorLabel.setVisible(true); // off by default
@@ -61,6 +62,7 @@ public class ReLayoutTab extends JPanel {
                 // catch JGraphT exceptions, some graphs can't be laid out
                 // in selected way. Like bipartite layout.
                 errorLabel.setText(" " + e.getLocalizedMessage() + " ");
+                errorLabel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, Tools.RED));
                 errorLabel.setVisible(true);
                 // Turn error reporting off after some seconds
                 CompletableFuture.runAsync(() -> {
