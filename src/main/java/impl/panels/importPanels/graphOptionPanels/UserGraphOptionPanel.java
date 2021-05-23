@@ -19,6 +19,11 @@ public class UserGraphOptionPanel extends OptionPanel {
         // do nothing, create empty graph
         return a -> {
             System.out.println("Listening: " + this.getClass().getSimpleName());
+            
+            // Close window
+            importWindow.setVisible(false);
+            importWindow.dispose();
+            
             super.simWindow.onNewGraphImport(new EmptyGraphBuilder());
         };
     }

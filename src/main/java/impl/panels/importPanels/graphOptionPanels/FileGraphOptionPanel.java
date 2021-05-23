@@ -73,6 +73,10 @@ public class FileGraphOptionPanel extends OptionPanel {
                     Integer.parseInt(informedNodesInput.getText().replace("%", "")) :
                     Integer.parseInt(informedNodesInput.getText());
             
+            // Close window
+            importWindow.setVisible(false);
+            importWindow.dispose();
+            
             GraphBuilder builder = type.getGraphBuilder()
                     .setFileName(inputField.getText())
                     .setInformedProbability(isPercentage ? (double)nodesToInform : null)

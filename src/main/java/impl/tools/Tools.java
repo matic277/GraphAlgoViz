@@ -4,6 +4,8 @@ package impl.tools;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class Tools {
@@ -40,11 +42,30 @@ public class Tools {
     
     public static final Random RAND = new Random();
     
-    public static Font getBoldFont(int size) { return new Font("Source sans pro bold", Font.BOLD, size); }
+    // Store request fonts in a map.
+    // So when multiple components request a font of size X
+    // just make a lookup and return it. Otherwise create
+    // it for yourself and others.
+    public static final Map<Integer, Font> regularFontMap;
+    public static final Map<Integer, Font> boldFontMap;
+    public static final Map<Integer, Font> monospacedFontMap;
+    static {
+        regularFontMap = new HashMap<>();
+        boldFontMap = new HashMap<>();
+        monospacedFontMap = new HashMap<>();
+    }
     
-    public static Font getFont(int size) { return new Font("Source sans pro", Font.PLAIN, size); }
+    public synchronized static Font getBoldFont(int size) {
+        return boldFontMap.computeIfAbsent(size, k -> new Font("Source sans pro bold", Font.BOLD, size));
+    }
     
-    public static Font getMonospacedFont(int size) { return new Font("Roboto mono thin", Font.PLAIN, size); }
+    public synchronized static Font getFont(int size) {
+        return boldFontMap.computeIfAbsent(size, k -> new Font("Source sans pro", Font.PLAIN, size));
+    }
+    
+    public synchronized static Font getMonospacedFont(int size) {
+        return boldFontMap.computeIfAbsent(size, k -> new Font("Roboto mono thin", Font.PLAIN, size));
+    }
     
     public static void sleep(int ms) {
         try { Thread.sleep(ms); }

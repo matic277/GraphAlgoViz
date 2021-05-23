@@ -94,6 +94,10 @@ public class RandomGraphOptionPanel extends OptionPanel {
             int nodesToInform = isPercentage ?
                     Integer.parseInt(informedNodesInput.getText().replace("%", "")) :
                     Integer.parseInt(informedNodesInput.getText());
+    
+            // Close window
+            importWindow.setVisible(false);
+            importWindow.dispose();
             
             GraphBuilder builder = type.getGraphBuilder()
                     .setEdgeProbability(Double.parseDouble(edgesInput.getText()))

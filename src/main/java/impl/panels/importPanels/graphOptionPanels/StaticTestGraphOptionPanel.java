@@ -27,6 +27,10 @@ public class StaticTestGraphOptionPanel extends OptionPanel {
     public ActionListener getButtonAction(GraphType type, JFrame importWindow) {
         return a -> {
             System.out.println("Listening: " + this.getClass().getSimpleName());
+    
+            // Close window
+            importWindow.setVisible(false);
+            importWindow.dispose();
             
             // do nothing
             GraphBuilder builder = type.getGraphBuilder();
