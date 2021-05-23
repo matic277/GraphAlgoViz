@@ -48,6 +48,19 @@ public class StateHistoryTab extends JPanel implements StateObserver {
             AlgorithmController.currentStateIndex = stateIndex;
             btn.setBorderPainted(true);
             btn.setBorder(SELECTED_BORDER);
+            
+            // TODO:
+            // This is NOT thread-safe!
+            // controller invokes onXYZ() change methods in
+            // this class, and changes buttons as-well!
+            
+            // Probable solution:
+            // While the algorithm is executing, these buttons
+            // shouldn't be selectable anyways!
+            
+            // when a button is pressed, un-highlight the other
+            highlightedBtn.setBorder(DEFAULT_BORDER);
+            highlightedBtn = btn;
         });
         return btn;
     }
@@ -75,6 +88,8 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         highlightedBtn = firstButton;
         stateList.clear();
         stateList.add(firstButton);
+        this.removeAll();
+        this.add(firstButton);
     }
     
     @Override
@@ -84,6 +99,9 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         
         JButton newBtn = getNewStateButton(AlgorithmController.currentStateIndex);
         newBtn.setBorder(SELECTED_BORDER);
+        
+        stateList.add(newBtn);
+        this.add(newBtn);
         highlightedBtn = newBtn;
     }
     
