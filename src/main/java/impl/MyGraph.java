@@ -26,12 +26,14 @@ public class MyGraph implements Drawable, GraphObservable {
     
     private ComponentDrawer edgeDrawer = ComponentDrawer.getEdgeDrawer(graph);
     
+    public static final Object LOCK = new Object();
+    
     // singleton
     private static final MyGraph instance = new MyGraph();
     public static MyGraph getInstance() { return instance; }
     private MyGraph() { }
     
-    public void clearGraph() {
+    public void clearGraph() { synchronized (LOCK) {
         nextId = -1;
         numOfNodes = 0;
         
@@ -51,9 +53,9 @@ public class MyGraph implements Drawable, GraphObservable {
         graph.removeAllEdges(copy);
         LinkedList<Node> copy2 = new LinkedList<>(graph.vertexSet());
         graph.removeAllVertices(copy2);
-    
+        
         observers.forEach(GraphChangeObserver::onGraphClear);
-    }
+    }}
     
     public void onInformedNodesChange() {
         observers.forEach(GraphChangeObserver::onNewInformedNode);
@@ -77,14 +79,14 @@ public class MyGraph implements Drawable, GraphObservable {
     }
     
     @Override
-    public void draw(Graphics2D g, AffineTransform at) {
+    public void draw(Graphics2D g, AffineTransform at) { synchronized (LOCK) {
         g.setColor(Color.BLACK);
         
         g.setStroke(Tools.BOLD_STROKE);
         edgeDrawer.draw(g, at, null);
         
         this.graph.vertexSet().forEach(n -> n.draw(g, at));
-    }
+    }}
     
     // bad... slow
     public boolean connectById(int n1Id, int n2Id) {
@@ -98,24 +100,24 @@ public class MyGraph implements Drawable, GraphObservable {
         }
     }
     
-    public void deleteNode(Node node) {
+    public void deleteNode(Node node) { synchronized (LOCK) {
         boolean removed = this.graph.removeVertex(node);
         System.out.println("REMOVING NODE="+node+"="+removed);
         observers.forEach(GraphChangeObserver::onNodeDeleted);
-    }
+    }}
     
-    public void addNode(Node n) {
+    public void addNode(Node n) { synchronized (LOCK) {
         this.graph.addVertex(n);
         observers.forEach(GraphChangeObserver::onNodeAdded);
         numOfNodes++;
-    }
+    }}
     
-    public boolean addEdge(Node n1, Node n2) {
+    public boolean addEdge(Node n1, Node n2) {  synchronized (LOCK) {
         DefaultEdge e = this.graph.addEdge(n1, n2);
         System.out.println("ADDED EDGE: " + e);
         observers.forEach(GraphChangeObserver::onEdgeAdded);
         return e != null;
-    }
+    }}
     
 //    public boolean containsEdge(Node n1, Node n2) {
 //        return this.edges.contains(new Edge(n1, n2));
@@ -124,10 +126,10 @@ public class MyGraph implements Drawable, GraphObservable {
     
 //    public Set<Edge> getEdges() { return this.edges; }
     
-    public void drawEdges(boolean draw) {
+    public void drawEdges(boolean draw) { synchronized (LOCK) {
         this.edgeDrawer = draw ?
                 ComponentDrawer.getEdgeDrawer(this.graph) : ComponentDrawer.getNullDrawer();
-    }
+    }}
     
     public Node getNodeById(int id) {
         Optional<Node> node = this.graph.vertexSet().stream().filter(n -> n.id == id).findFirst();
