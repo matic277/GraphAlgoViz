@@ -11,6 +11,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimulationPanel extends JPanel {
     
@@ -24,7 +25,7 @@ public class SimulationPanel extends JPanel {
     // potential edge drawing
     Node edgeSourceNode;
     
-    final long FPS = 1000L / 144L; // 144FPS
+//    final long FPS = 1000L / 144L; // 144FPS
     
     NumberFormat formatter = new DecimalFormat(); { formatter.setMaximumFractionDigits(2); }
     
@@ -42,7 +43,18 @@ public class SimulationPanel extends JPanel {
         this.addMouseListener(listener);
         this.addMouseWheelListener(listener);
         this.mouse = listener.getMouse();
+        
+        new Thread(() -> {
+            while (true) {
+                Tools.sleep(1000);
+                currentFps = fpsCounter.intValue();
+                fpsCounter.set(0);
+            }
+        }).start();
     }
+    
+    private AtomicInteger fpsCounter = new AtomicInteger(0);
+    private int currentFps = 0;
     
     @Override
     public void paintComponent(Graphics g) {
@@ -58,35 +70,45 @@ public class SimulationPanel extends JPanel {
         
         gr.setColor(Tools.bgColor);
         gr.fillRect(0, 0, getWidth(), getHeight());
+    
+        drawComponents(gr);
+    
+        gr.setFont(Tools.getMonospacedFont(14));
         
         // mouse
         gr.setColor(Color.red);
         gr.fillRect((int)mouse.getX()-2, (int)mouse.getY()-2, 4, 4);
         gr.setColor(Color.BLACK);
-        g.drawString("["+(int)mouse.getX()+","+(int)mouse.getY()+"]", (int)mouse.getX() + 3, (int)mouse.getY()-6);
+        gr.drawString("["+(int)mouse.getX()+","+(int)mouse.getY()+"]", (int)mouse.getX() + 3, (int)mouse.getY()-6);
         // mouse + lines
         gr.setColor(Color.BLACK);
         gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
         gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
-        
-        g.setFont(Tools.getMonospacedFont(14));
+    
+        gr.setColor(Color.white);
+        gr.fillRoundRect(getWidth()-150, 5, 145, 110, 10, 10);
+        gr.setColor(Color.black);
         gr.drawString("status: " + (AlgorithmController.PAUSE.get() && !AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.get() ? "PAUSED" : "RUNNING"),
                 getWidth()-140,
-                20);
+                25);
         gr.drawString("scale:  " + formatter.format(listener.scale),
                 getWidth()-140,
-                35);
+                45);
         gr.drawString("state:  " + AlgorithmController.currentStateIndex,
                 getWidth()-140,
-                60);
+                65);
         gr.drawString("states: " + AlgorithmController.totalStates,
                 getWidth()-140,
-                75);
-        
-        drawComponents(gr);
+                85);
+        gr.drawString("FPS: " + currentFps,
+                getWidth()-140,
+                105);
+    
+        fpsCounter.incrementAndGet();
         
         long td = System.currentTimeMillis() - t0;
-        super.repaint(td > FPS ? 0 : td);
+//        super.repaint(td > FPS ? 0 : td);
+        super.repaint();
     }
     
     public void startDrawingPotentialEdge(Node sourceNode) {

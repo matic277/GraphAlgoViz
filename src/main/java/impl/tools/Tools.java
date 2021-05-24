@@ -60,11 +60,11 @@ public class Tools {
     }
     
     public synchronized static Font getFont(int size) {
-        return boldFontMap.computeIfAbsent(size, k -> new Font("Source sans pro", Font.PLAIN, size));
+        return regularFontMap.computeIfAbsent(size, k -> new Font("Source sans pro", Font.PLAIN, size));
     }
     
     public synchronized static Font getMonospacedFont(int size) {
-        return boldFontMap.computeIfAbsent(size, k -> new Font("Roboto mono thin", Font.PLAIN, size));
+        return monospacedFontMap.computeIfAbsent(size, k -> new Font("Roboto mono thin", Font.PLAIN, size));
     }
     
     public static void sleep(int ms) {

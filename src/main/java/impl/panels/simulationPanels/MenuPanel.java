@@ -281,7 +281,7 @@ public class MenuPanel extends JPanel {
         sliderInfo.setFont(Tools.getFont(14));
         drawingOptionsPnl.add(sliderInfo);
         
-        int sliderMin = 2, sliderMax = 50;
+        int sliderMin = 2, sliderMax = 100;
         nodeRadSlider = new JSlider(sliderMin, sliderMax, Node.rad);
         nodeRadSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
         Hashtable<Integer, JLabel> sliderMap = new Hashtable<>();
