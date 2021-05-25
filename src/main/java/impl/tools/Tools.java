@@ -64,7 +64,7 @@ public class Tools {
     }
     
     public synchronized static Font getMonospacedFont(int size) {
-        return monospacedFontMap.computeIfAbsent(size, k -> new Font("Roboto mono thin", Font.PLAIN, size));
+        return monospacedFontMap.computeIfAbsent(size, k -> new Font("Roboto mono regular", Font.PLAIN, size));
     }
     
     public static void sleep(int ms) {

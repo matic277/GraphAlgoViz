@@ -8,6 +8,7 @@ import impl.tools.Tools;
 import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ReLayoutTab extends JPanel {
     
@@ -29,6 +30,8 @@ public class ReLayoutTab extends JPanel {
         
         initInterface();
     }
+    
+    private static final AtomicInteger THREADS_DOING_LAYOUT = new AtomicInteger(0);
     
     private void initInterface() {
         JLabel info = new JLabel(" Select type of layout:");
@@ -58,27 +61,37 @@ public class ReLayoutTab extends JPanel {
         doLayoutBtn = new JButton("Apply");
         doLayoutBtn.setFont(Tools.getFont(14));
         doLayoutBtn.addActionListener(a -> {
-            try {
+                // Only 1 thread can be doing layout at once!
+                synchronized (THREADS_DOING_LAYOUT) {
+                        if (THREADS_DOING_LAYOUT.get() > 0) return;
+                        THREADS_DOING_LAYOUT.incrementAndGet();
+                }
+                
                 doLayoutBtn.setEnabled(false);
                 
                 CompletableFuture.runAsync(() -> {
                     // run layout algorithm
-                    // signal with processing label
-                    System.out.println("here");
-                    processingLbl.setText(" Doing layout... ");
+                    // signal status with processing label
+                    
+                    processingLbl.setText(" Doing layout...");
                     processingLbl.setBorder(new Tools.RoundBorder(Tools.GREEN, new BasicStroke(2), 10));
-                    processingLbl.setPreferredSize(new Dimension((int) processingLbl.getPreferredSize().getWidth(), 30));
+                    processingLbl.setPreferredSize(new Dimension(155, 30));
                     processingLbl.setVisible(true);
                     
                     GraphBuilder.layoutTypeMap.get(selectedLayout).run();
+    
+                    processingLbl.setPreferredSize(new Dimension(75, 30));
+                    processingLbl.setText(" Done!");
+                    doLayoutBtn.setEnabled(true);
                     
-                    processingLbl.setText(" Done! ");
-                    Tools.sleep(1000);
+                }).thenApply((x) -> {
+                    Tools.sleep(2000);
                     processingLbl.setVisible(false);
-                    System.out.println("done");
                     
+                    synchronized (THREADS_DOING_LAYOUT) { THREADS_DOING_LAYOUT.getAndDecrement(); }
+                    
+                    return null;
                 }).exceptionally(e -> {
-                    System.out.println("error");
                     doLayoutBtn.setEnabled(true);
                     // on error signal message
                     processingLbl.setVisible(false);
@@ -86,21 +99,19 @@ public class ReLayoutTab extends JPanel {
                     errorlbl.setText(" " + e.getLocalizedMessage() + " ");
                     errorlbl.setBorder(new Tools.RoundBorder(Tools.RED, new BasicStroke(2), 10));
                     errorlbl.setPreferredSize(new Dimension((int) errorlbl.getPreferredSize().getWidth(), 30));
-                    errorlbl.setVisible(true);
                     
-                    Tools.sleep(5000);
+                    this.revalidate(); // needed otherwise size of errorlbl bugs out
+                    this.doLayout();
+                    this.repaint();
+                    
+                    errorlbl.setVisible(true);
+                    Tools.sleep(4000);
                     errorlbl.setVisible(false);
-                    return null;
-                }).thenApply((x) -> {
-                    doLayoutBtn.setEnabled(true);
+                    
+                    synchronized (THREADS_DOING_LAYOUT) { THREADS_DOING_LAYOUT.getAndDecrement(); }
+                    
                     return null;
                 });
-               
-            } catch (Exception e) {
-                // catch JGraphT exceptions, some graphs can't be laid out
-                // in selected way. Like bipartite layout.
-                
-            }
         });
         
         this.add(info);

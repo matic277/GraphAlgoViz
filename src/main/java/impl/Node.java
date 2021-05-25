@@ -17,8 +17,10 @@ import java.awt.geom.Point2D;
 public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
     public int id;
-    public static int rad = 45;
     public Shape ts;
+    
+    @Deprecated
+    public static int rad = 45;
     
     public int info = 0;
 //    public Set<Node> neighbors;
@@ -64,18 +66,13 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     @Override
     public void draw(Graphics2D g, AffineTransform at) {
         // TODO: nodes don't scale in-place on slider change
-        this.height = rad;
-        this.width = rad;
         
         ts = at.createTransformedShape(this);
         
-//        g.setStroke(Tools.BOLDEST_STROKE);
         g.setColor(states.get(AlgorithmController.currentStateIndex).getState() == 0 ? UNINFORMED : INFORMED);
         
-        // circle & center
+        // node (circle)
         g.fill(ts);
-        g.setColor(Tools.RED);
-//        g.fillOval((int)ts.getBounds().getCenterX()-ts.getBounds().width/8, (int)ts.getBounds().getCenterY()-ts.getBounds().width/8, ts.getBounds().width/4, ts.getBounds().width/4);
         
         idDrawer.draw(g, at, this);
         coordDrawer.draw(g, at, this);

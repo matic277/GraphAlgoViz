@@ -299,7 +299,10 @@ public class MenuPanel extends JPanel {
         nodeRadSlider.setMinimumSize(new Dimension(150, 40));
         nodeRadSlider.setFont(Tools.getFont(14));
         nodeRadSlider.setEnabled(false);
-        nodeRadSlider.addChangeListener(c -> Node.rad = nodeRadSlider.getValue());
+        nodeRadSlider.addChangeListener(c -> {
+            Node.rad = nodeRadSlider.getValue();
+            graph.getNodes().forEach(n -> { n.width = nodeRadSlider.getValue(); n.height = nodeRadSlider.getValue(); });
+        });
         drawingOptionsPnl.add(nodeRadSlider);
         
         

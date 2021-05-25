@@ -39,10 +39,8 @@ public interface ComponentDrawer {
     }
     
     static ComponentDrawer getEdgeDrawer() {
+        MyGraph graph = MyGraph.getInstance();
         return (g, at, n) -> {
-            g.setColor(new Color(0, 0, 0, Edge.opacity));
-//            System.out.println("edges="+graph.edgeSet().size());
-            MyGraph graph = MyGraph.getInstance();
             for (DefaultEdge e : graph.getGraph().edgeSet()) {
                 Node n1 = graph.getGraph().getEdgeSource(e);
                 Node n2 = graph.getGraph().getEdgeTarget(e);

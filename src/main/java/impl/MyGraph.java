@@ -24,7 +24,7 @@ public class MyGraph implements Drawable, GraphObservable {
     
     Graph<Node, DefaultEdge> graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
     
-    private ComponentDrawer edgeDrawer = ComponentDrawer.getEdgeDrawer();
+    private ComponentDrawer edgeDrawer = ComponentDrawer.getNullDrawer();
     
     public static final Object LOCK = new Object();
     
@@ -82,9 +82,12 @@ public class MyGraph implements Drawable, GraphObservable {
     public void draw(Graphics2D g, AffineTransform at) { synchronized (LOCK) {
         g.setColor(Color.BLACK);
         
+        // draw edges
         g.setStroke(Tools.BOLD_STROKE);
+        g.setColor(new Color(0, 0, 0, Edge.opacity));
         edgeDrawer.draw(g, at, null);
         
+        // draw nodes
         this.graph.vertexSet().forEach(n -> n.draw(g, at));
     }}
     
