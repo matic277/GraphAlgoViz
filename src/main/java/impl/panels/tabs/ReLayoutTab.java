@@ -72,7 +72,6 @@ public class ReLayoutTab extends JPanel {
                 CompletableFuture.runAsync(() -> {
                     // run layout algorithm
                     // signal status with processing label
-                    
                     processingLbl.setText(" Doing layout...");
                     processingLbl.setBorder(new Tools.RoundBorder(Tools.GREEN, new BasicStroke(2), 10));
                     processingLbl.setPreferredSize(new Dimension(155, 30));
@@ -88,9 +87,7 @@ public class ReLayoutTab extends JPanel {
                     Tools.sleep(2000);
                     processingLbl.setVisible(false);
                     
-                    synchronized (THREADS_DOING_LAYOUT) { THREADS_DOING_LAYOUT.getAndDecrement(); }
-                    
-                    return null;
+                    synchronized (THREADS_DOING_LAYOUT) { THREADS_DOING_LAYOUT.getAndDecrement(); return null; }
                 }).exceptionally(e -> {
                     doLayoutBtn.setEnabled(true);
                     // on error signal message
@@ -108,9 +105,7 @@ public class ReLayoutTab extends JPanel {
                     Tools.sleep(4000);
                     errorlbl.setVisible(false);
                     
-                    synchronized (THREADS_DOING_LAYOUT) { THREADS_DOING_LAYOUT.getAndDecrement(); }
-                    
-                    return null;
+                    synchronized (THREADS_DOING_LAYOUT) { THREADS_DOING_LAYOUT.getAndDecrement(); return null; }
                 });
         });
         

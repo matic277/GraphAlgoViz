@@ -21,6 +21,8 @@ public class Tools {
     public static final Color BACKGROUND_GREEN = new Color(236, 255, 236);
     public static final Color LIGHT_GRAY = new Color(213, 216, 222);
     public static final Color MEUN_COLORS = Color.decode("#E0DDDD");
+    public static final Color TITLE_BACKGROUND = new Color(213, 216, 222);
+    
     
     public static final Dimension MENU_BUTTON_SIZE = new Dimension(53, 37);
     public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(110, 37);

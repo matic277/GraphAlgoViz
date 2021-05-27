@@ -84,7 +84,7 @@ public class MyGraph implements Drawable, GraphObservable {
         
         // draw edges
         g.setStroke(Tools.BOLD_STROKE);
-        g.setColor(new Color(0, 0, 0, Edge.opacity));
+        g.setColor(new Color(Edge.EDGE_COLOR.getRed(), Edge.EDGE_COLOR.getGreen(), Edge.EDGE_COLOR.getBlue(), Edge.opacity));
         edgeDrawer.draw(g, at, null);
         
         // draw nodes

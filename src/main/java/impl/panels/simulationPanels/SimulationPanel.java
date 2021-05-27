@@ -70,9 +70,9 @@ public class SimulationPanel extends JPanel {
         
         gr.setColor(Tools.bgColor);
         gr.fillRect(0, 0, getWidth(), getHeight());
-    
+        
         drawComponents(gr);
-    
+        
         gr.setFont(Tools.getMonospacedFont(14));
         
         // mouse
@@ -84,10 +84,11 @@ public class SimulationPanel extends JPanel {
         gr.setColor(Color.BLACK);
         gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
         gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
-    
+        
         gr.setColor(Color.white);
         gr.fillRoundRect(getWidth()-150, 5, 145, 110, 10, 10);
-        gr.setColor(Color.black);
+        gr.setColor(Color.DARK_GRAY);
+        gr.drawRoundRect(getWidth()-150, 5, 145, 110, 10, 10);
         gr.drawString("status: " + (AlgorithmController.PAUSE.get() && !AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.get() ? "PAUSED" : "RUNNING"),
                 getWidth()-140,
                 25);
@@ -103,7 +104,7 @@ public class SimulationPanel extends JPanel {
         gr.drawString("FPS: " + currentFps,
                 getWidth()-140,
                 105);
-    
+        
         fpsCounter.incrementAndGet();
         
         long td = System.currentTimeMillis() - t0;

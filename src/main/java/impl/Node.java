@@ -29,8 +29,8 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     int messagesReceived = 0;
     int messagesSent = 0;
     
-    static final Color INFORMED = Tools.GREEN;
-    static final Color UNINFORMED = Color.black;
+    public static Color INFORMED_COLOR = Tools.GREEN;
+    public static Color UNINFORMED_COLOR = Color.black;
     
     public static ComponentDrawer idDrawer = ComponentDrawer.getNullDrawer();
     public static ComponentDrawer coordDrawer = ComponentDrawer.getNullDrawer();
@@ -69,7 +69,7 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
         
         ts = at.createTransformedShape(this);
         
-        g.setColor(states.get(AlgorithmController.currentStateIndex).getState() == 0 ? UNINFORMED : INFORMED);
+        g.setColor(states.get(AlgorithmController.currentStateIndex).getState() == 0 ? UNINFORMED_COLOR : INFORMED_COLOR);
         
         // node (circle)
         g.fill(ts);

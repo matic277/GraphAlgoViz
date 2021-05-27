@@ -3,6 +3,7 @@ package impl.tools;
 import impl.Node;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.awt.*;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +12,7 @@ public class Edge {
     
     // drawing opacity
     public static int opacity = 255;
+    public static Color EDGE_COLOR = Color.black;
     
     Node n1, n2;
     
