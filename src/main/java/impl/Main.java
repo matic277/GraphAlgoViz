@@ -41,7 +41,7 @@ public class Main {
         }
         // Change nimbus coloring to lighter
         UIManager.put("nimbusBase", new ColorUIResource(150, 150, 150));
-    
+
 //        SwingUtilities.invokeLater(ImportGraphWindow::new);
         SwingUtilities.invokeLater(SimulationWindow::new);
     }

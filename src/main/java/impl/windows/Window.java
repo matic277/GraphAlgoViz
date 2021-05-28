@@ -3,6 +3,7 @@ package impl.windows;
 import impl.tools.Tools;
 
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.util.Arrays;
 
@@ -24,6 +25,19 @@ public abstract class Window {
             System.out.println(Arrays.toString(Arrays.stream(UIManager.getInstalledLookAndFeels()).map(UIManager.LookAndFeelInfo::getName).toArray()));
             //System.out.println(Arrays.toString(Arrays.stream(UIManager.getAuxiliaryLookAndFeels()).map(LookAndFeel::getName).toArray()));
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+//            UIManager.getLookAndFeelDefaults().put(
+//                    "TabbedPane:TabbedPaneTabArea[Disabled].backgroundPainter", null);
+//            UIManager.getLookAndFeelDefaults().put(
+//                    "TabbedPane:TabbedPaneTabArea[Enabled+MouseOver].backgroundPainter", null);
+//            UIManager.getLookAndFeelDefaults().put(
+//                    "TabbedPane:TabbedPaneTabArea[Enabled+Pressed].backgroundPainter", null);
+//            UIManager.getLookAndFeelDefaults().put(
+//                    "TabbedPane:TabbedPaneTabArea[Enabled].backgroundPainter", null);
+            for ( var x : UIManager.getLookAndFeelDefaults().keySet()) {
+                if (x.toString().toLowerCase().contains("tabbedpane"))
+                    System.out.println(x);
+            }
+
         } catch (Exception e) {e.printStackTrace();}
     }
     
