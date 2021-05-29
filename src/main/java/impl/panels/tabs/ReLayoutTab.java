@@ -52,7 +52,7 @@ public class ReLayoutTab extends JPanel {
         errorlbl.setFont(Tools.getMonospacedFont(14));
         errorlbl.setForeground(Tools.RED);
         errorlbl.setVisible(true); // off by default
-    
+
         JLabel processingLbl = new JLabel();
         processingLbl.setFont(Tools.getMonospacedFont(14));
         processingLbl.setForeground(Tools.GREEN);
@@ -78,11 +78,10 @@ public class ReLayoutTab extends JPanel {
                     processingLbl.setVisible(true);
                     
                     GraphBuilder.layoutTypeMap.get(selectedLayout).run();
-    
+
                     processingLbl.setPreferredSize(new Dimension(75, 30));
                     processingLbl.setText(" Done!");
                     doLayoutBtn.setEnabled(true);
-                    
                 }).thenApply((x) -> {
                     Tools.sleep(2000);
                     processingLbl.setVisible(false);
