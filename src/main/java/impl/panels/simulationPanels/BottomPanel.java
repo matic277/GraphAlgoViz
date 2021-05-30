@@ -37,22 +37,22 @@ public class BottomPanel extends JSplitPane {
         this.setDividerLocation(Tools.MAXIMUM_STATS_PANEL_WIDTH);
 
         // Custom divider look
-        BasicSplitPaneUI divider = new BasicSplitPaneUI() {
-            @Override
-            public BasicSplitPaneDivider createDefaultDivider() {
-                return new BasicSplitPaneDivider(this) {
-                    public void setBorder(Border b) {}
-                    @Override
-                    public void paint(Graphics g) {
-                        g.setColor(Tools.GRAY2);
-                        g.fillRect(0, 0, getSize().width, getSize().height);
-                        super.paint(g);
-                    }
-                };
-            }
-        };
-        this.setBorder(null);
-        this.setUI(divider);
+//        BasicSplitPaneUI divider = new BasicSplitPaneUI() {
+//            @Override
+//            public BasicSplitPaneDivider createDefaultDivider() {
+//                return new BasicSplitPaneDivider(this) {
+//                    public void setBorder(Border b) {}
+//                    @Override
+//                    public void paint(Graphics g) {
+//                        g.setColor(Tools.GRAY2);
+//                        g.fillRect(0, 0, getSize().width, getSize().height);
+//                        super.paint(g);
+//                    }
+//                };
+//            }
+//        };
+//        this.setBorder(null);
+//        this.setUI(divider);
 
         this.setDividerSize(5);
     }

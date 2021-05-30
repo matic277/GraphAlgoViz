@@ -78,8 +78,8 @@ public class ReLayoutTab extends JPanel {
                     processingLbl.setVisible(true);
                     
                     GraphBuilder.layoutTypeMap.get(selectedLayout).run();
-
-                    processingLbl.setPreferredSize(new Dimension(75, 30));
+                    
+                    processingLbl.setPreferredSize(new Dimension(75, 26));
                     processingLbl.setText(" Done!");
                     doLayoutBtn.setEnabled(true);
                 }).thenApply((x) -> {
@@ -92,9 +92,9 @@ public class ReLayoutTab extends JPanel {
                     // on error signal message
                     processingLbl.setVisible(false);
                     
-                    errorlbl.setText(" " + e.getLocalizedMessage() + " ");
+                    errorlbl.setText(" " + e.getCause().getLocalizedMessage() + " ");
                     errorlbl.setBorder(new Tools.RoundBorder(Tools.RED, new BasicStroke(2), 10));
-                    errorlbl.setPreferredSize(new Dimension((int) errorlbl.getPreferredSize().getWidth(), 30));
+                    errorlbl.setPreferredSize(new Dimension((int) errorlbl.getPreferredSize().getWidth(), 26));
                     
                     this.revalidate(); // needed otherwise size of errorlbl bugs out
                     this.doLayout();

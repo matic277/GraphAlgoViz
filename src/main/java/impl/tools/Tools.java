@@ -24,8 +24,8 @@ public class Tools {
     public static final Color TITLE_BACKGROUND = new Color(213, 216, 222);
     
     
-    public static final Dimension MENU_BUTTON_SIZE = new Dimension(53, 37);
-    public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(110, 37);
+    public static final Dimension MENU_BUTTON_SIZE = new Dimension(55, 37);
+    public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(114, 37);
     public static final Dimension MENU_CHECKBOX_SIZE = new Dimension(125, 15);
     
     public static final Stroke PLAIN_STROKE = new BasicStroke(1);

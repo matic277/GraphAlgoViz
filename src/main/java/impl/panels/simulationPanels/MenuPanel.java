@@ -46,7 +46,6 @@ public class MenuPanel extends JPanel {
         // otherwise components dictate smallest possible size
         this.setMinimumSize(new Dimension(0, 0));
         
-        
         Dimension menuPanelSize = new Dimension(Tools.INITIAL_LEFT_MENU_WIDTH, parent.getHeight());
         this.setSize(menuPanelSize);
         this.setPreferredSize(menuPanelSize);
@@ -73,6 +72,7 @@ public class MenuPanel extends JPanel {
         
         importBtn = new JButton("Import graph");
         importBtn.setFont(Tools.getFont(14));
+//        UIManager.getLookAndFeel().getDefaults().getFont()
         importBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         importBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
         importBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);

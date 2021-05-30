@@ -48,14 +48,25 @@ public class Main {
         
         // Look and feed
         FlatLightLaf.install();
-        UIManager.put( "Button.arc", 30 );
-        UIManager.put( "Component.arc", 30 );
-        UIManager.put( "ProgressBar.arc", 30 );
+        UIManager.put("Button.arc", 10 );
+        UIManager.put("Component.arc", 30 );
+        UIManager.put("Component.focusWidth", 1);
+        UIManager.put("ProgressBar.arc", 30 );
+        UIManager.put("TextComponent.arc", 50 );
+
+        // scroll bars
+//        UIManager.put( "ScrollBar.thumbArc", 999 );
+//        UIManager.put( "ScrollBar.thumbInsets", new Insets( 2, 2, 2, 2 ) );
 //        UIManager.put( "TextComponent.arc", 30 );
         
         try { UIManager.setLookAndFeel( new FlatLightLaf() ); } catch( Exception ex ) {
             System.err.println( "Failed to initialize LaF" );
         }
+    
+//        UIManager.getLookAndFeel().getDefaults().forEach((a, b) -> {
+//            System.out.println(a.toString());
+//            System.out.println(b.toString());
+//        });
         
         
         // Change nimbus coloring to lighter
