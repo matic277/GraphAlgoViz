@@ -20,7 +20,6 @@ public class ReLayoutTab extends JPanel {
     
     LayoutType selectedLayout = LayoutType.values()[0];
     
-    
     public ReLayoutTab(TabsPanel parent) {
         this.parent = parent;
         this.graph = MyGraph.getInstance();
@@ -37,7 +36,7 @@ public class ReLayoutTab extends JPanel {
         JLabel info = new JLabel(" Select type of layout:");
         info.setFont(Tools.getFont(14));
         info.setAlignmentX(Component.CENTER_ALIGNMENT);
-    
+        
         layoutTypeDropdown = new JComboBox<>(LayoutType.values());
         ((JLabel)layoutTypeDropdown.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         layoutTypeDropdown.setFont(Tools.getFont(14));
@@ -64,6 +63,7 @@ public class ReLayoutTab extends JPanel {
                 // Only 1 thread can be doing layout at once!
                 synchronized (THREADS_DOING_LAYOUT) {
                         if (THREADS_DOING_LAYOUT.get() > 0) return;
+                    System.out.println("DOING!");
                         THREADS_DOING_LAYOUT.incrementAndGet();
                 }
                 

@@ -52,8 +52,8 @@ public class ColorTab extends JPanel {
         selectedColorInfo.setOpaque(true);
         selectedColorInfo.setBackground(Color.white);
         selectedColorInfo.setBorder(new LineBorder(Color.black, 1));
-        selectedColorInfo.setPreferredSize(new Dimension(100, 130));
-        selectedColorInfo.setMaximumSize(new Dimension(50, 130));
+        selectedColorInfo.setPreferredSize(new Dimension(100, 112));
+        selectedColorInfo.setMaximumSize(new Dimension(50, 112));
         
         selectedColorContainer.add(selectedColorInfo, BorderLayout.CENTER);
         selectedColorInfoContainer.add(selectedColorTitle, BorderLayout.NORTH);
