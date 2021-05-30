@@ -4,6 +4,10 @@ import impl.tools.Tools;
 import impl.windows.SimulationWindow;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
+import java.awt.*;
 
 public class MainPanel extends JSplitPane {
     
@@ -39,6 +43,28 @@ public class MainPanel extends JSplitPane {
         // set this to 1, so that middlePanel (simPanel and mainButton)
         // gain height, and not bottom component (bottomPanel)
         this.setResizeWeight(1);
+
+        // Custom divider look
+        BasicSplitPaneUI divider = new BasicSplitPaneUI() {
+            @Override
+            public BasicSplitPaneDivider createDefaultDivider() {
+                return new BasicSplitPaneDivider(this) {
+                    public void setBorder(Border b) {}
+                    @Override
+                    public void paint(Graphics g) {
+                        g.setColor(Tools.GRAY2);
+                        g.fillRect(0, 0, getSize().width, getSize().height);
+                        g.setColor(Color.gray);
+                        g.drawLine(0, 1, getSize().width, 1);
+                        super.paint(g);
+                    }
+                };
+            }
+        };
+        this.setBorder(null);
+        this.setUI(divider);
+
+        this.setDividerSize(5);
     }
     
     public TopPanel getTopPanel() { return this.topPanel; }
