@@ -1,14 +1,10 @@
 package impl;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import impl.panels.importPanels.graphOptionPanels.OptionPanel;
-import impl.windows.ImportGraphWindow;
+
 import impl.windows.SimulationWindow;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleGraph;
-import org.jgrapht.nio.graph6.Graph6Sparse6Importer;
+
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -51,7 +47,6 @@ public class Main {
         UIManager.put("Button.arc", 10 );
         UIManager.put("Component.arc", 30 );
         UIManager.put("Component.focusWidth", 1);
-        UIManager.put("ProgressBar.arc", 30 );
         UIManager.put("TextComponent.arc", 50 );
 
         // scroll bars

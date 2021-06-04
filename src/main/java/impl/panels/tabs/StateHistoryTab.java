@@ -39,7 +39,7 @@ public class StateHistoryTab extends JPanel implements StateObserver {
     }
     
     private JButton getNewStateButton(int stateIndex) {
-        int width  = 45;
+        int width  = 50;
         int height = 30;
         JButton btn = new JButton(stateIndex+"");
         btn.setPreferredSize(new Dimension(width, height));
@@ -80,6 +80,8 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         highlightedBtn.setBorder(DEFAULT_BORDER);
         stateList.get(currentStateIndex).setBorder(SELECTED_BORDER);
         highlightedBtn = stateList.get(currentStateIndex);
+        
+        this.repaint();
     }
     
     public void onNewGraphImport() {
@@ -90,6 +92,8 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         stateList.add(firstButton);
         this.removeAll();
         this.add(firstButton);
+        
+        this.repaint();
     }
     
     @Override
@@ -103,6 +107,8 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         stateList.add(newBtn);
         this.add(newBtn);
         highlightedBtn = newBtn;
+        
+        this.repaint();
     }
     
     @Override
@@ -121,5 +127,7 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         }
 //        highlightedBtn = stateList.get(AlgorithmController.currentStateIndex);
 //        highlightedBtn.setBorder(SELECTED_BORDER);
+        
+        this.repaint();
     }
 }

@@ -74,7 +74,7 @@ public class ReLayoutTab extends JPanel {
                     // signal status with processing label
                     processingLbl.setText(" Doing layout...");
                     processingLbl.setBorder(new Tools.RoundBorder(Tools.GREEN, new BasicStroke(2), 10));
-                    processingLbl.setPreferredSize(new Dimension(155, 30));
+                    processingLbl.setPreferredSize(new Dimension(155, 26));
                     processingLbl.setVisible(true);
                     
                     GraphBuilder.layoutTypeMap.get(selectedLayout).run();
