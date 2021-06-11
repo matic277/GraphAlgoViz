@@ -3,6 +3,8 @@ package impl;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
+import core.Algorithm;
+import impl.tools.Tools;
 import impl.windows.SimulationWindow;
 
 
@@ -43,7 +45,7 @@ public class Main {
 //        } catch (Exception e) {e.printStackTrace();}
         
         // Look and feed
-        FlatLightLaf.install();
+        FlatLightLaf.setup();
         UIManager.put("Button.arc", 10 );
         UIManager.put("Component.arc", 30 );
         UIManager.put("Component.focusWidth", 1);
@@ -65,9 +67,32 @@ public class Main {
         
         
         // Change nimbus coloring to lighter
-        UIManager.put("nimbusBase", new ColorUIResource(150, 150, 150));
-
+        //UIManager.put("nimbusBase", new ColorUIResource(150, 150, 150));
+        
 //        SwingUtilities.invokeLater(ImportGraphWindow::new);
-        SwingUtilities.invokeLater(SimulationWindow::new);
+        SwingUtilities.invokeLater(() -> new SimulationWindow(getAlgorithm()));
+    }
+    
+    public static Algorithm getAlgorithm() {
+        return node -> {
+            // if you have info, don't do anything
+            if (node.getState().info > 0) return new State(node.getState().info);
+            
+            // Some nodes have no neighbors, so
+            // in this case don't do anything.
+            // Return the same state you're in.
+            if (node.getNeighbors().isEmpty()) return new State(node.getState().info);
+            
+            // get two random neighbors
+            Node randNeigh1 = node.getNeighbors().get(Tools.RAND.nextInt(node.getNeighbors().size()));
+            Node randNeigh2 = node.getNeighbors().get(Tools.RAND.nextInt(node.getNeighbors().size()));
+            State stateOfNeigh1 = randNeigh1.getState();
+            State stateOfNeigh2 = randNeigh2.getState();
+            
+            // or
+            int newStateInfo = stateOfNeigh1.info | stateOfNeigh2.info | node.getState().info;
+            
+            return new State(newStateInfo);
+        };
     }
 }

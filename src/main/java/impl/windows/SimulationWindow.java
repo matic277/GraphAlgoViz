@@ -1,5 +1,6 @@
 package impl.windows;
 
+import core.Algorithm;
 import impl.graphBuilders.GraphBuilder;
 import impl.AlgorithmController;
 import impl.MyGraph;
@@ -23,14 +24,14 @@ public class SimulationWindow extends Window {
     
     final int menuWidth = 150;
     
-    public SimulationWindow() {
+    public SimulationWindow(Algorithm algo) {
         super(new Dimension(Tools.INITIAL_WINDOW_WIDTH, Tools.INITIAL_WINDOW_HEIGHT));
         
         this.graph = MyGraph.getInstance();
         this.mainPanel = new MainPanel(this);
         this.addMainComponent(mainPanel);
         
-        this.algoController = new AlgorithmController(MyGraph.getInstance());
+        this.algoController = new AlgorithmController(MyGraph.getInstance(), algo);
 //        this.algoController.addObserver(this.mainPanel.getTopPanel().getSimulationPanel());
         this.algoController.addObserver(this.mainPanel.getBottomPanel().getTabsPanel().getStateHistoryTab());
         

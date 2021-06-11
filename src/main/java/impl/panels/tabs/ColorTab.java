@@ -109,7 +109,6 @@ public class ColorTab extends JPanel {
         
         container.setPreferredSize(new Dimension(container.getPreferredSize().width, colorPanel.getPreferredSize().height));
         
-        
         this.add(colorPanel);
         this.add(container);
     }
