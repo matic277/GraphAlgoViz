@@ -7,7 +7,12 @@ import core.GraphObservable;
 import impl.tools.Edge;
 import impl.tools.Tools;
 import org.jgrapht.Graph;
+import org.jgrapht.ListenableGraph;
+import org.jgrapht.event.GraphEdgeChangeEvent;
+import org.jgrapht.event.GraphListener;
+import org.jgrapht.event.GraphVertexChangeEvent;
 import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultListenableGraph;
 import org.jgrapht.graph.DefaultUndirectedGraph;
 
 import java.awt.*;
@@ -22,7 +27,7 @@ public class MyGraph implements Drawable, GraphObservable {
     
     public AtomicInteger informedNodes = new AtomicInteger(0);
     
-    Graph<Node, DefaultEdge> graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
+    ListenableGraph<Node, DefaultEdge> graph = new DefaultListenableGraph<>(new DefaultUndirectedGraph<>(DefaultEdge.class));
     
     private ComponentDrawer edgeDrawer = ComponentDrawer.getNullDrawer();
     
@@ -31,7 +36,26 @@ public class MyGraph implements Drawable, GraphObservable {
     // singleton
     private static final MyGraph instance = new MyGraph();
     public static MyGraph getInstance() { return instance; }
-    private MyGraph() { }
+    private MyGraph() { setListener(); }
+    
+    // TODO: problematic:
+    // gets called when clearing graph, for each node, this is a pretty big problem
+    // should probably remove these methods/listeners and just do it by hand with the custom
+    // written listeners in THIS class.
+    public void setListener() {
+        graph.addGraphListener(new GraphListener<Node, DefaultEdge>() {
+            @Override public void edgeRemoved(GraphEdgeChangeEvent<Node, DefaultEdge> graphEdgeChangeEvent) { }
+            @Override public void edgeAdded(GraphEdgeChangeEvent<Node, DefaultEdge> graphEdgeChangeEvent) {
+                observers.forEach(GraphChangeObserver::onEdgeAdded);
+            }
+            @Override public void vertexAdded(GraphVertexChangeEvent<Node> graphVertexChangeEvent) {
+                observers.forEach(GraphChangeObserver::onNodeDeleted);
+            }
+            @Override public void vertexRemoved(GraphVertexChangeEvent<Node> graphVertexChangeEvent) {
+                observers.forEach(GraphChangeObserver::onNodeDeleted);
+            }
+        });
+    }
     
     public void clearGraph() { synchronized (LOCK) {
         nextId = -1;

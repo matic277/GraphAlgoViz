@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     
@@ -93,8 +94,8 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         table.getTableHeader().setDefaultRenderer(table.getTableHeader().getDefaultRenderer());
         table.setAutoCreateRowSorter(false); // disable sorting
         
-        // INIT HEADERS and data
-        Object[] header = Arrays.stream(TableKey.values()).map(key -> key.displayStr).toArray();
+        // INIT HEADERS and data, sorting might be excessive, enums are naturally ordered as specified in source code?
+        Object[] header = Arrays.stream(TableKey.values()).sorted(Comparator.comparingInt(k -> k.id)).map(key -> key.displayStr).toArray();
         Object[][] data = new String[header.length][2];
         // header rows, 2 columns            (header                | value)
         for (int i=0; i<header.length; i++) { data[i][0] = header[i]; data[i][1] = "0"; }
@@ -115,33 +116,66 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     }
     
     public void onNewGraphImport() {
-        // TODO
+        table.setValueAt(graph.getGraph().vertexSet().size(), TableKey.NODES_NUMBER.id, 1);
+        table.setValueAt(graph.getGraph().edgeSet().size(), TableKey.EDGES_NUMBER.id, 1);
+        
+        double informed = graph.getNumberOfInformedNodes();
+        double uninformed = graph.getGraph().vertexSet().size() - informed;
+        double perc = uninformed == 0 ? 1 : informed / uninformed;
+        
+        table.setValueAt((int)informed, TableKey.INFORMED_NODES.id, 1);
+        table.setValueAt(perc, TableKey.INFORMED_PERCENTAGE.id, 1);
+        table.setValueAt((int)uninformed, TableKey.UNINFORMED_NODES.id, 1);
+        
+        table.repaint();
     }
     
     @Override
     public void onNodeAdded() {
+        table.setValueAt(graph.getGraph().vertexSet().size(), TableKey.NODES_NUMBER.id, 1);
+        table.repaint();
     }
     
     @Override
     public void onNodeDeleted() {
-//        this.onEdgeAdded();
+        onNodeAdded();
     }
     
     @Override
     public void onEdgeAdded() {
+        table.setValueAt(graph.getGraph().edgeSet().size(), TableKey.EDGES_NUMBER.id, 1);
+        table.repaint();
     }
     
     @Override
     public void onNewInformedNode() {
+        double informed = graph.getNumberOfInformedNodes();
+        double uninformed = graph.getGraph().vertexSet().size() - informed;
+        double perc = uninformed == 0 ? 1 : informed / uninformed;
+    
+        table.setValueAt((int)informed, TableKey.INFORMED_NODES.id, 1);
+        table.setValueAt(perc, TableKey.INFORMED_PERCENTAGE.id, 1);
+        table.setValueAt((int)uninformed, TableKey.UNINFORMED_NODES.id, 1);
+        
+        table.repaint();
     }
     
-    // TODO these methods are usless, rename and combine onNewUninformed & onNewInformed -> onInformedChange
-    
+    // TODO these methods are useless, rename and combine onNewUninformed & onNewInformed -> onInformedChange
     @Override
     public void onNewUninformedNode() {
+        onNewInformedNode();
     }
     @Override
     public void onGraphClear() {
+        table.setValueAt(0, TableKey.NODES_NUMBER.id, 1);
+        table.setValueAt(0, TableKey.EDGES_NUMBER.id, 1);
+        table.setValueAt(0, TableKey.INFORMED_NODES.id, 1);
+        table.setValueAt(0, TableKey.INFORMED_PERCENTAGE.id, 1);
+        table.setValueAt(0, TableKey.UNINFORMED_NODES.id, 1);
+        
+        table.repaint();
+    
+        System.out.println("cleared");
     }
     
     private JLabel dummySeparator() {

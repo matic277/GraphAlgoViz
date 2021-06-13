@@ -16,7 +16,7 @@ public class AlgorithmExecutor implements Runnable {
     // this is a workaround to the problem of naming threads
     // in ExecutorService
     // renames thread once, then does nothing
-    Runnable threadNamer = () -> { Thread.currentThread().setName(name); threadNamer = () -> {};};
+    Runnable threadNamer = () -> { Thread.currentThread().setName(name); threadNamer = () -> { };};
     
     public AlgorithmExecutor(Set<Node> nodes, Algorithm algorithm, String threadName) {
         this.nodes = nodes;
@@ -36,7 +36,7 @@ public class AlgorithmExecutor implements Runnable {
             State newState = algorithm.run(n);
             n.addState(newState);
             
-            if (newState.getState() == 1 &&
+            if (newState.getState() >= 0 &&
                 n.states.get(AlgorithmController.currentStateIndex).getState() == 0) {
                 MyGraph.getInstance().signalNewInformedNode();
             }
