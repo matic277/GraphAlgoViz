@@ -33,7 +33,7 @@ public class AlgorithmExecutor implements Runnable {
         nodes.forEach(n -> {
 //            LOG.out("  ->", "Algo starting on node " + n + ".");
             
-            State newState = algorithm.run(n);
+            State newState = algorithm.run(new Vertex(n));
             n.addState(newState);
             
             if (newState.getState() >= 0 &&

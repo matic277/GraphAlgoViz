@@ -42,8 +42,11 @@ public class MyGraph implements Drawable, GraphObservable {
     // gets called when clearing graph, for each node, this is a pretty big problem
     // should probably remove these methods/listeners and just do it by hand with the custom
     // written listeners in THIS class.
+    // OR
+    // remove the listener before clearing the graph,
+    // then re-add it after the graph is clear!
     public void setListener() {
-        graph.addGraphListener(new GraphListener<Node, DefaultEdge>() {
+        graph.addGraphListener(new GraphListener<>() {
             @Override public void edgeRemoved(GraphEdgeChangeEvent<Node, DefaultEdge> graphEdgeChangeEvent) { }
             @Override public void edgeAdded(GraphEdgeChangeEvent<Node, DefaultEdge> graphEdgeChangeEvent) {
                 observers.forEach(GraphChangeObserver::onEdgeAdded);

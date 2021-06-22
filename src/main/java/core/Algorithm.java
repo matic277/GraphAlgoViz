@@ -1,6 +1,7 @@
 package core;
 
 import impl.Node;
+import impl.Vertex;
 import impl.State;
 
 import java.util.List;
@@ -11,5 +12,5 @@ import java.util.List;
  */
 @FunctionalInterface
 public interface Algorithm {
-    public State run(Node node);
+    public State run(Vertex vertex);
 }
