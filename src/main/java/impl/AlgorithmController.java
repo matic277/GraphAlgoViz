@@ -78,7 +78,7 @@ public class AlgorithmController implements Runnable, StateObservable {
             MenuPanel.prevBtn.setEnabled(AlgorithmController.PAUSE.get());
             
             
-            Tools.sleep(1000);
+            Tools.sleep(100);
         }
     }
     

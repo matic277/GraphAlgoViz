@@ -62,6 +62,7 @@ public class StateHistoryTab extends JPanel implements StateObserver {
             highlightedBtn.setBorder(DEFAULT_BORDER);
             highlightedBtn = btn;
         });
+        System.out.println("new state button: " + stateIndex);
         return btn;
     }
     
@@ -117,16 +118,16 @@ public class StateHistoryTab extends JPanel implements StateObserver {
     }
     
     public void deleteFutureHistory() {
-        boolean startDelete = false;
+        int indexToDeleteFromOn = 0;
         for (int i=0; i<stateList.size(); i++) {
-            if (!startDelete && stateList.get(i) == highlightedBtn) {
-                startDelete = true;
-                continue;
+            if (stateList.get(i) == highlightedBtn) {
+                indexToDeleteFromOn = i + 1;
+                break;
             }
-            if (startDelete) stateList.remove(i);
         }
-//        highlightedBtn = stateList.get(AlgorithmController.currentStateIndex);
-//        highlightedBtn.setBorder(SELECTED_BORDER);
+        for (int i=indexToDeleteFromOn; i<stateList.size(); i++) {
+            this.remove(stateList.get(i));
+        }
         
         this.repaint();
     }

@@ -120,10 +120,11 @@ public class MenuPanel extends JPanel {
                 newNode.addState(new State(0));
             }
             
-            // clear future history
             AlgorithmController.totalStates = AlgorithmController.currentStateIndex + 1;
             this.parent.getSimulationWindow().getMainPanel().getBottomPanel().getTabsPanel().getStateHistoryTab()
                     .setCurrentActiveState(AlgorithmController.currentStateIndex);
+            this.parent.getSimulationWindow().getMainPanel().getBottomPanel().getTabsPanel().getStateHistoryTab()
+                    .deleteFutureHistory();
             
             // TODO move this to some method in MyGraph, like onNodeRemoveOrAdd()
             //   same lambda is in deleteNodeBtn action method!
@@ -149,7 +150,7 @@ public class MenuPanel extends JPanel {
             //  calling onNewGraphImport is convient but not nice
             //  (buttons get enabled if the graph is not empty - and
             //  in this case it won't be since a node has just been added)
-            this.parent.getSimulationWindow().getMainPanel().onNewGraphImport();
+            //this.parent.getSimulationWindow().getMainPanel().onNewGraphImport();
             System.out.println("new node added");
         });
         graphOptionsPnl.add(addNodeBtn);

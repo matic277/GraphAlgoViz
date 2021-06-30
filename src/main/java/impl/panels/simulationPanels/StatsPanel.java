@@ -110,7 +110,7 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         table.getTableHeader().getColumnModel().getColumn(1).setPreferredWidth(75);
         table.setRowHeight(25);
         table.setBorder(new MatteBorder(1,1, 1, 1,Color.darkGray));
-    
+        
 //        table.getTableHeader().getColumnModel().getColumn(0).setPreferredHeight(250);
 //        table.getTableHeader().getColumnModel().getColumn(1).setPreferredWidth(75);
     }
@@ -174,7 +174,6 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         table.setValueAt(0, TableKey.UNINFORMED_NODES.id, 1);
         
         table.repaint();
-    
         System.out.println("cleared");
     }
     

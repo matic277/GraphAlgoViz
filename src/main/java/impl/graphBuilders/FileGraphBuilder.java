@@ -23,7 +23,6 @@ public class FileGraphBuilder extends GraphBuilder {
         importer.setVertexFactory((t) -> MyGraph.getNode());
         importer.importGraph(this.graph.getGraph(), new File(this.fileName));
         
-        
         // initialize nodes (informed or not)
         this.getNodeInformator().run();
         
