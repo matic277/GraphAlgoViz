@@ -36,7 +36,7 @@ public class AlgorithmExecutor implements Runnable {
             State newState = algorithm.run(new Vertex(n));
             n.addState(newState);
             
-            if (newState.getState() >= 0 &&
+            if (newState.getState() >= 1 &&
                 n.states.get(AlgorithmController.currentStateIndex).getState() == 0) {
                 MyGraph.getInstance().signalNewInformedNode();
             }

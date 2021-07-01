@@ -269,7 +269,7 @@ public class MenuPanel extends JPanel {
         drawingOptionsPnl.setLayout(new BoxLayout(drawingOptionsPnl, BoxLayout.Y_AXIS));
         MAIN_PANEL.add(drawingOptionsPnl);
         
-        JLabel drawingOptionsTitle = new JLabel(" History and simulation options ");
+        JLabel drawingOptionsTitle = new JLabel(" Graph drawing options ");
         drawingOptionsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         drawingOptionsTitle.setFont(Tools.getBoldFont(14));
         drawingOptionsPnl.add(getSeparator());
