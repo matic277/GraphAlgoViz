@@ -7,6 +7,9 @@
     <groupId>org.example</groupId>
     <artifactId>GraphAlgoViz</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <name>GAV</name>
+
     <build>
         <plugins>
             <plugin>
@@ -15,7 +18,39 @@
                 <configuration>
                     <source>15</source>
                     <target>15</target>
-                    <compilerArgs>--enable-preview</compilerArgs>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>GraphAlgoVis</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>fully.qualified.MainClass</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+
+                    <descriptors>
+                        <descriptor>src/assembly/jar-plus.xml</descriptor>
+                    </descriptors>
+
                 </configuration>
             </plugin>
         </plugins>
