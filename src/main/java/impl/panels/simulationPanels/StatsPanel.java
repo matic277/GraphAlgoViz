@@ -30,9 +30,9 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         // In order to change ordering displayed in GUI, simply swap rows here!
         NODES_NUMBER(0, "Number of nodes"),
         EDGES_NUMBER(1, "Number of edges"),
-        INFORMED_NODES(2, "Number of informed nodes"),
-        UNINFORMED_NODES(3, "Number of uninformed nodes"),
-        INFORMED_PERCENTAGE(4, "Percentage of informed nodes"),
+        //INFORMED_NODES(2, "Number of informed nodes"),
+        //UNINFORMED_NODES(3, "Number of uninformed nodes"),
+        //INFORMED_PERCENTAGE(4, "Percentage of informed nodes"),
         ;
         
         int id; String displayStr;
@@ -79,7 +79,7 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         // INIT RENDERING
         // thanks to https://stackoverflow.com/questions/8002445/trying-to-create-jtable-with-proper-row-header/8005006#8005006
         // Custom class and other stuff is shortened to line => table.getTableHeader().setDefaultRenderer(table.getTableHeader().getDefaultRenderer());
-        // Change table head rendered so that header is displayed on the left
+        // Change table head renderer so that header is displayed on the left
         // (instead of on top)
         table = new JTable() {
             @Override public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
@@ -123,9 +123,9 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         double uninformed = graph.getGraph().vertexSet().size() - informed;
         double perc = uninformed == 0 ? 1 : informed / uninformed;
         
-        table.setValueAt((int)informed, TableKey.INFORMED_NODES.id, 1);
-        table.setValueAt(perc, TableKey.INFORMED_PERCENTAGE.id, 1);
-        table.setValueAt((int)uninformed, TableKey.UNINFORMED_NODES.id, 1);
+        //table.setValueAt((int)informed, TableKey.INFORMED_NODES.id, 1);
+        //table.setValueAt(perc, TableKey.INFORMED_PERCENTAGE.id, 1);
+        //table.setValueAt((int)uninformed, TableKey.UNINFORMED_NODES.id, 1);
         
         table.repaint();
     }
@@ -153,9 +153,9 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         double uninformed = graph.getGraph().vertexSet().size() - informed;
         double perc = uninformed == 0 ? 1 : informed / uninformed;
     
-        table.setValueAt((int)informed, TableKey.INFORMED_NODES.id, 1);
-        table.setValueAt(perc, TableKey.INFORMED_PERCENTAGE.id, 1);
-        table.setValueAt((int)uninformed, TableKey.UNINFORMED_NODES.id, 1);
+        //table.setValueAt((int)informed, TableKey.INFORMED_NODES.id, 1);
+        //table.setValueAt(perc, TableKey.INFORMED_PERCENTAGE.id, 1);
+        //table.setValueAt((int)uninformed, TableKey.UNINFORMED_NODES.id, 1);
         
         table.repaint();
     }
@@ -169,9 +169,9 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     public void onGraphClear() {
         table.setValueAt(0, TableKey.NODES_NUMBER.id, 1);
         table.setValueAt(0, TableKey.EDGES_NUMBER.id, 1);
-        table.setValueAt(0, TableKey.INFORMED_NODES.id, 1);
-        table.setValueAt(0, TableKey.INFORMED_PERCENTAGE.id, 1);
-        table.setValueAt(0, TableKey.UNINFORMED_NODES.id, 1);
+        //table.setValueAt(0, TableKey.INFORMED_NODES.id, 1);
+        //table.setValueAt(0, TableKey.INFORMED_PERCENTAGE.id, 1);
+        //table.setValueAt(0, TableKey.UNINFORMED_NODES.id, 1);
         
         table.repaint();
         System.out.println("cleared");

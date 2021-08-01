@@ -9,7 +9,7 @@ import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 
-public class TopPanel extends JSplitPane {
+public class TopPanel extends JPanel {
     
     MainPanel parent;
     
@@ -22,13 +22,15 @@ public class TopPanel extends JSplitPane {
         simPanel = new SimulationPanel(this);
         menuPanel = new MenuPanel(this);
         
-        this.setLeftComponent(menuPanel);
-        this.setRightComponent(simPanel);
+        this.setLayout(new BorderLayout());
+        
+        this.add(menuPanel, BorderLayout.NORTH);
+        this.add(simPanel, BorderLayout.CENTER);
         
         // set location of divider, so that width
         // of left menu is set to initial state
-        this.setDividerLocation(Tools.INITIAL_LEFT_MENU_WIDTH);
-        this.setResizeWeight(0);
+        //this.setDividerLocation(Tools.INITIAL_LEFT_MENU_WIDTH);
+        //this.setResizeWeight(0);
 
         // Custom divider look
 //        BasicSplitPaneUI divider = new BasicSplitPaneUI() {
@@ -50,7 +52,7 @@ public class TopPanel extends JSplitPane {
 //        this.setBorder(null);
 //        this.setUI(divider);
 
-        this.setDividerSize(5);
+        //this.setDividerSize(5);
     }
     
     public SimulationWindow getSimulationWindow() { return this.parent.getSimulationWindow(); }

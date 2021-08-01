@@ -1,15 +1,17 @@
 package impl.panels.simulationPanels;
 
-import core.ComponentDrawer;
 import impl.*;
-import impl.tools.Edge;
 import impl.tools.Tools;
 import impl.windows.ImportGraphWindow;
 import impl.windows.SimulationWindow;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Hashtable;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class MenuPanel extends JPanel {
     
@@ -36,6 +38,25 @@ public class MenuPanel extends JPanel {
     JCheckBox stateDebugCheckBox;
     JCheckBox neighborsDebugCheckBox;
     
+    public ImageIcon createImageIcon(String path, int w, int h) throws IOException {
+        File f = new File(path);
+        assert f.exists();
+        URL imgURL = f.toURL();
+        
+        if (imgURL != null) {
+            //ImageIcon icon = new ImageIcon(imgURL);
+            BufferedImage orgImg = ImageIO.read(new File(path));
+            BufferedImage resizedImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D graphics2D = resizedImage.createGraphics();
+            graphics2D.drawImage(orgImg, 0, 0, w, h, null);
+            graphics2D.dispose();
+            return new ImageIcon(resizedImage);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
+    
     public MenuPanel(TopPanel parent) {
         this.parent = parent;
         this.simWindow = parent.getSimulationWindow();
@@ -44,52 +65,66 @@ public class MenuPanel extends JPanel {
         
         // so that this panel can be squished, hiding its components
         // otherwise components dictate smallest possible size
-        this.setMinimumSize(new Dimension(0, 0));
+        //this.setMinimumSize(new Dimension(0, 0));
         
-        Dimension menuPanelSize = new Dimension(Tools.INITIAL_LEFT_MENU_WIDTH, parent.getHeight());
-        this.setSize(menuPanelSize);
-        this.setPreferredSize(menuPanelSize);
+        //Dimension menuPanelSize = new Dimension(Tools.INITIAL_LEFT_MENU_WIDTH, parent.getHeight());
+        //this.setSize(menuPanelSize);
+        //this.setPreferredSize(menuPanelSize);
         this.setLayout(new BorderLayout());
         this.setOpaque(false);
         
         JPanel MAIN_PANEL = new JPanel();
         MAIN_PANEL.setOpaque(true);
         MAIN_PANEL.setBackground(Tools.GRAY3);
-        MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
+        MAIN_PANEL.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.add(MAIN_PANEL, BorderLayout.CENTER);
         
-        JPanel graphOptionsPnl = new JPanel();
-        graphOptionsPnl.setOpaque(false);
-        graphOptionsPnl.setLayout(new BoxLayout(graphOptionsPnl, BoxLayout.Y_AXIS));
-        graphOptionsPnl.add(getSeparator());
-        MAIN_PANEL.add(graphOptionsPnl);
+        //JPanel graphOptionsPnl = new JPanel();
+        //graphOptionsPnl.setOpaque(false);
+        //graphOptionsPnl.setLayout(new BoxLayout(graphOptionsPnl, BoxLayout.Y_AXIS));
+        //graphOptionsPnl.add(getSeparator());
+        //MAIN_PANEL.add(graphOptionsPnl);
         
-        JLabel graphOptionsTitle = new JLabel(" Graph options ");
-        graphOptionsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        graphOptionsTitle.setFont(Tools.getBoldFont(16));
-        graphOptionsPnl.add(graphOptionsTitle);
-        graphOptionsPnl.add(getSeparator());
+        //JLabel graphOptionsTitle = new JLabel(" Graph options ");
+        //graphOptionsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //graphOptionsTitle.setFont(Tools.getBoldFont(16));
+        //graphOptionsPnl.add(graphOptionsTitle);
+        //graphOptionsPnl.add(getSeparator());
         
-        importBtn = new JButton("Import graph");
-        importBtn.setFont(Tools.getFont(14));
+        ImageIcon icon = null;
+        try {
+            icon = createImageIcon("resources/import2.png", 25, 30);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        importBtn = new JButton();
+        importBtn.setIcon(icon);
+        //importBtn.setFont(Tools.getFont(14));
 //        UIManager.getLookAndFeel().getDefaults().getFont()
-        importBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        importBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+//        importBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //importBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
         importBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        importBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        importBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //importBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //importBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
         importBtn.addActionListener(a -> {
             SwingUtilities.invokeLater(() -> new ImportGraphWindow(this.parent.getSimulationWindow()));
         });
-        graphOptionsPnl.add(importBtn);
+        MAIN_PANEL.add(importBtn);
         
-        clearBtn = new JButton("Clear graph");
-        clearBtn.setFont(Tools.getFont(14));
-        clearBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        clearBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        clearBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        clearBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        clearBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        
+        ImageIcon icon2 = null;
+        try {
+            icon2 = createImageIcon("resources/trash.png", 25, 30);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        clearBtn = new JButton(icon2);
+        //clearBtn.setFont(Tools.getFont(14));
+        //clearBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //clearBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //clearBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //clearBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //clearBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
         clearBtn.addActionListener(a -> {
             this.graph.clearGraph();
             this.parent.getSimulationWindow().getAlgorithmController().assignTasks();
@@ -97,16 +132,23 @@ public class MenuPanel extends JPanel {
             AlgorithmController.currentStateIndex = 0;
             parent.getMainPanel().onNewGraphImport();
         });
-        graphOptionsPnl.add(clearBtn);
-        
-        addNodeBtn = new JButton("Add node");
+        MAIN_PANEL.add(clearBtn);
+    
+    
+        ImageIcon icon3 = null;
+        try {
+            icon3 = createImageIcon("resources/vector.png", 35, 30);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        addNodeBtn = new JButton(icon3);
         addNodeBtn.setFont(Tools.getFont(14));
         addNodeBtn.setToolTipText("Adds a new node to graph");
-        addNodeBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        addNodeBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        addNodeBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        addNodeBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        addNodeBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //addNodeBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //addNodeBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //addNodeBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //addNodeBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //addNodeBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
         addNodeBtn.addActionListener(a -> {
 //            Node newNode = new Node(50, 50, graph.getNextNodeId()); // TODO
             Node newNode = MyGraph.getNode();
@@ -153,23 +195,23 @@ public class MenuPanel extends JPanel {
             //this.parent.getSimulationWindow().getMainPanel().onNewGraphImport();
             System.out.println("new node added");
         });
-        graphOptionsPnl.add(addNodeBtn);
+        MAIN_PANEL.add(addNodeBtn);
         
         
         
         // HISTORY PANEL
         
-        JPanel historyOptionsPnl = new JPanel();
-        historyOptionsPnl.setOpaque(false);
-        historyOptionsPnl.setLayout(new BoxLayout(historyOptionsPnl, BoxLayout.Y_AXIS));
-        MAIN_PANEL.add(historyOptionsPnl);
+        //JPanel historyOptionsPnl = new JPanel();
+        //historyOptionsPnl.setOpaque(false);
+        //historyOptionsPnl.setLayout(new BoxLayout(historyOptionsPnl, BoxLayout.Y_AXIS));
+        //MAIN_PANEL.add(historyOptionsPnl);
         
-        JLabel historyOptionsTitle = new JLabel(" History and simulation options ");
-        historyOptionsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        historyOptionsTitle.setFont(Tools.getBoldFont(14));
-        historyOptionsPnl.add(getSeparator());
-        historyOptionsPnl.add(historyOptionsTitle);
-        historyOptionsPnl.add(getSeparator());
+        //JLabel historyOptionsTitle = new JLabel(" History and simulation options ");
+        //historyOptionsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //historyOptionsTitle.setFont(Tools.getBoldFont(14));
+        //historyOptionsPnl.add(getSeparator());
+        //historyOptionsPnl.add(historyOptionsTitle);
+        //historyOptionsPnl.add(getSeparator());
         
         pauseBtn = new JButton("CONTINUE");
         pauseBtn.setFont(Tools.getFont(14));
@@ -196,10 +238,10 @@ public class MenuPanel extends JPanel {
             // disable/enable next/previous state buttons
             nextBtn.setEnabled(AlgorithmController.PAUSE.get());
             prevBtn.setEnabled(AlgorithmController.PAUSE.get());
-
+            
             this.importBtn.setEnabled(!this.importBtn.isEnabled());
             this.clearBtn.setEnabled(!this.clearBtn.isEnabled());
-
+            
             // when pressing continue, jump to latest state
             // TODO
             //  program crash due to node getting drawn from  state 1 when only 1 state existed
@@ -214,12 +256,12 @@ public class MenuPanel extends JPanel {
             }
             pauseBtn.setText(pauseBtn.getText().equals("CONTINUE") ? "PAUSE" : "CONTINUE");
         });
-        historyOptionsPnl.add(pauseBtn);
+        MAIN_PANEL.add(pauseBtn);
         
-        JPanel leftRightPnl = new JPanel();
-        leftRightPnl.setOpaque(false);
-        leftRightPnl.setLayout(new FlowLayout());
-        historyOptionsPnl.add(leftRightPnl);
+        //JPanel leftRightPnl = new JPanel();
+        //leftRightPnl.setOpaque(false);
+        //leftRightPnl.setLayout(new FlowLayout());
+        //historyOptionsPnl.add(leftRightPnl);
     
         prevBtn = new JButton("<");
         prevBtn.setFont(Tools.getFont(14));
@@ -231,7 +273,7 @@ public class MenuPanel extends JPanel {
             AlgorithmController.currentStateIndex = Math.max(0, AlgorithmController.currentStateIndex - 1);
             parent.getMainPanel().getBottomPanel().getTabsPanel().getStateHistoryTab().setCurrentActiveState(AlgorithmController.currentStateIndex);
         });
-        leftRightPnl.add(prevBtn);
+        MAIN_PANEL.add(prevBtn);
         
         nextBtn = new JButton(">");
         nextBtn.setFont(Tools.getFont(14));
@@ -258,12 +300,12 @@ public class MenuPanel extends JPanel {
                 AlgorithmController.PAUSE_LOCK.notify();
             }
         });
-        leftRightPnl.add(nextBtn);
-        leftRightPnl.setMaximumSize(new Dimension(150, 45)); // needed to limit height for some reason, or this component gets vertically stretched
+        MAIN_PANEL.add(nextBtn);
+        //leftRightPnl.setMaximumSize(new Dimension(150, 45)); // needed to limit height for some reason, or this component gets vertically stretched
     
     
         // DRAWING OPTIONS PANEL
-        
+        /*
         JPanel drawingOptionsPnl = new JPanel();
         drawingOptionsPnl.setOpaque(false);
         drawingOptionsPnl.setLayout(new BoxLayout(drawingOptionsPnl, BoxLayout.Y_AXIS));
@@ -400,6 +442,8 @@ public class MenuPanel extends JPanel {
                     ComponentDrawer.getNeighborsDrawer() : ComponentDrawer.getNullDrawer();
         });
         chekcBoxPnl.add(neighborsDebugCheckBox);
+        */
+        
     }
     
     private JLabel getSeparator() {

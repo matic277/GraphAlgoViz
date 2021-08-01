@@ -13,14 +13,8 @@ public class MainPanel extends JSplitPane {
     
     SimulationWindow parent;
     
-    // contains vertically split panels:
-    //   topPanel(menuPanel, simulationPanel)
     TopPanel topPanel;
-    
-    // contains vertically split panels:
-    //  bottomPanel(statsPanel, historyTabPanel)
     BottomPanel bottomPanel;
-    
     
     // Splits middlePanel and bottomPanel horizontally
     public MainPanel(SimulationWindow parent) {
