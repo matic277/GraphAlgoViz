@@ -167,12 +167,12 @@ public class VisualizationTab extends JPanel {
         JPanel container = new JPanel();
         container.setOpaque(false);
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-    
+        
         JLabel sliderInfo = new JLabel("Change edge opacity");
         sliderInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
         sliderInfo.setSize(new Dimension(30, 100));
         sliderInfo.setFont(Tools.getFont(14));
-    
+        
         int sliderMin2 = 0, sliderMax2 = 255;
         edgeOpacitySlider = new JSlider(sliderMin2, sliderMax2, Node.rad);
         edgeOpacitySlider.setValue(sliderMax2);

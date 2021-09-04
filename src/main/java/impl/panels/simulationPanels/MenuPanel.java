@@ -29,7 +29,10 @@ public class MenuPanel extends JPanel {
     
     JButton pauseBtn;
     
-    public ImageIcon createImageIcon(String path, int w, int h) throws IOException {
+    ImageIcon playIcon;
+    ImageIcon pauseIcon;
+    
+    public ImageIcon createImageIcon(String path, Dimension iconSize) throws IOException {
         File f = new File(path);
         assert f.exists();
         URL imgURL = f.toURL();
@@ -37,10 +40,12 @@ public class MenuPanel extends JPanel {
         if (imgURL != null) {
             //ImageIcon icon = new ImageIcon(imgURL);
             BufferedImage orgImg = ImageIO.read(new File(path));
-            BufferedImage resizedImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D graphics2D = resizedImage.createGraphics();
-            graphics2D.drawImage(orgImg, 0, 0, w, h, null);
-            graphics2D.dispose();
+            BufferedImage resizedImage = new BufferedImage(iconSize.width, iconSize.height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D gr = resizedImage.createGraphics();
+            gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // not really doing anything
+            gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            gr.drawImage(orgImg, 0, 0, iconSize.width, iconSize.height, null);
+            gr.dispose();
             return new ImageIcon(resizedImage);
         } else {
             System.err.println("Couldn't find file: " + path);
@@ -82,14 +87,23 @@ public class MenuPanel extends JPanel {
         //graphOptionsPnl.add(graphOptionsTitle);
         //graphOptionsPnl.add(getSeparator());
         
-        ImageIcon icon = null;
+        Dimension iconSize = new Dimension(20, 20);
+        // icons downloaded at https://roundicons.com/
+        
+        ImageIcon importIcon = null;
+        ImageIcon clearGraphIcon = null;
+        ImageIcon addNodeIcon = null;
         try {
-            icon = createImageIcon("resources/import2.png", 25, 30);
+            importIcon     = createImageIcon("resources/import2.png", iconSize);
+            clearGraphIcon = createImageIcon("resources/trash.png",   iconSize);
+            addNodeIcon    = createImageIcon("resources/vector.png",  iconSize);
+            playIcon       = createImageIcon("resources/play.png",    iconSize);
+            pauseIcon      = createImageIcon("resources/pause.png",   iconSize);
         } catch (Exception e) {
             e.printStackTrace();
         }
         importBtn = new JButton();
-        importBtn.setIcon(icon);
+        importBtn.setIcon(importIcon);
         //importBtn.setFont(Tools.getFont(14));
 //        UIManager.getLookAndFeel().getDefaults().getFont()
 //        importBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -103,13 +117,7 @@ public class MenuPanel extends JPanel {
         MAIN_PANEL.add(importBtn);
         
         
-        ImageIcon icon2 = null;
-        try {
-            icon2 = createImageIcon("resources/trash.png", 25, 30);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        clearBtn = new JButton(icon2);
+        clearBtn = new JButton(clearGraphIcon);
         //clearBtn.setFont(Tools.getFont(14));
         //clearBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         //clearBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
@@ -124,15 +132,9 @@ public class MenuPanel extends JPanel {
             parent.getMainPanel().onNewGraphImport();
         });
         MAIN_PANEL.add(clearBtn);
-    
-    
-        ImageIcon icon3 = null;
-        try {
-            icon3 = createImageIcon("resources/vector.png", 35, 30);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        addNodeBtn = new JButton(icon3);
+        
+        
+        addNodeBtn = new JButton(addNodeIcon);
         addNodeBtn.setFont(Tools.getFont(14));
         addNodeBtn.setToolTipText("Adds a new node to graph");
         //addNodeBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -187,31 +189,20 @@ public class MenuPanel extends JPanel {
             System.out.println("new node added");
         });
         MAIN_PANEL.add(addNodeBtn);
+    
+    
+        // separator
+        MAIN_PANEL.add(new JLabel("   "));
         
         
-        
-        // HISTORY PANEL
-        
-        //JPanel historyOptionsPnl = new JPanel();
-        //historyOptionsPnl.setOpaque(false);
-        //historyOptionsPnl.setLayout(new BoxLayout(historyOptionsPnl, BoxLayout.Y_AXIS));
-        //MAIN_PANEL.add(historyOptionsPnl);
-        
-        //JLabel historyOptionsTitle = new JLabel(" History and simulation options ");
-        //historyOptionsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //historyOptionsTitle.setFont(Tools.getBoldFont(14));
-        //historyOptionsPnl.add(getSeparator());
-        //historyOptionsPnl.add(historyOptionsTitle);
-        //historyOptionsPnl.add(getSeparator());
-        
-        pauseBtn = new JButton("CONTINUE");
-        pauseBtn.setFont(Tools.getFont(14));
+        pauseBtn = new JButton(playIcon);
         pauseBtn.setToolTipText("Pause or continue simulation.");
-        pauseBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pauseBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        pauseBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        pauseBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //pauseBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //pauseBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //pauseBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
+        //pauseBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
         pauseBtn.setEnabled(false);
+        var playOrPause = new Object() { boolean play = false; };
         pauseBtn.addActionListener(a -> {
             // Thread safe atomic boolean flip
             // flip the value of PAUSE
@@ -245,19 +236,16 @@ public class MenuPanel extends JPanel {
             synchronized (AlgorithmController.PAUSE_LOCK) {
                 AlgorithmController.PAUSE_LOCK.notify();
             }
-            pauseBtn.setText(pauseBtn.getText().equals("CONTINUE") ? "PAUSE" : "CONTINUE");
+            pauseBtn.setIcon(AlgorithmController.PAUSE.get() ? playIcon : pauseIcon);
+            //playOrPause.play = !playOrPause.play;
         });
         MAIN_PANEL.add(pauseBtn);
         
-        //JPanel leftRightPnl = new JPanel();
-        //leftRightPnl.setOpaque(false);
-        //leftRightPnl.setLayout(new FlowLayout());
-        //historyOptionsPnl.add(leftRightPnl);
-    
+        
         prevBtn = new JButton("<");
         prevBtn.setFont(Tools.getFont(14));
         prevBtn.setToolTipText("Previous round");
-        prevBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
+        //prevBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
         prevBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         prevBtn.setEnabled(false);
         prevBtn.addActionListener(a -> {
@@ -269,7 +257,7 @@ public class MenuPanel extends JPanel {
         nextBtn = new JButton(">");
         nextBtn.setFont(Tools.getFont(14));
         nextBtn.setToolTipText("Next round");
-        nextBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
+        //nextBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
         nextBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         nextBtn.setEnabled(false);
         nextBtn.addActionListener(a -> {
