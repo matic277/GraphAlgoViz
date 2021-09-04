@@ -58,11 +58,18 @@ public class SimulationWindow extends Window {
             
             // re-enables buttons and such
             mainPanel.onNewGraphImport();
-            
-            if (!controllerThread.isAlive()) controllerThread.start();
     
             this.graph.setNumberOfInformedNodes(builder.getNumberOfInitiallyInformedNodes());
         });
+        
+        // This stops working if inside completableFuture
+        // stopped working when side menu because top menu
+        // with icons instead of text buttons.
+        // ???
+        if (!controllerThread.isAlive()) {
+            System.out.println("here");
+            controllerThread.start();
+        }
     }
     
     public SimulationPanel getSimulationPanel() { return this.mainPanel.getTopPanel().getSimulationPanel(); }

@@ -29,15 +29,6 @@ public class MenuPanel extends JPanel {
     
     JButton pauseBtn;
     
-    JSlider nodeRadSlider;
-    JSlider edgeOpacitySlider;
-    
-    JCheckBox idDrawerCheckBox;
-    JCheckBox coordDrawerCheckBox;
-    JCheckBox edgeDrawerCheckBox;
-    JCheckBox stateDebugCheckBox;
-    JCheckBox neighborsDebugCheckBox;
-    
     public ImageIcon createImageIcon(String path, int w, int h) throws IOException {
         File f = new File(path);
         assert f.exists();
@@ -302,147 +293,6 @@ public class MenuPanel extends JPanel {
         });
         MAIN_PANEL.add(nextBtn);
         //leftRightPnl.setMaximumSize(new Dimension(150, 45)); // needed to limit height for some reason, or this component gets vertically stretched
-    
-    
-        // DRAWING OPTIONS PANEL
-        /*
-        JPanel drawingOptionsPnl = new JPanel();
-        drawingOptionsPnl.setOpaque(false);
-        drawingOptionsPnl.setLayout(new BoxLayout(drawingOptionsPnl, BoxLayout.Y_AXIS));
-        MAIN_PANEL.add(drawingOptionsPnl);
-        
-        JLabel drawingOptionsTitle = new JLabel(" Graph drawing options ");
-        drawingOptionsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        drawingOptionsTitle.setFont(Tools.getBoldFont(14));
-        drawingOptionsPnl.add(getSeparator());
-        drawingOptionsPnl.add(drawingOptionsTitle);
-        drawingOptionsPnl.add(getSeparator());
-        
-        JLabel sliderInfo = new JLabel("Change node radius");
-        sliderInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sliderInfo.setSize(new Dimension(30, 100));
-        sliderInfo.setFont(Tools.getFont(14));
-        drawingOptionsPnl.add(sliderInfo);
-        
-        int sliderMin = 2, sliderMax = 100;
-        nodeRadSlider = new JSlider(sliderMin, sliderMax, Node.rad);
-        nodeRadSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
-        Hashtable<Integer, JLabel> sliderMap = new Hashtable<>();
-        Font lblFont = Tools.getFont(12);
-        JLabel minLbl = new JLabel(sliderMin+""); minLbl.setFont(lblFont);
-        JLabel maxLbl = new JLabel(sliderMax+""); maxLbl.setFont(lblFont);
-        sliderMap.put(sliderMin, minLbl);
-        sliderMap.put(sliderMax, maxLbl);
-        nodeRadSlider.setLabelTable(sliderMap);
-        nodeRadSlider.setMajorTickSpacing(30);
-        nodeRadSlider.setPaintTicks(true);
-        nodeRadSlider.setPaintLabels(true);
-        nodeRadSlider.setPreferredSize(new Dimension(150, 40));
-        nodeRadSlider.setMaximumSize(new Dimension(150, 40));
-        nodeRadSlider.setMinimumSize(new Dimension(150, 40));
-        nodeRadSlider.setFont(Tools.getFont(14));
-        nodeRadSlider.setEnabled(false);
-        nodeRadSlider.addChangeListener(c -> {
-            Node.rad = nodeRadSlider.getValue();
-            graph.getNodes().forEach(n -> { n.width = nodeRadSlider.getValue(); n.height = nodeRadSlider.getValue(); });
-        });
-        drawingOptionsPnl.add(nodeRadSlider);
-        
-        
-        JLabel sliderInfo2 = new JLabel("Change edge opacity");
-        sliderInfo2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sliderInfo2.setSize(new Dimension(30, 100));
-        sliderInfo2.setFont(Tools.getFont(14));
-        drawingOptionsPnl.add(sliderInfo2);
-    
-        int sliderMin2 = 0, sliderMax2 = 255;
-        edgeOpacitySlider = new JSlider(sliderMin2, sliderMax2, Node.rad);
-        edgeOpacitySlider.setValue(sliderMax2);
-        edgeOpacitySlider.setAlignmentX(Component.CENTER_ALIGNMENT);
-        Hashtable<Integer, JLabel> sliderMap2 = new Hashtable<>();
-        Font lblFont2 = Tools.getFont(12);
-        JLabel minLbl2 = new JLabel(sliderMin2+""); minLbl2.setFont(lblFont2);
-        JLabel maxLbl2 = new JLabel(sliderMax2+""); maxLbl2.setFont(lblFont2);
-        sliderMap2.put(sliderMin2, minLbl2);
-        sliderMap2.put(sliderMax2, maxLbl2);
-        edgeOpacitySlider.setLabelTable(sliderMap2);
-        edgeOpacitySlider.setMajorTickSpacing(30);
-        edgeOpacitySlider.setPaintTicks(true);
-        edgeOpacitySlider.setPaintLabels(true);
-        edgeOpacitySlider.setPreferredSize(new Dimension(150, 40));
-        edgeOpacitySlider.setMaximumSize(new Dimension(150, 40));
-        edgeOpacitySlider.setMinimumSize(new Dimension(150, 40));
-        edgeOpacitySlider.setFont(Tools.getFont(14));
-        edgeOpacitySlider.setEnabled(false);
-        edgeOpacitySlider.addChangeListener(c -> Edge.opacity = edgeOpacitySlider.getValue());
-        drawingOptionsPnl.add(edgeOpacitySlider);
-        
-        drawingOptionsPnl.add(getSeparator());
-        
-        JPanel chekcBoxPnl = new JPanel();
-        chekcBoxPnl.setOpaque(false);
-        chekcBoxPnl.setLayout(new BoxLayout(chekcBoxPnl, BoxLayout.Y_AXIS));
-        chekcBoxPnl.setAlignmentX(Component.CENTER_ALIGNMENT);
-        drawingOptionsPnl.add(chekcBoxPnl);
-        
-        idDrawerCheckBox = new JCheckBox("Draw node IDs"); // extra spaces so checkboxes are (almost!) aligned - flow layout sucks
-        idDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        idDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        idDrawerCheckBox.setFont(Tools.getFont(14));
-        idDrawerCheckBox.setEnabled(false);
-        idDrawerCheckBox.addActionListener(a -> {
-            Node.idDrawer = idDrawerCheckBox.isSelected() ?
-                    ComponentDrawer.getIdDrawer() : ComponentDrawer.getNullDrawer();
-        });
-        chekcBoxPnl.add(idDrawerCheckBox);
-        
-        coordDrawerCheckBox = new JCheckBox("Draw node coordinates");
-        coordDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-//        coordDrawerCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
-        coordDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        coordDrawerCheckBox.setFont(Tools.getFont(14));
-        coordDrawerCheckBox.setEnabled(false);
-        coordDrawerCheckBox.addActionListener(a -> {
-            Node.coordDrawer = coordDrawerCheckBox.isSelected() ?
-                    ComponentDrawer.getCoordDrawer() : ComponentDrawer.getNullDrawer();
-        });
-        chekcBoxPnl.add(coordDrawerCheckBox);
-        
-        edgeDrawerCheckBox = new JCheckBox("Draw edges");
-        edgeDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        edgeDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        edgeDrawerCheckBox.setFont(Tools.getFont(14));
-        edgeDrawerCheckBox.setSelected(true);
-        edgeDrawerCheckBox.setEnabled(false);
-        edgeDrawerCheckBox.addActionListener(a -> {
-            graph.drawEdges(edgeDrawerCheckBox.isSelected());
-        });
-        chekcBoxPnl.add(edgeDrawerCheckBox);
-        
-        stateDebugCheckBox = new JCheckBox("Draw states (debug)");
-        stateDebugCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        stateDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        stateDebugCheckBox.setFont(Tools.getFont(14));
-        stateDebugCheckBox.setSelected(false);
-        stateDebugCheckBox.setEnabled(false);
-        stateDebugCheckBox.addActionListener(a -> {
-            Node.stateDebugDrawer = stateDebugCheckBox.isSelected() ?
-                    ComponentDrawer.getStateDebugDrawer() : ComponentDrawer.getNullDrawer();
-        });
-        chekcBoxPnl.add(stateDebugCheckBox);
-        
-        neighborsDebugCheckBox = new JCheckBox("Draw node neighbors");
-        neighborsDebugCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        neighborsDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        neighborsDebugCheckBox.setFont(Tools.getFont(14));
-        neighborsDebugCheckBox.setSelected(false);
-        neighborsDebugCheckBox.setEnabled(false);
-        neighborsDebugCheckBox.addActionListener(a -> {
-            Node.neighborsDrawer = neighborsDebugCheckBox.isSelected() ?
-                    ComponentDrawer.getNeighborsDrawer() : ComponentDrawer.getNullDrawer();
-        });
-        chekcBoxPnl.add(neighborsDebugCheckBox);
-        */
         
     }
     
@@ -472,27 +322,10 @@ public class MenuPanel extends JPanel {
             pauseBtn.setEnabled(false);
             prevBtn.setEnabled(false);
             nextBtn.setEnabled(false);
-    
-            edgeOpacitySlider.setEnabled(false);
-            nodeRadSlider.setEnabled(false);
-            idDrawerCheckBox.setEnabled(false);
-            coordDrawerCheckBox.setEnabled(false);
-            edgeDrawerCheckBox.setEnabled(false);
-            stateDebugCheckBox.setEnabled(false);
-            neighborsDebugCheckBox.setEnabled(false);
             return;
         }
-        
         pauseBtn.setEnabled(true);
         prevBtn.setEnabled(true);
         nextBtn.setEnabled(true);
-    
-        edgeOpacitySlider.setEnabled(true);
-        nodeRadSlider.setEnabled(true);
-        idDrawerCheckBox.setEnabled(true);
-        coordDrawerCheckBox.setEnabled(true);
-        edgeDrawerCheckBox.setEnabled(true);
-        stateDebugCheckBox.setEnabled(true);
-        neighborsDebugCheckBox.setEnabled(true);
     }
 }
