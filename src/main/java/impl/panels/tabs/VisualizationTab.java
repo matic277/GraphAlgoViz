@@ -207,7 +207,7 @@ public class VisualizationTab extends JPanel {
     
         idDrawerCheckBox = new JCheckBox("Draw node IDs"); // extra spaces so checkboxes are (almost!) aligned - flow layout sucks
         idDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        idDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
+        //idDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         idDrawerCheckBox.setFont(Tools.getFont(14));
         idDrawerCheckBox.setEnabled(false);
         idDrawerCheckBox.addActionListener(a -> {
@@ -219,7 +219,7 @@ public class VisualizationTab extends JPanel {
         coordDrawerCheckBox = new JCheckBox("Draw node coordinates");
         coordDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 //        coordDrawerCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
-        coordDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
+//        coordDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         coordDrawerCheckBox.setFont(Tools.getFont(14));
         coordDrawerCheckBox.setEnabled(false);
         coordDrawerCheckBox.addActionListener(a -> {
@@ -230,7 +230,7 @@ public class VisualizationTab extends JPanel {
     
         edgeDrawerCheckBox = new JCheckBox("Draw edges");
         edgeDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        edgeDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
+        //edgeDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         edgeDrawerCheckBox.setFont(Tools.getFont(14));
         edgeDrawerCheckBox.setSelected(true);
         edgeDrawerCheckBox.setEnabled(false);
@@ -241,7 +241,7 @@ public class VisualizationTab extends JPanel {
     
         stateDebugCheckBox = new JCheckBox("Draw states (debug)");
         stateDebugCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        stateDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
+        //stateDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         stateDebugCheckBox.setFont(Tools.getFont(14));
         stateDebugCheckBox.setSelected(false);
         stateDebugCheckBox.setEnabled(false);
@@ -253,7 +253,7 @@ public class VisualizationTab extends JPanel {
     
         neighborsDebugCheckBox = new JCheckBox("Draw node neighbors");
         neighborsDebugCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        neighborsDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
+        //neighborsDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
         neighborsDebugCheckBox.setFont(Tools.getFont(14));
         neighborsDebugCheckBox.setSelected(false);
         neighborsDebugCheckBox.setEnabled(false);
