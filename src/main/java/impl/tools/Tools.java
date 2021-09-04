@@ -23,6 +23,11 @@ public class Tools {
     public static final Color MEUN_COLORS = Color.decode("#E0DDDD");
     public static final Color TITLE_BACKGROUND = new Color(213, 216, 222);
     
+    public static final Color UI_BORDER_COLOR_STANDARD = Color.darkGray.brighter();
+    public static final Border UI_BORDER_STANDARD = BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(1,1,1,1, new Color(0,0,0,0)),
+            BorderFactory.createMatteBorder(1,1,1,1, UI_BORDER_COLOR_STANDARD));
+    
     
     public static final Dimension MENU_BUTTON_SIZE = new Dimension(55, 37);
     public static final Dimension MENU_BUTTON_SIZE_WIDE = new Dimension(114, 37);

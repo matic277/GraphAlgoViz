@@ -22,6 +22,9 @@ public class SimulationPanel extends JPanel {
     public AffineTransform atx = new AffineTransform();
     SimulationPanelListener listener;
     
+    private final Color BG_COLOR = new Color(45, 45, 45);
+    private final Color INFO_BG_COLOR = new Color(70, 70, 80);
+    
     // potential edge drawing
     Node edgeSourceNode;
     
@@ -36,7 +39,6 @@ public class SimulationPanel extends JPanel {
         this.setLayout(null);
         this.setOpaque(true);
         this.setVisible(true);
-        this.setBackground(Color.red);
         
         listener = new SimulationPanelListener(this);
         this.addMouseMotionListener(listener);
@@ -68,26 +70,26 @@ public class SimulationPanel extends JPanel {
         gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         
-        gr.setColor(Tools.bgColor);
+        gr.setColor(BG_COLOR);
         gr.fillRect(0, 0, getWidth(), getHeight());
         
         drawComponents(gr);
         
         gr.setFont(Tools.getMonospacedFont(14));
         
+        // mouse + lines
+        gr.setColor(Color.BLACK);
+        gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
+        gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
         // mouse
         gr.setColor(Color.red);
         gr.fillRect((int)mouse.getX()-2, (int)mouse.getY()-2, 4, 4);
         gr.setColor(Color.BLACK);
         gr.drawString("["+(int)mouse.getX()+","+(int)mouse.getY()+"]", (int)mouse.getX() + 3, (int)mouse.getY()-6);
-        // mouse + lines
-        gr.setColor(Color.BLACK);
-        gr.drawLine(0, (int)mouse.getY(), getWidth(), (int)mouse.getY());
-        gr.drawLine((int)mouse.getX(), 0, (int)mouse.getX(), getHeight());
         
-        gr.setColor(Color.white);
+        gr.setColor(INFO_BG_COLOR);
         gr.fillRoundRect(getWidth()-150, 5, 145, 110, 10, 10);
-        gr.setColor(Color.DARK_GRAY);
+        gr.setColor(Color.black);
         gr.drawRoundRect(getWidth()-150, 5, 145, 110, 10, 10);
         gr.drawString("status: " + (AlgorithmController.PAUSE.get() && !AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.get() ? "PAUSED" : "RUNNING"),
                 getWidth()-140,
@@ -101,7 +103,7 @@ public class SimulationPanel extends JPanel {
         gr.drawString("states: " + AlgorithmController.totalStates,
                 getWidth()-140,
                 85);
-        gr.drawString("FPS: " + currentFps,
+        gr.drawString("FPS:    " + currentFps,
                 getWidth()-140,
                 105);
         

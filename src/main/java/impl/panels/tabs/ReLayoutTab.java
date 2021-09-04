@@ -24,7 +24,7 @@ public class ReLayoutTab extends JPanel {
         this.parent = parent;
         this.graph = MyGraph.getInstance();
         
-        this.setBackground(Tools.GRAY3);
+        //this.setBackground(Tools.GRAY3);
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         
         initInterface();

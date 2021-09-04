@@ -22,20 +22,20 @@ public class TabsPanel extends JTabbedPane {
         this.parent = parent;
         this.graph = MyGraph.getInstance();
         
-        this.setBackground(Tools.GRAY3);
+        //this.setBackground(Tools.GRAY3);
         this.setFont(Tools.getFont(14));
         
         historyTab = new StateHistoryTab(this);
         this.addTab("State history", historyTab);
-        this.setBackgroundAt(0, Tools.GRAY3);
+        //this.setBackgroundAt(0, Tools.GRAY3);
     
         layoutTab = new ReLayoutTab(this);
         this.addTab("Graph layout", layoutTab);
-        this.setBackgroundAt(1, Tools.GRAY3);
+        //this.setBackgroundAt(1, Tools.GRAY3);
     
         visualizationTab = new VisualizationTab(this);
         this.addTab(visualizationTab.getNameOfTab(), visualizationTab);
-        this.setBackgroundAt(2, Tools.GRAY3);
+        //this.setBackgroundAt(2, Tools.GRAY3);
         
         // Set min width, so that LeftPanel can't get stretched out too much.
         // Needed because JSplitPane does not respect maxSize, but one minSize

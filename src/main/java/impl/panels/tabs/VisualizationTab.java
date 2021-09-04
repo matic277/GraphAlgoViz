@@ -33,7 +33,7 @@ public class VisualizationTab extends JPanel {
         this.graph = MyGraph.getInstance();
         
         this.setOpaque(true);
-        this.setBackground(Tools.GRAY3);
+        //this.setBackground(Tools.GRAY3);
 //        WrapLayout layout = new WrapLayout(WrapLayout.LEFT);
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         

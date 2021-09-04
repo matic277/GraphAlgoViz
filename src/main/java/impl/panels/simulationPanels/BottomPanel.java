@@ -30,7 +30,7 @@ public class BottomPanel extends JSplitPane {
         
         this.setLeftComponent(statsPanel);
         this.setRightComponent(tabPanel);
-        this.setBackground(Tools.GRAY3);
+        //this.setBackground(Tools.GRAY3);
         
         // set location of divider, so that width
         // of statsPanel is set to initial state
@@ -53,6 +53,8 @@ public class BottomPanel extends JSplitPane {
 //        };
 //        this.setBorder(null);
 //        this.setUI(divider);
+    
+        this.setBorder(Tools.UI_BORDER_STANDARD);
 
         this.setDividerSize(5);
     }

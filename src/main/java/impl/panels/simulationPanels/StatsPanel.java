@@ -49,16 +49,19 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.setBackground(Tools.GRAY3);
+        //mainPanel.setBackground(Tools.GRAY3);
         
-        JLabel title = new JLabel(" Graph statistics");
+        
+        
+        JLabel title = new JLabel(" Graph statistics", SwingConstants.CENTER);
+        //title.setHorizontalTextPosition(SwingConstants.RIGHT); // does not work, but in setting in constructor works, go figure
         title.setFont(Tools.getBoldFont(14));
         title.setOpaque(true);
-        title.setBackground(Tools.GRAY2);
+        //title.setBackground(Tools.RED);
         title.setAlignmentX(Component.LEFT_ALIGNMENT);
         title.setPreferredSize(new Dimension(title.getPreferredSize().width, 30));
         title.setBorder(new MatteBorder(0, 0, 1, 0, Color.lightGray));
-    
+        
         initTable();
         
         JPanel tablePanel = new JPanel();

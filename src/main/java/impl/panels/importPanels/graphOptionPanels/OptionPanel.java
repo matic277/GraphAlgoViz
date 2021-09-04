@@ -31,9 +31,11 @@ public abstract class OptionPanel extends JPanel {
         this.setMaximumSize(panelSize);
         
         this.setOpaque(true);
-        this.setBackground(Tools.bgColor);
+        //this.setBackground(Tools.bgColor);
         
         this.components = new ArrayList<>(10);
+        
+        //this.setBorder(Tools.UI_BORDER_STANDARD);
     }
     
     @Override
@@ -45,11 +47,11 @@ public abstract class OptionPanel extends JPanel {
         gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         
-        g.setColor(Tools.GRAY3);
-        gr.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
+        //g.setColor(Tools.GRAY3);
+        //gr.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
         
-        gr.setColor(Tools.GRAY);
-        gr.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
+        gr.setColor(Tools.UI_BORDER_COLOR_STANDARD);
+        gr.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 30, 30);
     }
     
     protected void signalBadInput(String errorMsg, JLabel errorLbl) {

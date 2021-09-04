@@ -44,7 +44,7 @@ public class ImportGraphPanel extends JPanel {
         this.parent = parent;
         
         this.setOpaque(true);
-        this.setBackground(Tools.bgColor);
+        //this.setBackground(Tools.bgColor);
         this.setPreferredSize(Tools.INITIAL_IMPORT_WINDOW_SIZE);
         this.setLayout(new BorderLayout());
         
@@ -68,7 +68,7 @@ public class ImportGraphPanel extends JPanel {
         
         
         JPanel container = new JPanel();
-        container.setBackground(Tools.bgColor);
+        //container.setBackground(Tools.bgColor);
         importBtn = new JButton("Import");
         importBtn.setFont(Tools.getFont(14));
         importBtn.setPreferredSize(new Dimension(200, 35));
@@ -88,12 +88,12 @@ public class ImportGraphPanel extends JPanel {
         middlePanel.add(dropdownPanel, BorderLayout.NORTH);
         
         layoutTypePanel = new JPanel();
-        layoutTypePanel.setBackground(Tools.bgColor);
+        //layoutTypePanel.setBackground(Tools.bgColor);
         layoutTypePanel.setLayout(new BoxLayout(layoutTypePanel, BoxLayout.Y_AXIS));
         dropdownPanel.add(layoutTypePanel, BorderLayout.NORTH);
         
         graphTypePanel = new JPanel();
-        graphTypePanel.setBackground(Tools.bgColor);
+        //graphTypePanel.setBackground(Tools.bgColor);
         graphTypePanel.setLayout(new BoxLayout(graphTypePanel, BoxLayout.Y_AXIS));
         dropdownPanel.add(graphTypePanel, BorderLayout.CENTER);
         
@@ -118,7 +118,7 @@ public class ImportGraphPanel extends JPanel {
         selectLayoutText = new JLabel(" Select type of layout:");
         selectLayoutText.setFont(Tools.getFont(14));
         selectLayoutText.setAlignmentX(Component.CENTER_ALIGNMENT);
-    
+        
         layoutTypeDropdown = new JComboBox<>(LayoutType.values());
         ((JLabel)layoutTypeDropdown.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         layoutTypeDropdown.setFont(Tools.getFont(14));
@@ -167,22 +167,22 @@ public class ImportGraphPanel extends JPanel {
         titlePanel = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                
                 Graphics2D gr = (Graphics2D) g;
                 // anti-aliasing
                 gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                 
-                gr.setStroke(new BasicStroke(2f));
-                g.setColor(Tools.bgColor);
-                g.fillRect(0, 0, getWidth(), getHeight());
-        
                 gr.setColor(Color.BLACK);
+                gr.setStroke(new BasicStroke(2f));
+                
                 gr.fillRoundRect(75, 89, 346, 50, 12, 12);
                 gr.drawRoundRect(75, 34, 346, 102, 12, 12);
                 gr.fillRect(75, 80, 346, 20);
                 
-//                Tools.sleep(1000 / 60);
-//                super.repaint();
+                Tools.sleep(1000 / 60);
+                super.repaint();
             }
         };
         titlePanel.setLayout(new BorderLayout());
@@ -193,7 +193,7 @@ public class ImportGraphPanel extends JPanel {
         
         titleText2 = new JLabel("Visualizer", SwingUtilities.CENTER);
         titleText2.setFont(getBoldFont(66));
-        titleText2.setForeground(Color.white);
+        //titleText2.setForeground(Color.white);
         titleText2.setVisible(true);
         titleText2.setPreferredSize(new Dimension(300, 60));
         titleText2.setVerticalTextPosition(SwingConstants.TOP);

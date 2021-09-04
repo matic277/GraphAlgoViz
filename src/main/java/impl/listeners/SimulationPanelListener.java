@@ -52,7 +52,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         this.mouse = new Point(0, 0);
         
         nodeInfoLbl.setBounds(0, 0, 100,180);
-        nodeInfoLbl.setBackground(new Color(255, 255, 255, 230));
+        //nodeInfoLbl.setBackground(new Color(255, 255, 255, 230));
         nodeInfoLbl.setBorder(new LineBorder(Color.black, 2));
         nodeInfoLbl.setOpaque(true);
         nodeInfoLbl.setVisible(false);

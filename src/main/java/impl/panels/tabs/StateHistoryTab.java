@@ -29,7 +29,7 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.setMinimumSize(new Dimension(0, 0));
-        this.setBackground(Tools.GRAY3);
+        //this.setBackground(Tools.GRAY3);
         
         JButton firstStateBtn = getNewStateButton(0);
         firstStateBtn.setBorder(SELECTED_BORDER);

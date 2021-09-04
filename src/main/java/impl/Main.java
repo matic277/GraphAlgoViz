@@ -1,5 +1,6 @@
 package impl;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
@@ -45,7 +46,7 @@ public class Main {
 //        } catch (Exception e) {e.printStackTrace();}
         
         // Look and feed
-        FlatLightLaf.setup();
+        FlatDarculaLaf.setup();
         UIManager.put("Button.arc", 10 );
         UIManager.put("Component.arc", 30 );
         UIManager.put("Component.focusWidth", 1);
@@ -56,7 +57,7 @@ public class Main {
 //        UIManager.put( "ScrollBar.thumbInsets", new Insets( 2, 2, 2, 2 ) );
 //        UIManager.put( "TextComponent.arc", 30 );
         
-        try { UIManager.setLookAndFeel( new FlatLightLaf() ); } catch( Exception ex ) {
+        try { UIManager.setLookAndFeel( new FlatDarculaLaf() ); } catch( Exception ex ) {
             System.err.println( "Failed to initialize LaF" );
         }
     

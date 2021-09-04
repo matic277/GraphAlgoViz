@@ -19,7 +19,7 @@ public class FileGraphOptionPanel extends OptionPanel {
     
     private FileGraphOptionPanel(ImportGraphWindow parent) {
         super(parent);
-    
+        
         JPanel container1 = new JPanel();
         container1.setOpaque(false);
         container1.setLayout(new BoxLayout(container1, BoxLayout.Y_AXIS));

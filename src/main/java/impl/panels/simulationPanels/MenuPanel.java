@@ -71,9 +71,11 @@ public class MenuPanel extends JPanel {
         
         JPanel MAIN_PANEL = new JPanel();
         MAIN_PANEL.setOpaque(true);
-        MAIN_PANEL.setBackground(Tools.GRAY3);
+        //MAIN_PANEL.setBackground(Tools.GRAY3);
         MAIN_PANEL.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.add(MAIN_PANEL, BorderLayout.CENTER);
+        
+        this.setBorder(Tools.UI_BORDER_STANDARD);
         
         //JPanel graphOptionsPnl = new JPanel();
         //graphOptionsPnl.setOpaque(false);
@@ -94,7 +96,7 @@ public class MenuPanel extends JPanel {
         ImageIcon clearGraphIcon = null;
         ImageIcon addNodeIcon = null;
         try {
-            importIcon     = createImageIcon("resources/import2.png", iconSize);
+            importIcon     = createImageIcon("resources/import.png",  iconSize);
             clearGraphIcon = createImageIcon("resources/trash.png",   iconSize);
             addNodeIcon    = createImageIcon("resources/vector.png",  iconSize);
             playIcon       = createImageIcon("resources/play.png",    iconSize);
@@ -102,7 +104,10 @@ public class MenuPanel extends JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //FlatPanelUI;
+        
         importBtn = new JButton();
+        //importBtn.setBorderPainted(false);
         importBtn.setIcon(importIcon);
         //importBtn.setFont(Tools.getFont(14));
 //        UIManager.getLookAndFeel().getDefaults().getFont()
@@ -115,7 +120,8 @@ public class MenuPanel extends JPanel {
             SwingUtilities.invokeLater(() -> new ImportGraphWindow(this.parent.getSimulationWindow()));
         });
         MAIN_PANEL.add(importBtn);
-        
+        importBtn.setPreferredSize(new Dimension(iconSize.width+10, iconSize.height+10));
+        //importBtn.setPreferredSize(iconSize);
         
         clearBtn = new JButton(clearGraphIcon);
         //clearBtn.setFont(Tools.getFont(14));
