@@ -45,6 +45,9 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         btn.setPreferredSize(new Dimension(width, height));
         btn.setFont(Tools.getMonospacedFont(14));
         btn.addActionListener(a -> {
+            // Clicking the active button shouldn't do anything
+            if (btn.getBorder() == SELECTED_BORDER) return;
+            
             AlgorithmController.currentStateIndex = stateIndex;
             btn.setBorderPainted(true);
             btn.setBorder(SELECTED_BORDER);

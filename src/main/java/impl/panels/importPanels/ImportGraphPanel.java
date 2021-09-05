@@ -174,26 +174,33 @@ public class ImportGraphPanel extends JPanel {
                 gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                 
+                gr.setColor(Color.white);
+                gr.fillRoundRect(75, 34, 346, 102, 12, 12);
+                
                 gr.setColor(Color.BLACK);
                 gr.setStroke(new BasicStroke(2f));
                 
                 gr.fillRoundRect(75, 89, 346, 50, 12, 12);
                 gr.drawRoundRect(75, 34, 346, 102, 12, 12);
+    
+                gr.setColor(Color.BLACK);
                 gr.fillRect(75, 80, 346, 20);
                 
                 Tools.sleep(1000 / 60);
                 super.repaint();
             }
         };
+        
         titlePanel.setLayout(new BorderLayout());
         titleText1 = new JLabel("Graph  Algorithm", SwingUtilities.CENTER);
+        titleText1.setForeground(Color.black);
         titleText1.setFont(getBoldFont(40));
         titleText1.setVisible(true);
         titlePanel.add(titleText1, BorderLayout.CENTER);
         
         titleText2 = new JLabel("Visualizer", SwingUtilities.CENTER);
         titleText2.setFont(getBoldFont(66));
-        //titleText2.setForeground(Color.white);
+        titleText2.setForeground(Color.white);
         titleText2.setVisible(true);
         titleText2.setPreferredSize(new Dimension(300, 60));
         titleText2.setVerticalTextPosition(SwingConstants.TOP);

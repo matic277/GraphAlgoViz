@@ -7,7 +7,6 @@ import impl.panels.simulationPanels.SimulationPanel;
 import impl.tools.Tools;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -40,7 +39,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     Double dx, dy;
     
     // TODO: these should be in the simWindow or simPanel
-    final JLabel nodeInfoLbl = new JLabel("Empty");
+    final JLabel nodeInfoLbl;
     // inner buttons of nodeInfoLbl
     public final JButton informBtn = new JButton("Inform");
     public final JButton deleteNodeBtn = new JButton("Delete");
@@ -51,16 +50,24 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
         this.initialTransform = panel.atx;
         this.mouse = new Point(0, 0);
         
+        // make it rounded
+        nodeInfoLbl = new JLabel("Empty") {
+            final Color actualBgColor = UIManager.getColor("Panel.background");
+            @Override public void paintComponent(Graphics g) {
+                g.setColor(actualBgColor);
+                g.fillRoundRect(1, 1, this.getWidth()-2, this.getHeight()-2, 15, 15); // these should satisfy nodeInfoLbl.setBorder() arches and vice-versa
+                super.paintComponent(g);
+            }
+        };
+        nodeInfoLbl.setBackground(new Color(0, 0, 0, 0)); // must be set to transparent
         nodeInfoLbl.setBounds(0, 0, 100,180);
-        //nodeInfoLbl.setBackground(new Color(255, 255, 255, 230));
-        nodeInfoLbl.setBorder(new LineBorder(Color.black, 2));
         nodeInfoLbl.setOpaque(true);
         nodeInfoLbl.setVisible(false);
         nodeInfoLbl.setVerticalAlignment(JLabel.TOP);
         nodeInfoLbl.setVerticalTextPosition(JLabel.TOP);
-        nodeInfoLbl.setBorder(new Tools.RoundBorder(Color.black, Tools.BOLD_STROKE, 10));
+        nodeInfoLbl.setBorder(new Tools.RoundBorder(Tools.UI_BORDER_COLOR_STANDARD, Tools.PLAIN_STROKE, 10));
         
-        int innerWidth = 80;
+        int innerWidth  = 90;
         int innerHeight = 30;
         informBtn.setBounds(
                 nodeInfoLbl.getWidth()/2 - innerWidth/2,

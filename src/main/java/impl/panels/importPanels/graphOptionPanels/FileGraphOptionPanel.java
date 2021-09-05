@@ -23,7 +23,7 @@ public class FileGraphOptionPanel extends OptionPanel {
         JPanel container1 = new JPanel();
         container1.setOpaque(false);
         container1.setLayout(new BoxLayout(container1, BoxLayout.Y_AXIS));
-        inputText = new JLabel("Input path to graph file:");
+        inputText = new JLabel("Path to graph file:");
 //        inputText.setOpaque(true);
         inputText.setFont(Tools.getFont(14));
         inputText.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -56,6 +56,7 @@ public class FileGraphOptionPanel extends OptionPanel {
         informedNodesInput = new JTextField();
         informedNodesInput.setPreferredSize(new Dimension(120, informedNodesInput.getPreferredSize().height));
         informedNodesInput.setFont(Tools.getFont(14));
+        informedNodesInput.setHorizontalAlignment(SwingConstants.CENTER);
         informedNodesInput.setAlignmentX(Component.CENTER_ALIGNMENT);
         container2.add(informedNodesInput);
         

@@ -74,7 +74,7 @@ public class MenuPanel extends JPanel {
         JPanel MAIN_PANEL = new JPanel();
         MAIN_PANEL.setOpaque(true);
         //MAIN_PANEL.setBackground(Tools.GRAY3);
-        MAIN_PANEL.setLayout(new FlowLayout(FlowLayout.CENTER));
+        MAIN_PANEL.setLayout(new FlowLayout(FlowLayout.LEADING));
         this.add(MAIN_PANEL, BorderLayout.CENTER);
         
         this.setBorder(Tools.UI_BORDER_STANDARD);

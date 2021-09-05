@@ -66,7 +66,7 @@ public class Tools {
     }
     
     public synchronized static Font getFont(int size) {
-        return regularFontMap.computeIfAbsent(size, k -> new Font("Source sans pro", Font.PLAIN, size));
+        return regularFontMap.computeIfAbsent(size, k -> new Font("Segoe UI", Font.PLAIN, size));
     }
     
     public synchronized static Font getMonospacedFont(int size) {
