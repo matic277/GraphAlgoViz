@@ -53,9 +53,7 @@ public class BottomPanel extends JSplitPane {
 //        };
 //        this.setBorder(null);
 //        this.setUI(divider);
-    
-        this.setBorder(Tools.UI_BORDER_STANDARD);
-
+        
         this.setDividerSize(5);
     }
     

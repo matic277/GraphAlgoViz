@@ -76,6 +76,8 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         // so that this panel can be squished, hiding its components
         // otherwise components dictate smallest possible size
         this.setMinimumSize(new Dimension(0, 0));
+    
+        this.setBorder(Tools.UI_BORDER_STANDARD);
     }
     
     public void initTable() {

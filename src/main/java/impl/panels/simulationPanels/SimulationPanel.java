@@ -28,9 +28,12 @@ public class SimulationPanel extends JPanel {
     // potential edge drawing
     Node edgeSourceNode;
     
-//    final long FPS = 1000L / 144L; // 144FPS
-    
     NumberFormat formatter = new DecimalFormat(); { formatter.setMaximumFractionDigits(2); }
+    
+    // FPS measuring vars
+    private final int FPS = 1000 / 144;
+    private AtomicInteger fpsCounter = new AtomicInteger(0);
+    private int currentFps = 0;
     
     public SimulationPanel(TopPanel parent) {
         this.parent = parent;
@@ -53,10 +56,21 @@ public class SimulationPanel extends JPanel {
                 fpsCounter.set(0);
             }
         }).start();
+        
+        
+        // inner is standard, but outer is the same as background,
+        // otherwise there is a small space between inner border and outer window
+        
+        //  fill this area
+        //     ˇ
+        // | panel | panel.... .... panel | panel |
+        // ^                              ^
+        // window border                inner border
+        
+        this.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(1,1,1,1, this.getBackground()),
+                BorderFactory.createMatteBorder(1,1,1,1, Tools.UI_BORDER_COLOR_STANDARD)));
     }
-    
-    private AtomicInteger fpsCounter = new AtomicInteger(0);
-    private int currentFps = 0;
     
     @Override
     public void paintComponent(Graphics g) {
@@ -109,8 +123,13 @@ public class SimulationPanel extends JPanel {
         
         fpsCounter.incrementAndGet();
         
-        long td = System.currentTimeMillis() - t0;
-//        super.repaint(td > FPS ? 0 : td);
+        long t1 = System.currentTimeMillis() - t0;
+        
+        if (t1 < FPS) {
+            try { Thread.sleep(FPS - t1); }
+            catch (Exception e) { e.printStackTrace(); }
+        }
+        
         super.repaint();
     }
     

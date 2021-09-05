@@ -40,11 +40,9 @@ public class VisualizationTab extends JPanel {
         JPanel selectedColorInfoContainer = new JPanel();
         selectedColorInfoContainer.setLayout(new BorderLayout());
         selectedColorInfoContainer.setOpaque(true);
-        selectedColorInfoContainer.setBackground(Tools.GRAY2);
         
         JLabel selectedColorTitle = new JLabel("Selected color");
         selectedColorTitle.setFont(Tools.getFont(14));
-        selectedColorTitle.setBackground(Tools.TITLE_BACKGROUND);
         selectedColorTitle.setHorizontalAlignment(SwingConstants.CENTER);
         
         JPanel selectedColorContainer = new JPanel();
@@ -58,7 +56,6 @@ public class VisualizationTab extends JPanel {
         
         JLabel selectedColorInfo = new JLabel();
         selectedColorInfo.setOpaque(true);
-        selectedColorInfo.setBackground(Color.white);
         selectedColorInfo.setBorder(new LineBorder(Color.black, 1));
         selectedColorInfo.setPreferredSize(new Dimension(100, 112));
         selectedColorInfo.setMaximumSize(new Dimension(50, 112));
@@ -74,8 +71,7 @@ public class VisualizationTab extends JPanel {
             if (i != 1) color.removeChooserPanel(panels[i]);
         }
         AbstractColorChooserPanel colorPanel = panels[1];
-        colorPanel.setBorder(new LineBorder(Color.black, 1));
-        colorPanel.setBackground(Tools.GRAY2);
+        colorPanel.setBorder(Tools.UI_BORDER_STANDARD);
         colorPanel.getColorSelectionModel().addChangeListener(c -> {
             selectedColorInfo.setBackground(colorPanel.getColorSelectionModel().getSelectedColor());
             this.repaint(); // needed otherwise selectedColorInfo gets a little glitchy
@@ -100,19 +96,19 @@ public class VisualizationTab extends JPanel {
         JPanel btnContainer = new JPanel();
         btnContainer.setLayout(new BorderLayout());
         btnContainer.setOpaque(true);
-        btnContainer.setBackground(Tools.GRAY2);
         btnContainer.add(setInformedClrBtn, BorderLayout.NORTH);
         btnContainer.add(setUninformedClrBtn, BorderLayout.CENTER);
         btnContainer.add(setEdgeClrBtn, BorderLayout.SOUTH);
         
         JPanel container = new JPanel();
-        container.setBorder(new LineBorder(Color.black, 1));
+        container.setBorder(Tools.UI_BORDER_STANDARD);
         container.setLayout(new BorderLayout());
         container.setOpaque(true);
-        container.setBackground(Tools.GRAY2);
         
         container.add(selectedColorInfoContainer, BorderLayout.NORTH);
-        container.add(new JLabel(" "), BorderLayout.CENTER); // space
+        JLabel spacer3 = new JLabel(" ");
+        spacer3.setOpaque(true);
+        container.add(spacer3, BorderLayout.CENTER); // spacer
         container.add(btnContainer, BorderLayout.SOUTH);
         
         container.setPreferredSize(new Dimension(container.getPreferredSize().width, colorPanel.getPreferredSize().height));

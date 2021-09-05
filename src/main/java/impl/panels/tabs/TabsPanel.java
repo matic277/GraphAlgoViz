@@ -36,6 +36,8 @@ public class TabsPanel extends JTabbedPane {
         visualizationTab = new VisualizationTab(this);
         this.addTab(visualizationTab.getNameOfTab(), visualizationTab);
         //this.setBackgroundAt(2, Tools.GRAY3);
+    
+        this.setBorder(Tools.UI_BORDER_STANDARD);
         
         // Set min width, so that LeftPanel can't get stretched out too much.
         // Needed because JSplitPane does not respect maxSize, but one minSize
