@@ -203,7 +203,7 @@ public class MenuPanel extends JPanel {
         pauseBtn = new FlatButton();
         pauseBtn.setIcon(playIcon);
         pauseBtn.setBorderPainted(false);
-        pauseBtn.setToolTipText("Pause or continue simulation.");
+        pauseBtn.setToolTipText("Start or stop simulation.");
         //pauseBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         //pauseBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
         //pauseBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);

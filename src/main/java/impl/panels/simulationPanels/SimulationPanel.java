@@ -23,7 +23,7 @@ public class SimulationPanel extends JPanel {
     SimulationPanelListener listener;
     
     private final Color BG_COLOR = new Color(45, 45, 45);
-    private final Color INFO_BG_COLOR = new Color(70, 70, 80);
+    private final Color INFO_BG_COLOR = UIManager.getColor("Panel.background");
     
     // potential edge drawing
     Node edgeSourceNode;
@@ -89,7 +89,7 @@ public class SimulationPanel extends JPanel {
         
         drawComponents(gr);
         
-        gr.setFont(Tools.getMonospacedFont(14));
+        gr.setFont(Tools.getMonospacedFont(12));
         
         // mouse + lines
         gr.setColor(Color.BLACK);
@@ -102,9 +102,10 @@ public class SimulationPanel extends JPanel {
         gr.drawString("["+(int)mouse.getX()+","+(int)mouse.getY()+"]", (int)mouse.getX() + 3, (int)mouse.getY()-6);
         
         gr.setColor(INFO_BG_COLOR);
-        gr.fillRoundRect(getWidth()-150, 5, 145, 110, 10, 10);
-        gr.setColor(Color.black);
-        gr.drawRoundRect(getWidth()-150, 5, 145, 110, 10, 10);
+        gr.fillRoundRect(getWidth()-151, 5, 145, 110, 10, 10);
+        gr.setColor(Tools.UI_BORDER_COLOR_STANDARD);
+        gr.drawRoundRect(getWidth()-151, 5, 145, 110, 10, 10);
+        gr.setColor(Color.white);
         gr.drawString("status: " + (AlgorithmController.PAUSE.get() && !AlgorithmController.NEXT_ROUND_BUTTON_PRESSED.get() ? "PAUSED" : "RUNNING"),
                 getWidth()-140,
                 25);
@@ -122,14 +123,11 @@ public class SimulationPanel extends JPanel {
                 105);
         
         fpsCounter.incrementAndGet();
-        
         long t1 = System.currentTimeMillis() - t0;
-        
         if (t1 < FPS) {
             try { Thread.sleep(FPS - t1); }
             catch (Exception e) { e.printStackTrace(); }
         }
-        
         super.repaint();
     }
     
