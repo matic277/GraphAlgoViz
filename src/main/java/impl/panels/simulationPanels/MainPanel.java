@@ -1,5 +1,6 @@
 package impl.panels.simulationPanels;
 
+import impl.MyGraph;
 import impl.tools.Tools;
 import impl.windows.SimulationWindow;
 
@@ -20,6 +21,8 @@ public class MainPanel extends JSplitPane {
     public MainPanel(SimulationWindow parent) {
         super(VERTICAL_SPLIT, null, null);
         this.parent = parent;
+    
+        MyGraph.getInstance().setMainPanel(this);
         
         this.setSize(parent.getInitialWindowSize());
         this.setPreferredSize(parent.getInitialWindowSize());

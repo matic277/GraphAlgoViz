@@ -176,6 +176,15 @@ public class MenuPanel extends JPanel {
             // node inserts?
             graph.addNode(newNode);
             simWindow.getAlgorithmController().addNewNode(newNode);
+    
+            // if this is the first node added, then
+            // pretend as if a graph was imported
+            if (graph.getNodes().size() == 1) {
+                Thread controllerThread = parent.parent.getSimulationWindow().getControllerThread(); // All of this is kinda fishy
+                if (!controllerThread.isAlive()) controllerThread.start();
+                parent.parent.onNewGraphImport();
+                graph.drawEdges(true);
+            }
             
             // TODO
             //  calling onNewGraphImport is convient but not nice

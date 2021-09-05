@@ -4,6 +4,7 @@ import core.ComponentDrawer;
 import core.Drawable;
 import core.GraphChangeObserver;
 import core.GraphObservable;
+import impl.panels.simulationPanels.MainPanel;
 import impl.tools.Edge;
 import impl.tools.Tools;
 import org.jgrapht.Graph;
@@ -25,12 +26,16 @@ public class MyGraph implements Drawable, GraphObservable {
     public int numOfNodes = 0;
     private static int nextId = -1;
     
+    private MainPanel mainPanel;
+    
     public AtomicInteger informedNodes = new AtomicInteger(0);
     
     ListenableGraph<Node, DefaultEdge> graph = new DefaultListenableGraph<>(new DefaultUndirectedGraph<>(DefaultEdge.class));
     
     private ComponentDrawer edgeDrawer = ComponentDrawer.getNullDrawer();
     
+    // is this lock necessary? if this is a singleton, the just
+    // synchronize(this) {}, or just add synchronize to needed methods...
     public static final Object LOCK = new Object();
     
     // singleton
@@ -134,6 +139,13 @@ public class MyGraph implements Drawable, GraphObservable {
         boolean removed = this.graph.removeVertex(node);
         System.out.println("REMOVING NODE="+node+"="+removed);
         observers.forEach(GraphChangeObserver::onNodeDeleted);
+        numOfNodes--;
+        
+        // there are no more nodes left
+        if (numOfNodes == 0) {
+            mainPanel.onNewGraphImport();
+            drawEdges(false);
+        }
     }}
     
     public void addNode(Node n) { synchronized (LOCK) {
@@ -184,4 +196,6 @@ public class MyGraph implements Drawable, GraphObservable {
     public void setNumberOfInformedNodes(int num) { this.informedNodes.set(num); this.onInformedNodesChange(); }
     
     public int getNumberOfInformedNodes() { return this.informedNodes.get(); }
+    
+    public void setMainPanel(MainPanel mainPanel) { this.mainPanel = mainPanel; }
 }

@@ -77,4 +77,6 @@ public class SimulationWindow extends Window {
     public AlgorithmController getAlgorithmController() { return this.algoController; }
     
     public MainPanel getMainPanel() { return this.mainPanel; }
+    
+    public Thread getControllerThread() { return  this.controllerThread; }
 }
