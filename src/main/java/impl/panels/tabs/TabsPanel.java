@@ -22,9 +22,6 @@ public class TabsPanel extends JTabbedPane {
         this.parent = parent;
         this.graph = MyGraph.getInstance();
         
-        //this.setBackground(Tools.GRAY3);
-        this.setFont(Tools.getFont(14));
-        
         historyTab = new StateHistoryTab(this);
         this.addTab("State history", historyTab);
         //this.setBackgroundAt(0, Tools.GRAY3);

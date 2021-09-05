@@ -42,7 +42,6 @@ public class VisualizationTab extends JPanel {
         selectedColorInfoContainer.setOpaque(true);
         
         JLabel selectedColorTitle = new JLabel("Selected color");
-        selectedColorTitle.setFont(Tools.getFont(14));
         selectedColorTitle.setHorizontalAlignment(SwingConstants.CENTER);
         
         JPanel selectedColorContainer = new JPanel();
@@ -56,7 +55,7 @@ public class VisualizationTab extends JPanel {
         
         JLabel selectedColorInfo = new JLabel();
         selectedColorInfo.setOpaque(true);
-        selectedColorInfo.setBorder(new LineBorder(Color.black, 1));
+        selectedColorInfo.setBorder(new LineBorder(Tools.UI_BORDER_COLOR_STANDARD, 1));
         selectedColorInfo.setPreferredSize(new Dimension(100, 112));
         selectedColorInfo.setMaximumSize(new Dimension(50, 112));
         
@@ -72,23 +71,21 @@ public class VisualizationTab extends JPanel {
         }
         AbstractColorChooserPanel colorPanel = panels[1];
         colorPanel.setBorder(Tools.UI_BORDER_STANDARD);
+        
         colorPanel.getColorSelectionModel().addChangeListener(c -> {
             selectedColorInfo.setBackground(colorPanel.getColorSelectionModel().getSelectedColor());
             this.repaint(); // needed otherwise selectedColorInfo gets a little glitchy
         });
         
         JButton setInformedClrBtn = new JButton("Set color as informed");
-        setInformedClrBtn.setFont(Tools.getFont(14));
         setInformedClrBtn.addActionListener(a -> {
             Node.INFORMED_COLOR = colorPanel.getColorSelectionModel().getSelectedColor();
         });
         JButton setUninformedClrBtn = new JButton("Set color as uninformed");
-        setUninformedClrBtn.setFont(Tools.getFont(14));
         setUninformedClrBtn.addActionListener(a -> {
             Node.UNINFORMED_COLOR = colorPanel.getColorSelectionModel().getSelectedColor();
         });
         JButton setEdgeClrBtn = new JButton("Set color as edge color");
-        setEdgeClrBtn.setFont(Tools.getFont(14));
         setEdgeClrBtn.addActionListener(a -> {
             Edge.EDGE_COLOR = colorPanel.getColorSelectionModel().getSelectedColor();
         });
@@ -129,15 +126,14 @@ public class VisualizationTab extends JPanel {
         JLabel sliderInfo = new JLabel("Change node radius");
         sliderInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
         sliderInfo.setSize(new Dimension(30, 100));
-        sliderInfo.setFont(Tools.getFont(14));
+        //sliderInfo.setFont(Tools.getFont(14));
         
         int sliderMin = 2, sliderMax = 100;
         nodeRadSlider = new JSlider(sliderMin, sliderMax, Node.rad);
         nodeRadSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
         Hashtable<Integer, JLabel> sliderMap = new Hashtable<>();
-        Font lblFont = Tools.getFont(12);
-        JLabel minLbl = new JLabel(sliderMin+""); minLbl.setFont(lblFont);
-        JLabel maxLbl = new JLabel(sliderMax+""); maxLbl.setFont(lblFont);
+        JLabel minLbl = new JLabel(sliderMin+"");
+        JLabel maxLbl = new JLabel(sliderMax+"");
         sliderMap.put(sliderMin, minLbl);
         sliderMap.put(sliderMax, maxLbl);
         nodeRadSlider.setLabelTable(sliderMap);
@@ -147,7 +143,6 @@ public class VisualizationTab extends JPanel {
         nodeRadSlider.setPreferredSize(new Dimension(150, 40));
         nodeRadSlider.setMaximumSize(new Dimension(150, 40));
         nodeRadSlider.setMinimumSize(new Dimension(150, 40));
-        nodeRadSlider.setFont(Tools.getFont(14));
         nodeRadSlider.setEnabled(false);
         nodeRadSlider.addChangeListener(c -> {
             Node.rad = nodeRadSlider.getValue();
@@ -167,16 +162,14 @@ public class VisualizationTab extends JPanel {
         JLabel sliderInfo = new JLabel("Change edge opacity");
         sliderInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
         sliderInfo.setSize(new Dimension(30, 100));
-        sliderInfo.setFont(Tools.getFont(14));
         
         int sliderMin2 = 0, sliderMax2 = 255;
         edgeOpacitySlider = new JSlider(sliderMin2, sliderMax2, Node.rad);
         edgeOpacitySlider.setValue(sliderMax2);
         edgeOpacitySlider.setAlignmentX(Component.CENTER_ALIGNMENT);
         Hashtable<Integer, JLabel> sliderMap2 = new Hashtable<>();
-        Font lblFont2 = Tools.getFont(12);
-        JLabel minLbl2 = new JLabel(sliderMin2+""); minLbl2.setFont(lblFont2);
-        JLabel maxLbl2 = new JLabel(sliderMax2+""); maxLbl2.setFont(lblFont2);
+        JLabel minLbl2 = new JLabel(sliderMin2+"");
+        JLabel maxLbl2 = new JLabel(sliderMax2+"");
         sliderMap2.put(sliderMin2, minLbl2);
         sliderMap2.put(sliderMax2, maxLbl2);
         edgeOpacitySlider.setLabelTable(sliderMap2);
@@ -186,7 +179,6 @@ public class VisualizationTab extends JPanel {
         edgeOpacitySlider.setPreferredSize(new Dimension(150, 40));
         edgeOpacitySlider.setMaximumSize(new Dimension(150, 40));
         edgeOpacitySlider.setMinimumSize(new Dimension(150, 40));
-        edgeOpacitySlider.setFont(Tools.getFont(14));
         edgeOpacitySlider.setEnabled(false);
         edgeOpacitySlider.addChangeListener(c -> Edge.opacity = edgeOpacitySlider.getValue());
     
@@ -203,8 +195,6 @@ public class VisualizationTab extends JPanel {
     
         idDrawerCheckBox = new JCheckBox("Draw node IDs"); // extra spaces so checkboxes are (almost!) aligned - flow layout sucks
         idDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        //idDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        idDrawerCheckBox.setFont(Tools.getFont(14));
         idDrawerCheckBox.setEnabled(false);
         idDrawerCheckBox.addActionListener(a -> {
             Node.idDrawer = idDrawerCheckBox.isSelected() ?
@@ -214,9 +204,6 @@ public class VisualizationTab extends JPanel {
     
         coordDrawerCheckBox = new JCheckBox("Draw node coordinates");
         coordDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-//        coordDrawerCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
-//        coordDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        coordDrawerCheckBox.setFont(Tools.getFont(14));
         coordDrawerCheckBox.setEnabled(false);
         coordDrawerCheckBox.addActionListener(a -> {
             Node.coordDrawer = coordDrawerCheckBox.isSelected() ?
@@ -226,8 +213,6 @@ public class VisualizationTab extends JPanel {
     
         edgeDrawerCheckBox = new JCheckBox("Draw edges");
         edgeDrawerCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        //edgeDrawerCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        edgeDrawerCheckBox.setFont(Tools.getFont(14));
         edgeDrawerCheckBox.setSelected(true);
         edgeDrawerCheckBox.setEnabled(false);
         edgeDrawerCheckBox.addActionListener(a -> {
@@ -237,8 +222,6 @@ public class VisualizationTab extends JPanel {
     
         stateDebugCheckBox = new JCheckBox("Draw states (debug)");
         stateDebugCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        //stateDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        stateDebugCheckBox.setFont(Tools.getFont(14));
         stateDebugCheckBox.setSelected(false);
         stateDebugCheckBox.setEnabled(false);
         stateDebugCheckBox.addActionListener(a -> {
@@ -249,8 +232,6 @@ public class VisualizationTab extends JPanel {
     
         neighborsDebugCheckBox = new JCheckBox("Draw node neighbors");
         neighborsDebugCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        //neighborsDebugCheckBox.setPreferredSize(Tools.MENU_CHECKBOX_SIZE);
-        neighborsDebugCheckBox.setFont(Tools.getFont(14));
         neighborsDebugCheckBox.setSelected(false);
         neighborsDebugCheckBox.setEnabled(false);
         neighborsDebugCheckBox.addActionListener(a -> {

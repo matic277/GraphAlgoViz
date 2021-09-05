@@ -43,24 +43,21 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         this.parent = parent;
         graph.addObserver(this);
         
-        Dimension panelSize = new Dimension(Tools.INITIAL_STATS_PANEL_WIDTH, parent.getHeight());
+        Dimension panelSize = new Dimension(Tools.MAXIMUM_STATS_PANEL_WIDTH, parent.getHeight());
         this.setSize(panelSize);
         this.setPreferredSize(panelSize);
         
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        //mainPanel.setBackground(Tools.GRAY3);
         
         
         
-        JLabel title = new JLabel(" Graph statistics", SwingConstants.CENTER);
-        //title.setHorizontalTextPosition(SwingConstants.RIGHT); // does not work, but in setting in constructor works, go figure
-        title.setFont(Tools.getBoldFont(14));
+        JLabel title = new JLabel("Graph statistics", SwingConstants.CENTER);
         title.setOpaque(true);
-        //title.setBackground(Tools.RED);
         title.setAlignmentX(Component.LEFT_ALIGNMENT);
         title.setPreferredSize(new Dimension(title.getPreferredSize().width, 30));
-        title.setBorder(new MatteBorder(0, 0, 1, 0, Color.lightGray));
+        title.setBorder(new MatteBorder(0, 0, 1, 0, Tools.UI_BORDER_COLOR_STANDARD));
+        //title.setBorder(Tools.UI_BORDER_STANDARD);
         
         initTable();
         
@@ -83,20 +80,22 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     public void initTable() {
         // INIT RENDERING
         // thanks to https://stackoverflow.com/questions/8002445/trying-to-create-jtable-with-proper-row-header/8005006#8005006
-        // Custom class and other stuff is shortened to line => table.getTableHeader().setDefaultRenderer(table.getTableHeader().getDefaultRenderer());
         // Change table head renderer so that header is displayed on the left
         // (instead of on top)
         table = new JTable() {
             @Override public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
                 return col == 0 ?
                         this.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(
-                            this, this.getValueAt(row, col), false, false, row, col)
+                                this, this.getValueAt(row, col), false, false, row, col)
                         :
                         super.prepareRenderer(renderer, row, col);
             }
             @Override public boolean isCellEditable(int row, int column) { return false; } // disable editing
         };
-        table.getTableHeader().setDefaultRenderer(table.getTableHeader().getDefaultRenderer());
+        //table.getTableHeader().setDefaultRenderer(table.getTableHeader().getDefaultRenderer()); ?what was I thinking here?
+        table.setBorder(Tools.UI_BORDER_STANDARD);
+        //table.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.red));
+        //table.setBorder();
         table.setAutoCreateRowSorter(false); // disable sorting
         
         // INIT HEADERS and data, sorting might be excessive, enums are naturally ordered as specified in source code?
@@ -105,16 +104,13 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         // header rows, 2 columns            (header                | value)
         for (int i=0; i<header.length; i++) { data[i][0] = header[i]; data[i][1] = "0"; }
         
-        //                                 contents, num of columns and its content(leave empty)
-        tableModel = new DefaultTableModel(data, new String[2]);
+        //                                 content, num of columns and its content(leave empty)
+        tableModel = new DefaultTableModel(data,    new String[2]);
         table.setModel(tableModel);
-        table.setFont(Tools.getFont(14));
-        table.getTableHeader().setFont(Tools.getBoldFont(14));
         
         table.getTableHeader().getColumnModel().getColumn(0).setPreferredWidth(250);
         table.getTableHeader().getColumnModel().getColumn(1).setPreferredWidth(75);
         table.setRowHeight(25);
-        table.setBorder(new MatteBorder(1,1, 1, 1,Color.darkGray));
         
 //        table.getTableHeader().getColumnModel().getColumn(0).setPreferredHeight(250);
 //        table.getTableHeader().getColumnModel().getColumn(1).setPreferredWidth(75);

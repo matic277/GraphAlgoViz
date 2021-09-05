@@ -75,7 +75,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
                 innerWidth,
                 innerHeight);
         informBtn.setOpaque(true);
-        informBtn.setFont(Tools.getFont(12));
+        //informBtn.setFont(Tools.getFont(12));
         informBtn.setBackground(nodeInfoLbl.getBackground());
         informBtn.addActionListener(a -> {
             if (!AlgorithmController.PAUSE.get()) return;
@@ -93,7 +93,7 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
                 innerWidth,
                 innerHeight);
         deleteNodeBtn.setOpaque(true);
-        deleteNodeBtn.setFont(Tools.getFont(12));
+        //deleteNodeBtn.setFont(Tools.getFont(12));
         deleteNodeBtn.setBackground(nodeInfoLbl.getBackground());
         deleteNodeBtn.addActionListener(a -> {
             if (!AlgorithmController.PAUSE.get()) return;

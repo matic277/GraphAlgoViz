@@ -15,6 +15,9 @@ import java.util.Set;
 public interface ComponentDrawer {
     void draw(Graphics2D g, AffineTransform at, Node node);
     
+    // TODO: turn these methods in static lambas and call them directly
+    // instead of returning a "new" lambda every time. This is probably
+    // done by the compiler/jit but still.
     static ComponentDrawer getIdDrawer() {
         return (g, at, n) -> {
             Font oldFont = g.getFont();

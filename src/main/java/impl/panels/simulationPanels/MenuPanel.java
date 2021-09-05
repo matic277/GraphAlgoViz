@@ -131,7 +131,6 @@ public class MenuPanel extends JPanel {
         addNodeBtn = new FlatButton();
         addNodeBtn.setIcon(addNodeIcon);
         addNodeBtn.setBorderPainted(false);
-        addNodeBtn.setFont(Tools.getFont(14));
         addNodeBtn.setToolTipText("Adds a new node to graph");
         //addNodeBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         //addNodeBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
@@ -194,8 +193,8 @@ public class MenuPanel extends JPanel {
             System.out.println("new node added");
         });
         MAIN_PANEL.add(addNodeBtn);
-    
-    
+        
+        
         // separator
         MAIN_PANEL.add(new JLabel("   "));
         
@@ -214,9 +213,7 @@ public class MenuPanel extends JPanel {
             // Thread safe atomic boolean flip
             // flip the value of PAUSE
             boolean temp;
-            do {
-                temp = AlgorithmController.PAUSE.get();
-            }
+            do { temp = AlgorithmController.PAUSE.get(); }
             while (!AlgorithmController.PAUSE.compareAndSet(temp, !temp));
 
             // disable/enable inform/uniform, delete node buttons
@@ -252,7 +249,6 @@ public class MenuPanel extends JPanel {
         prevBtn = new FlatButton();
         prevBtn.setIcon(prevBtnIcon);
         prevBtn.setBorderPainted(false);
-        prevBtn.setFont(Tools.getFont(14));
         prevBtn.setToolTipText("Previous round");
         //prevBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
         prevBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -266,7 +262,6 @@ public class MenuPanel extends JPanel {
         nextBtn = new FlatButton();
         nextBtn.setIcon(nextBtnIcon);
         nextBtn.setBorderPainted(false);
-        nextBtn.setFont(Tools.getFont(14));
         nextBtn.setToolTipText("Next round");
         //nextBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
         nextBtn.setAlignmentX(Component.CENTER_ALIGNMENT);

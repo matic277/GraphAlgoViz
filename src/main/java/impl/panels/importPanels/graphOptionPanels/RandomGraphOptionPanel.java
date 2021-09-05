@@ -34,13 +34,10 @@ public class RandomGraphOptionPanel extends OptionPanel {
         JPanel container1 = new JPanel();
         container1.setOpaque(false);
         nodesText = new JLabel(" Number of nodes:");
-//        nodesText.setOpaque(true);
-//        nodesText.setBackground(Tools.GRAY);
-        nodesText.setFont(Tools.getFont(14));
         nodesText.setPreferredSize(new Dimension(textWidth, height));
         
         nodesInput = new JTextField();
-        nodesInput.setFont(Tools.getFont(14));
+        //nodesInput.setFont(Tools.getFont(14));
         nodesInput.setPreferredSize(new Dimension(textWidth, height));
         container1.add(nodesText);
         container1.add(nodesInput);
@@ -49,13 +46,9 @@ public class RandomGraphOptionPanel extends OptionPanel {
         JPanel container2 = new JPanel();
         container2.setOpaque(false);
         edgedText = new JLabel(" Edge probability:");
-        edgedText.setFont(Tools.getFont(14));
-//        edgedText.setOpaque(true);
-//        edgedText.setBackground(Tools.GRAY);
         edgedText.setPreferredSize(new Dimension(textWidth, height));
         
         edgesInput = new JTextField();
-        edgesInput.setFont(Tools.getFont(14));
         edgesInput.setPreferredSize(new Dimension(textWidth, height));
         container2.add(edgedText);
         container2.add(edgesInput);
@@ -64,14 +57,10 @@ public class RandomGraphOptionPanel extends OptionPanel {
         JPanel container3 = new JPanel();
         container3.setOpaque(false);
         informedNodesText = new JLabel(" Informed nodes:");
-        informedNodesText.setFont(Tools.getFont(14));
-//        informedNodesText.setOpaque(true);
-//        informedNodesText.setBackground(Tools.GRAY);
         informedNodesText.setPreferredSize(new Dimension(textWidth, height));
         
         informedNodesInput = new JTextField();
         informedNodesInput.setPreferredSize(new Dimension(textWidth, height));
-        informedNodesInput.setFont(Tools.getFont(14));
         container3.add(informedNodesText);
         container3.add(informedNodesInput);
         container3.add(informedNodesError);

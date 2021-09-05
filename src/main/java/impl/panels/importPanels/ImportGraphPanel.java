@@ -68,10 +68,7 @@ public class ImportGraphPanel extends JPanel {
         
         
         JPanel container = new JPanel();
-        //container.setBackground(Tools.bgColor);
         importBtn = new JButton("Import");
-        importBtn.setFont(Tools.getFont(14));
-        importBtn.setPreferredSize(new Dimension(200, 35));
         importBtn.addActionListener(optionPanel.getButtonAction(selectedGraphType, parent.getFrame()));
         container.add(importBtn);
         
@@ -116,12 +113,10 @@ public class ImportGraphPanel extends JPanel {
     
     private void initLayoutTypeInputs() {
         selectLayoutText = new JLabel(" Select type of layout:");
-        selectLayoutText.setFont(Tools.getFont(14));
         selectLayoutText.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         layoutTypeDropdown = new JComboBox<>(LayoutType.values());
         ((JLabel)layoutTypeDropdown.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
-        layoutTypeDropdown.setFont(Tools.getFont(14));
         layoutTypeDropdown.setVisible(true);
         layoutTypeDropdown.setEnabled(true);
         layoutTypeDropdown.addActionListener(a -> {
@@ -137,14 +132,10 @@ public class ImportGraphPanel extends JPanel {
     
     private void initGraphTypeInputs() {
         selectGraphText = new JLabel(" Select type of graph:");
-        selectGraphText.setFont(Tools.getFont(14));
         selectGraphText.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         graphTypeDropdown = new JComboBox<>(GraphType.values());
         ((JLabel)graphTypeDropdown.getRenderer()).setHorizontalAlignment(JLabel.CENTER); // center text
-//        graphTypeDropdown.setOpaque(true);
-        graphTypeDropdown.setFont(Tools.getFont(14));
-//        graphTypeDropdown.setBackground(Tools.bgColor);
         graphTypeDropdown.setVisible(true);
         graphTypeDropdown.setEnabled(true);
         graphTypeDropdown.addActionListener(a -> {

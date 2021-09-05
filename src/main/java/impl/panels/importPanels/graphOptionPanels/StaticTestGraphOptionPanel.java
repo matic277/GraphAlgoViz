@@ -17,7 +17,6 @@ public class StaticTestGraphOptionPanel extends OptionPanel {
         super(parent);
     
         JLabel lbl = new JLabel("DEBUG: Load predefined graph");
-        lbl.setFont(Tools.getFont(14));
         this.add(lbl);
     }
     

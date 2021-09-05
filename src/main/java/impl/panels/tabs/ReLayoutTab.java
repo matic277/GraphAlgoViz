@@ -34,12 +34,10 @@ public class ReLayoutTab extends JPanel {
     
     private void initInterface() {
         JLabel info = new JLabel(" Select type of layout:");
-        info.setFont(Tools.getFont(14));
         info.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         layoutTypeDropdown = new JComboBox<>(LayoutType.values());
         ((JLabel)layoutTypeDropdown.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
-        layoutTypeDropdown.setFont(Tools.getFont(14));
         layoutTypeDropdown.setVisible(true);
         layoutTypeDropdown.setEnabled(true);
         layoutTypeDropdown.addActionListener(a -> selectedLayout = (LayoutType)layoutTypeDropdown.getSelectedItem());
@@ -58,7 +56,6 @@ public class ReLayoutTab extends JPanel {
         processingLbl.setVisible(true); // off by default
         
         doLayoutBtn = new JButton("Apply");
-        doLayoutBtn.setFont(Tools.getFont(14));
         doLayoutBtn.addActionListener(a -> {
                 // Only 1 thread can be doing layout at once!
                 synchronized (THREADS_DOING_LAYOUT) {

@@ -24,8 +24,6 @@ public class FileGraphOptionPanel extends OptionPanel {
         container1.setOpaque(false);
         container1.setLayout(new BoxLayout(container1, BoxLayout.Y_AXIS));
         inputText = new JLabel("Path to graph file:");
-//        inputText.setOpaque(true);
-        inputText.setFont(Tools.getFont(14));
         inputText.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         JLabel spacer = new JLabel();
@@ -35,7 +33,6 @@ public class FileGraphOptionPanel extends OptionPanel {
         
         inputField = new JTextField();
         inputField.setPreferredSize(new Dimension(300, 30));
-        inputField.setFont(Tools.getFont(14));
         inputField.setText(".\\graphs\\graph1.g6");
         inputField.setHorizontalAlignment(SwingConstants.CENTER);
         inputField.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -48,14 +45,11 @@ public class FileGraphOptionPanel extends OptionPanel {
         container2.setOpaque(false);
         container2.setLayout(new BoxLayout(container2, BoxLayout.Y_AXIS));
         informedNodesText = new JLabel("Informed nodes:");
-//        informedNodesText.setOpaque(true);
-        informedNodesText.setFont(Tools.getFont(14));
         informedNodesText.setAlignmentX(Component.CENTER_ALIGNMENT);
         container2.add(informedNodesText);
         
         informedNodesInput = new JTextField();
         informedNodesInput.setPreferredSize(new Dimension(120, informedNodesInput.getPreferredSize().height));
-        informedNodesInput.setFont(Tools.getFont(14));
         informedNodesInput.setHorizontalAlignment(SwingConstants.CENTER);
         informedNodesInput.setAlignmentX(Component.CENTER_ALIGNMENT);
         container2.add(informedNodesInput);

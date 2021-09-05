@@ -26,7 +26,7 @@ public class BottomPanel extends JSplitPane {
         statsPanel = new StatsPanel(this);
         tabPanel = new TabsPanel(this);
     
-        statsPanel.setMaximumSize(new Dimension(325, Integer.MAX_VALUE));
+        statsPanel.setMaximumSize(new Dimension(Tools.MAXIMUM_STATS_PANEL_WIDTH, Integer.MAX_VALUE));
         
         this.setLeftComponent(statsPanel);
         this.setRightComponent(tabPanel);
@@ -34,7 +34,7 @@ public class BottomPanel extends JSplitPane {
         
         // set location of divider, so that width
         // of statsPanel is set to initial state
-        this.setDividerLocation(Tools.MAXIMUM_STATS_PANEL_WIDTH);
+        this.setDividerLocation(Tools.MAXIMUM_STATS_PANEL_WIDTH + 7); // a bit strange
 
         // Custom divider look
 //        BasicSplitPaneUI divider = new BasicSplitPaneUI() {
