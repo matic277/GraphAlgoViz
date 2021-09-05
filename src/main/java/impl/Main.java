@@ -1,8 +1,6 @@
 package impl;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatIntelliJLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 
 import core.Algorithm;
 import impl.tools.Tools;
@@ -51,7 +49,7 @@ public class Main {
         UIManager.put("Component.arc", 30 );
         UIManager.put("Component.focusWidth", 1);
         UIManager.put("TextComponent.arc", 50 );
-
+        
         // scroll bars
 //        UIManager.put( "ScrollBar.thumbArc", 999 );
 //        UIManager.put( "ScrollBar.thumbInsets", new Insets( 2, 2, 2, 2 ) );

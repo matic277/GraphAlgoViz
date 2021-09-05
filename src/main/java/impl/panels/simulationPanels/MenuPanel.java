@@ -1,5 +1,7 @@
 package impl.panels.simulationPanels;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.extras.components.FlatButton;
 import impl.*;
 import impl.tools.Tools;
 import impl.windows.ImportGraphWindow;
@@ -21,16 +23,16 @@ public class MenuPanel extends JPanel {
     
     MyGraph graph;
     
-    JButton importBtn;
-    JButton clearBtn;
-    JButton addNodeBtn;
-    public static JButton nextBtn; // TODO: could these not be static
-    public static JButton prevBtn;
+    FlatButton importBtn;
+    FlatButton clearBtn;
+    FlatButton addNodeBtn;
+    public static FlatButton nextBtn; // TODO: could these not be static
+    public static FlatButton prevBtn;
     
-    JButton pauseBtn;
+    FlatButton pauseBtn;
     
-    ImageIcon playIcon;
-    ImageIcon pauseIcon;
+    FlatSVGIcon playIcon;
+    FlatSVGIcon pauseIcon;
     
     public ImageIcon createImageIcon(String path, Dimension iconSize) throws IOException {
         File f = new File(path);
@@ -77,38 +79,20 @@ public class MenuPanel extends JPanel {
         
         this.setBorder(Tools.UI_BORDER_STANDARD);
         
-        //JPanel graphOptionsPnl = new JPanel();
-        //graphOptionsPnl.setOpaque(false);
-        //graphOptionsPnl.setLayout(new BoxLayout(graphOptionsPnl, BoxLayout.Y_AXIS));
-        //graphOptionsPnl.add(getSeparator());
-        //MAIN_PANEL.add(graphOptionsPnl);
-        
-        //JLabel graphOptionsTitle = new JLabel(" Graph options ");
-        //graphOptionsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //graphOptionsTitle.setFont(Tools.getBoldFont(16));
-        //graphOptionsPnl.add(graphOptionsTitle);
-        //graphOptionsPnl.add(getSeparator());
-        
         Dimension iconSize = new Dimension(20, 20);
-        // icons downloaded at https://roundicons.com/
         
-        ImageIcon importIcon = null;
-        ImageIcon clearGraphIcon = null;
-        ImageIcon addNodeIcon = null;
-        try {
-            importIcon     = createImageIcon("resources/import.png",  iconSize);
-            clearGraphIcon = createImageIcon("resources/trash.png",   iconSize);
-            addNodeIcon    = createImageIcon("resources/vector.png",  iconSize);
-            playIcon       = createImageIcon("resources/play.png",    iconSize);
-            pauseIcon      = createImageIcon("resources/pause.png",   iconSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //FlatPanelUI;
+        FlatSVGIcon nextBtnIcon     = new FlatSVGIcon("icons/flatlaf/forward.svg")                .derive(iconSize.width, iconSize.height);
+        FlatSVGIcon prevBtnIcon     = new FlatSVGIcon("icons/flatlaf/back.svg")                   .derive(iconSize.width, iconSize.height);
+        FlatSVGIcon importIcon      = new FlatSVGIcon("icons/flatlaf/FileChooserUpFolderIcon.svg").derive(iconSize.width, iconSize.height);
+        FlatSVGIcon clearGraphIcon  = new FlatSVGIcon("icons/flaticons/trash3.svg")               .derive(iconSize.width, iconSize.height);
+        FlatSVGIcon addNodeIcon     = new FlatSVGIcon("icons/flatlaf/add.svg")                    .derive(iconSize.width, iconSize.height);
+        playIcon                    = new FlatSVGIcon("icons/flatlaf/execute.svg")                .derive(iconSize.width, iconSize.height);
+        pauseIcon                   = new FlatSVGIcon("icons/flatlaf/suspend.svg")                .derive(iconSize.width, iconSize.height);
         
-        importBtn = new JButton();
-        //importBtn.setBorderPainted(false);
+        importBtn = new FlatButton();
         importBtn.setIcon(importIcon);
+        importBtn.setBorderPainted(false);
+        importBtn.setToolTipText("Import graph");
         //importBtn.setFont(Tools.getFont(14));
 //        UIManager.getLookAndFeel().getDefaults().getFont()
 //        importBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -123,7 +107,11 @@ public class MenuPanel extends JPanel {
         importBtn.setPreferredSize(new Dimension(iconSize.width+10, iconSize.height+10));
         //importBtn.setPreferredSize(iconSize);
         
-        clearBtn = new JButton(clearGraphIcon);
+        clearBtn = new FlatButton();
+        clearBtn.setIcon(clearGraphIcon);
+        clearBtn.setBorderPainted(false);
+        clearBtn.setToolTipText("Clear graph");
+        //clearBtn.setPreferredSize(iconSize);
         //clearBtn.setFont(Tools.getFont(14));
         //clearBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         //clearBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
@@ -140,7 +128,9 @@ public class MenuPanel extends JPanel {
         MAIN_PANEL.add(clearBtn);
         
         
-        addNodeBtn = new JButton(addNodeIcon);
+        addNodeBtn = new FlatButton();
+        addNodeBtn.setIcon(addNodeIcon);
+        addNodeBtn.setBorderPainted(false);
         addNodeBtn.setFont(Tools.getFont(14));
         addNodeBtn.setToolTipText("Adds a new node to graph");
         //addNodeBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -201,7 +191,9 @@ public class MenuPanel extends JPanel {
         MAIN_PANEL.add(new JLabel("   "));
         
         
-        pauseBtn = new JButton(playIcon);
+        pauseBtn = new FlatButton();
+        pauseBtn.setIcon(playIcon);
+        pauseBtn.setBorderPainted(false);
         pauseBtn.setToolTipText("Pause or continue simulation.");
         //pauseBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         //pauseBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
@@ -248,7 +240,9 @@ public class MenuPanel extends JPanel {
         MAIN_PANEL.add(pauseBtn);
         
         
-        prevBtn = new JButton("<");
+        prevBtn = new FlatButton();
+        prevBtn.setIcon(prevBtnIcon);
+        prevBtn.setBorderPainted(false);
         prevBtn.setFont(Tools.getFont(14));
         prevBtn.setToolTipText("Previous round");
         //prevBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);
@@ -260,7 +254,9 @@ public class MenuPanel extends JPanel {
         });
         MAIN_PANEL.add(prevBtn);
         
-        nextBtn = new JButton(">");
+        nextBtn = new FlatButton();
+        nextBtn.setIcon(nextBtnIcon);
+        nextBtn.setBorderPainted(false);
         nextBtn.setFont(Tools.getFont(14));
         nextBtn.setToolTipText("Next round");
         //nextBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE);

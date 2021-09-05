@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/main/java/icons/back.svg" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/icons/flatlaf/FileChooserUpFolderIcon.svg" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/icons/flatlaf/FileChooserUpFolderIcon_dark.svg" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/icons/flatlaf/add.svg" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/icons/flatlaf/add_dark.svg" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/icons/flatlaf/back.svg" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/icons/flatlaf/close.svg" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/icons/flatlaf/close_dark.svg" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/icons/flatlaf/execute.svg" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/icons/flatlaf/execute_dark.svg" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/icons/flatlaf/suspend.svg" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/icons/flatlaf/suspend_dark.svg" charset="ISO-8859-1" />
+  </component>
+</project>

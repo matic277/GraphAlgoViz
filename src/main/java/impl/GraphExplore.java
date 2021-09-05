@@ -1,22 +1,17 @@
+package impl;
+
 import java.awt.*;
 import java.awt.event.*;
-import java.util.EnumSet;
-import java.util.Iterator;
+
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
 import org.graphstream.ui.geom.Point2;
 import org.graphstream.ui.geom.Point3;
-import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swing_viewer.ViewPanel;
-import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
-import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.camera.Camera;
-import org.graphstream.ui.view.util.InteractiveElement;
-import org.graphstream.ui.view.util.MouseManager;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputListener;
 
 public class GraphExplore {
     public static void main(String[] args) {

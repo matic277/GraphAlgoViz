@@ -29,6 +29,7 @@ public class AlgorithmController implements Runnable, StateObservable {
     
     public static volatile AtomicBoolean PAUSE = new AtomicBoolean(true);
     public static final Object PAUSE_LOCK = new Object();
+    public static int TIMEOUT_BETWEEN_ROUNDS = 100;
     
     public AlgorithmController(MyGraph graph, Algorithm algo) {
         this.graph = graph;
@@ -78,7 +79,7 @@ public class AlgorithmController implements Runnable, StateObservable {
             MenuPanel.prevBtn.setEnabled(AlgorithmController.PAUSE.get());
             
             
-            Tools.sleep(100);
+            Tools.sleep(TIMEOUT_BETWEEN_ROUNDS);
         }
     }
     
