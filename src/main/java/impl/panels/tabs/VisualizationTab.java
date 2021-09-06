@@ -35,6 +35,7 @@ public class VisualizationTab extends JPanel implements GraphChangeObserver {
     public VisualizationTab(TabsPanel parent) {
         this.parent = parent;
         this.graph = MyGraph.getInstance();
+        this.graph.addObserver(this);
         
         this.setOpaque(true);
         //this.setBackground(Tools.GRAY3);
