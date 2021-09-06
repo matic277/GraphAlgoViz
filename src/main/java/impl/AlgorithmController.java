@@ -1,17 +1,21 @@
 package impl;
 
 import core.Algorithm;
+import core.GraphChangeObserver;
 import core.StateObservable;
 import core.StateObserver;
 import impl.panels.simulationPanels.MenuPanel;
 import impl.tools.LOG;
 import impl.tools.Tools;
+import org.jgrapht.event.GraphEdgeChangeEvent;
+import org.jgrapht.event.GraphVertexChangeEvent;
+import org.jgrapht.graph.DefaultEdge;
 
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class AlgorithmController implements Runnable, StateObservable {
+public class AlgorithmController implements Runnable, StateObservable, GraphChangeObserver {
     
     static final int PROCESSORS = 3;
     
@@ -34,6 +38,8 @@ public class AlgorithmController implements Runnable, StateObservable {
     public AlgorithmController(MyGraph graph, Algorithm algo) {
         this.graph = graph;
         this.algo = algo;
+        
+        MyGraph.getInstance().addObserver(this);
         
         initProcessors();
 //        assignTasks();
@@ -131,16 +137,16 @@ public class AlgorithmController implements Runnable, StateObservable {
         }
     }
     
-    // one of the executors is processing a node that was removed
-    public void removeNode(Node node) {
-        for (AlgorithmExecutor ex : EXECUTORS) {
-            boolean foundAndRemoved = ex.nodes.remove(node);
-            if (foundAndRemoved) {
-                return;
-            }
-        }
-        throw new RuntimeException("Node " + node + " not found and removed!");
-    }
+    
+    //public void removeNode(Node node) {
+    //    for (AlgorithmExecutor ex : EXECUTORS) {
+    //        boolean foundAndRemoved = ex.nodes.remove(node);
+    //        if (foundAndRemoved) {
+    //            return;
+    //        }
+    //    }
+    //    throw new RuntimeException("Node " + node + " not found and removed!");
+    //}
     
     //public Algorithm getAlgorithm() {
     //    return node -> {
@@ -179,13 +185,48 @@ public class AlgorithmController implements Runnable, StateObservable {
         this.observers.remove(observer);
     }
     
-    public void addNewNode(Node newNode) {
-        // add new node to some random processor
-        int randomProc = Tools.RAND.nextInt(PROCESSORS);
-        EXECUTORS[randomProc].nodes.add(newNode); // TODO this operation is not thread safe!
-    }
-    
-    public void onNewGraphImport(MyGraph graph) {
+    @Override
+    public void onGraphClear() {
+        AlgorithmController.totalStates = 1;
+        AlgorithmController.currentStateIndex = 0;
+        
         assignTasks();
     }
+    // TODO methods have the same body
+    @Override
+    public void onGraphImport() {
+        AlgorithmController.totalStates = 1;
+        AlgorithmController.currentStateIndex = 0;
+        
+        assignTasks();
+    }
+    
+    @Override
+    public void vertexAdded(GraphVertexChangeEvent<Node> e) {
+        // add new node to some random processor
+        int randomProc = Tools.RAND.nextInt(PROCESSORS);
+        EXECUTORS[randomProc].addNewNodeToProcess(e.getVertex());
+    
+        AlgorithmController.totalStates = AlgorithmController.currentStateIndex + 1;
+    }
+    
+    @Override
+    public void vertexRemoved(GraphVertexChangeEvent<Node> e) {
+        AlgorithmController.totalStates = AlgorithmController.currentStateIndex + 1;
+        
+        // one of the executors is processing a node that has been removed
+        Node nodeToRemove = e.getVertex();
+        for (AlgorithmExecutor ex : EXECUTORS) {
+            boolean foundAndRemoved = ex.nodes.remove(nodeToRemove);
+            if (foundAndRemoved) {
+                return;
+            }
+        }
+        throw new RuntimeException("Node " + nodeToRemove + " not found and wasn't removed from any executor!");
+    }
+    
+    @Override public void onNewInformedNode() {}
+    @Override public void onNewUninformedNode() {}
+    @Override public void edgeAdded(GraphEdgeChangeEvent<Node, DefaultEdge> e) {}
+    @Override public void edgeRemoved(GraphEdgeChangeEvent<Node, DefaultEdge> e) {}
 }

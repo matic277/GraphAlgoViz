@@ -25,9 +25,9 @@ public class StaticTestGraphBuilder extends GraphBuilder {
         Node n11 = MyGraph.getNode(); n11.x=400; n11.y = 600;
         Node n12 = MyGraph.getNode(); n12.x=400; n12.y = 480;
         Node n13 = MyGraph.getNode(); n13.x=370; n13.y = 380;
-
+        
         Node n14 = MyGraph.getNode(); n14.x=600; n14.y = 600;
-
+        
         this.graph.addNode(n0);
         this.graph.addNode(n1);
         this.graph.addNode(n2);
@@ -43,11 +43,11 @@ public class StaticTestGraphBuilder extends GraphBuilder {
         this.graph.addNode(n12);
         this.graph.addNode(n13);
         this.graph.addNode(n14);
-
+        
         this.graph.addEdge(n0, n1);
         this.graph.addEdge(n1, n2);
         this.graph.addEdge(n1, n3);
-
+        
         this.graph.addEdge(n3, n4);
         this.graph.addEdge(n4, n5);
         this.graph.addEdge(n5, n6);
@@ -58,12 +58,12 @@ public class StaticTestGraphBuilder extends GraphBuilder {
         this.graph.addEdge(n10, n11);
         this.graph.addEdge(n11, n12);
         this.graph.addEdge(n12, n13);
-
+        
         this.graph.addEdge(n12, n7);
         this.graph.addEdge(n11, n8);
         this.graph.addEdge(n3, n7);
         this.graph.addEdge(n8, n13);
-
+        
         n2.getState().setState(1);
         n8.getState().setState(1);
         this.initiallyInformedNodesNum = 2;

@@ -2,20 +2,19 @@ package impl.panels.simulationPanels;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.extras.components.FlatButton;
+import core.GraphChangeObserver;
 import impl.*;
 import impl.tools.Tools;
 import impl.windows.ImportGraphWindow;
 import impl.windows.SimulationWindow;
+import org.jgrapht.event.GraphEdgeChangeEvent;
+import org.jgrapht.event.GraphVertexChangeEvent;
+import org.jgrapht.graph.DefaultEdge;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
-public class MenuPanel extends JPanel {
+public class MenuPanel extends JPanel implements GraphChangeObserver {
     
     TopPanel parent;
     SimulationWindow simWindow;
@@ -34,32 +33,12 @@ public class MenuPanel extends JPanel {
     FlatSVGIcon playIcon;
     FlatSVGIcon pauseIcon;
     
-    public ImageIcon createImageIcon(String path, Dimension iconSize) throws IOException {
-        File f = new File(path);
-        assert f.exists();
-        URL imgURL = f.toURL();
-        
-        if (imgURL != null) {
-            //ImageIcon icon = new ImageIcon(imgURL);
-            BufferedImage orgImg = ImageIO.read(new File(path));
-            BufferedImage resizedImage = new BufferedImage(iconSize.width, iconSize.height, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D gr = resizedImage.createGraphics();
-            gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // not really doing anything
-            gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            gr.drawImage(orgImg, 0, 0, iconSize.width, iconSize.height, null);
-            gr.dispose();
-            return new ImageIcon(resizedImage);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
-    }
-    
     public MenuPanel(TopPanel parent) {
         this.parent = parent;
         this.simWindow = parent.getSimulationWindow();
         this.simPanel  = parent.getSimulationPanel();
         this.graph = MyGraph.getInstance();
+        this.graph.addObserver(this);
         
         // so that this panel can be squished, hiding its components
         // otherwise components dictate smallest possible size
@@ -111,20 +90,7 @@ public class MenuPanel extends JPanel {
         clearBtn.setIcon(clearGraphIcon);
         clearBtn.setBorderPainted(false);
         clearBtn.setToolTipText("Clear graph");
-        //clearBtn.setPreferredSize(iconSize);
-        //clearBtn.setFont(Tools.getFont(14));
-        //clearBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //clearBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        //clearBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        //clearBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        //clearBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        clearBtn.addActionListener(a -> {
-            this.graph.clearGraph();
-            this.parent.getSimulationWindow().getAlgorithmController().assignTasks();
-            AlgorithmController.totalStates = 1;
-            AlgorithmController.currentStateIndex = 0;
-            parent.getMainPanel().onNewGraphImport();
-        });
+        clearBtn.addActionListener(a -> this.graph.clearGraph());
         MAIN_PANEL.add(clearBtn);
         
         
@@ -132,11 +98,6 @@ public class MenuPanel extends JPanel {
         addNodeBtn.setIcon(addNodeIcon);
         addNodeBtn.setBorderPainted(false);
         addNodeBtn.setToolTipText("Adds a new node to graph");
-        //addNodeBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //addNodeBtn.setPreferredSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        //addNodeBtn.setSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        //addNodeBtn.setMaximumSize(Tools.MENU_BUTTON_SIZE_WIDE);
-        //addNodeBtn.setMinimumSize(Tools.MENU_BUTTON_SIZE_WIDE);
         addNodeBtn.addActionListener(a -> {
 //            Node newNode = new Node(50, 50, graph.getNextNodeId()); // TODO
             Node newNode = MyGraph.getNode();
@@ -150,47 +111,16 @@ public class MenuPanel extends JPanel {
                 newNode.addState(new State(0));
             }
             
-            AlgorithmController.totalStates = AlgorithmController.currentStateIndex + 1;
-            this.parent.getSimulationWindow().getMainPanel().getBottomPanel().getTabsPanel().getStateHistoryTab()
-                    .setCurrentActiveState(AlgorithmController.currentStateIndex);
-            this.parent.getSimulationWindow().getMainPanel().getBottomPanel().getTabsPanel().getStateHistoryTab()
-                    .deleteFutureHistory();
-            
             // TODO move this to some method in MyGraph, like onNodeRemoveOrAdd()
             //   same lambda is in deleteNodeBtn action method!
             // clear future history of states of nodes
             this.graph.getNodes().forEach(n -> {
-                // optimization?
-                // remove elements from back to middle
-                // instead of from middle to the back
-                for (int i=n.states.size()-1; i>=AlgorithmController.totalStates; i--) {
-                    n.states.remove(i);
+                if (n.states.size() > AlgorithmController.totalStates) {
+                    n.states.subList(AlgorithmController.totalStates, n.states.size()).clear();
                 }
             });
             
-            // adding new node takes calling 2 separate methods
-            // - not ideal, should refactor
-            // Maybe AlgoCtrl should be subscribed (observer) to
-            // graph, and graph should notify AlgoCtrl about new
-            // node inserts?
             graph.addNode(newNode);
-            simWindow.getAlgorithmController().addNewNode(newNode);
-    
-            // if this is the first node added, then
-            // pretend as if a graph was imported
-            if (graph.getNodes().size() == 1) {
-                Thread controllerThread = parent.parent.getSimulationWindow().getControllerThread(); // All of this is kinda fishy
-                if (!controllerThread.isAlive()) controllerThread.start();
-                parent.parent.onNewGraphImport();
-                graph.drawEdges(true);
-            }
-            
-            // TODO
-            //  calling onNewGraphImport is convient but not nice
-            //  (buttons get enabled if the graph is not empty - and
-            //  in this case it won't be since a node has just been added)
-            //this.parent.getSimulationWindow().getMainPanel().onNewGraphImport();
-            System.out.println("new node added");
         });
         MAIN_PANEL.add(addNodeBtn);
         
@@ -311,15 +241,28 @@ public class MenuPanel extends JPanel {
 ////        gr.fillRect(0, 0, getWidth(), getHeight());
 //    }
     
-    public void onNewGraphImport() {
-        if (graph.getNodes().isEmpty()) {
-            pauseBtn.setEnabled(false);
-            prevBtn.setEnabled(false);
-            nextBtn.setEnabled(false);
-            return;
-        }
+    
+    @Override
+    public void onGraphClear() {
+        pauseBtn.setEnabled(false);
+        prevBtn.setEnabled(false);
+        nextBtn.setEnabled(false);
+    }
+    
+    @Override
+    public void onGraphImport() {
+        // if imported graph is empty then we shouldn't enable buttons...
+        if (graph.getGraph().vertexSet().isEmpty()) return;
+        
         pauseBtn.setEnabled(true);
         prevBtn.setEnabled(true);
         nextBtn.setEnabled(true);
     }
+    
+    @Override public void onNewInformedNode() {}
+    @Override public void onNewUninformedNode() {}
+    @Override public void edgeAdded(GraphEdgeChangeEvent<Node, DefaultEdge> e) {}
+    @Override public void edgeRemoved(GraphEdgeChangeEvent<Node, DefaultEdge> e) {}
+    @Override public void vertexAdded(GraphVertexChangeEvent<Node> e) {}
+    @Override public void vertexRemoved(GraphVertexChangeEvent<Node> e) {}
 }

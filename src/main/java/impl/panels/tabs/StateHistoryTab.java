@@ -1,9 +1,14 @@
 package impl.panels.tabs;
 
-import core.Observer;
+import core.GraphChangeObserver;
 import core.StateObserver;
 import impl.AlgorithmController;
+import impl.MyGraph;
+import impl.Node;
 import impl.tools.Tools;
+import org.jgrapht.event.GraphEdgeChangeEvent;
+import org.jgrapht.event.GraphVertexChangeEvent;
+import org.jgrapht.graph.DefaultEdge;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -11,7 +16,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StateHistoryTab extends JPanel implements StateObserver {
+public class StateHistoryTab extends JPanel implements StateObserver, GraphChangeObserver {
     
     final int NUM_OF_STATES = 50;
     
@@ -27,6 +32,8 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         this.parent = parent;
         this.stateList = new ArrayList<>(50);
         
+        MyGraph.getInstance().addObserver(this);
+       
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.setMinimumSize(new Dimension(0, 0));
         //this.setBackground(Tools.GRAY3);
@@ -88,18 +95,6 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         this.repaint();
     }
     
-    public void onNewGraphImport() {
-        JButton firstButton = stateList.get(0);
-        firstButton.setBorder(SELECTED_BORDER);
-        highlightedBtn = firstButton;
-        stateList.clear();
-        stateList.add(firstButton);
-        this.removeAll();
-        this.add(firstButton);
-        
-        this.repaint();
-    }
-    
     @Override
     public void onStateChange() {
         System.out.println("state change");
@@ -134,4 +129,39 @@ public class StateHistoryTab extends JPanel implements StateObserver {
         
         this.repaint();
     }
+    
+    @Override
+    public void onGraphClear() {
+        // remove all history
+        onGraphImport();
+    }
+    
+    @Override
+    public void onGraphImport() {
+        JButton firstButton = stateList.get(0);
+        firstButton.setBorder(SELECTED_BORDER);
+        highlightedBtn = firstButton;
+        stateList.clear();
+        stateList.add(firstButton);
+        this.removeAll();
+        this.add(firstButton);
+    
+        this.repaint();
+    }
+    
+    @Override
+    public void vertexRemoved(GraphVertexChangeEvent<Node> e) {
+        deleteFutureHistory();
+    }
+    
+    @Override
+    public void vertexAdded(GraphVertexChangeEvent<Node> e) {
+        setCurrentActiveState(AlgorithmController.currentStateIndex);
+        deleteFutureHistory();
+    }
+    
+    @Override public void onNewInformedNode() {}
+    @Override public void onNewUninformedNode() {}
+    @Override public void edgeAdded(GraphEdgeChangeEvent<Node, DefaultEdge> e) {}
+    @Override public void edgeRemoved(GraphEdgeChangeEvent<Node, DefaultEdge> e) {}
 }

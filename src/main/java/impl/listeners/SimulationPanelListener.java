@@ -75,7 +75,6 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
                 innerWidth,
                 innerHeight);
         informBtn.setOpaque(true);
-        //informBtn.setFont(Tools.getFont(12));
         informBtn.setBackground(nodeInfoLbl.getBackground());
         informBtn.addActionListener(a -> {
             if (!AlgorithmController.PAUSE.get()) return;
@@ -93,27 +92,12 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
                 innerWidth,
                 innerHeight);
         deleteNodeBtn.setOpaque(true);
-        //deleteNodeBtn.setFont(Tools.getFont(12));
         deleteNodeBtn.setBackground(nodeInfoLbl.getBackground());
         deleteNodeBtn.addActionListener(a -> {
             if (!AlgorithmController.PAUSE.get()) return;
-            Node nodeToDelete = rightClickedNode;
-            panel.getSimulationWindow().getAlgorithmController().removeNode(nodeToDelete);
-            graph.deleteNode(nodeToDelete);
             
-            // delete history from current state on?
-            AlgorithmController.totalStates = AlgorithmController.currentStateIndex + 1;
-            graph.getNodes().forEach(n -> {
-                // optimization?
-                // remove elements from back to middle
-                // instead of from middle to the back
-                for (int i=n.states.size()-1; i>=AlgorithmController.totalStates; i--) {
-                    n.states.remove(i);
-                }
-            });
-            // delete future history
-            panel.getSimulationWindow().getMainPanel().getBottomPanel().getTabsPanel()
-                    .getStateHistoryTab().deleteFutureHistory();
+            Node nodeToDelete = rightClickedNode;
+            graph.deleteNode(nodeToDelete);
             nodeInfoLbl.setVisible(false);
         });
         nodeInfoLbl.add(deleteNodeBtn);
@@ -286,6 +270,4 @@ public class SimulationPanelListener implements MouseListener, MouseMotionListen
     
     @Override public void mouseEntered(MouseEvent e) { }
     @Override public void mouseExited(MouseEvent e) { }
-    
-    public void onNewGraphImport() { }
 }

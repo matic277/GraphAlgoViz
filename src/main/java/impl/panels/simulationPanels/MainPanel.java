@@ -69,9 +69,4 @@ public class MainPanel extends JSplitPane {
     public BottomPanel getBottomPanel() { return this.bottomPanel; }
     
     public SimulationWindow getSimulationWindow() { return this.parent; }
-    
-    public void onNewGraphImport() {
-        topPanel.onNewGraphImport();
-        bottomPanel.onNewGraphImport();
-    }
 }

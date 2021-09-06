@@ -1,10 +1,14 @@
 package impl.panels.tabs;
 
 import core.ComponentDrawer;
+import core.GraphChangeObserver;
 import impl.MyGraph;
 import impl.Node;
 import impl.tools.Edge;
 import impl.tools.Tools;
+import org.jgrapht.event.GraphEdgeChangeEvent;
+import org.jgrapht.event.GraphVertexChangeEvent;
+import org.jgrapht.graph.DefaultEdge;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -12,7 +16,7 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.awt.*;
 import java.util.Hashtable;
 
-public class VisualizationTab extends JPanel {
+public class VisualizationTab extends JPanel implements GraphChangeObserver {
     
     private final String TAB_NAME = "Visualization options";
     
@@ -243,17 +247,23 @@ public class VisualizationTab extends JPanel {
         this.add(container);
     }
     
-    public void onNewGraphImport() {
-        if (graph.getNodes().isEmpty()) {
-            edgeOpacitySlider.setEnabled(false);
-            nodeRadSlider.setEnabled(false);
-            idDrawerCheckBox.setEnabled(false);
-            coordDrawerCheckBox.setEnabled(false);
-            edgeDrawerCheckBox.setEnabled(false);
-            stateDebugCheckBox.setEnabled(false);
-            neighborsDebugCheckBox.setEnabled(false);
-            return;
-        }
+    public String getNameOfTab() { return this.TAB_NAME; }
+    
+    @Override
+    public void onGraphClear() {
+        edgeOpacitySlider.setEnabled(false);
+        nodeRadSlider.setEnabled(false);
+        idDrawerCheckBox.setEnabled(false);
+        coordDrawerCheckBox.setEnabled(false);
+        edgeDrawerCheckBox.setEnabled(false);
+        stateDebugCheckBox.setEnabled(false);
+        neighborsDebugCheckBox.setEnabled(false);
+    }
+    
+    @Override
+    public void onGraphImport() {
+        if (graph.getNodes().isEmpty()) return;
+        
         edgeOpacitySlider.setEnabled(true);
         nodeRadSlider.setEnabled(true);
         idDrawerCheckBox.setEnabled(true);
@@ -263,6 +273,10 @@ public class VisualizationTab extends JPanel {
         neighborsDebugCheckBox.setEnabled(true);
     }
     
-    public String getNameOfTab() { return this.TAB_NAME; }
-    
+    @Override public void onNewInformedNode() {}
+    @Override public void onNewUninformedNode() {}
+    @Override public void edgeAdded(GraphEdgeChangeEvent<Node, DefaultEdge> e) {}
+    @Override public void edgeRemoved(GraphEdgeChangeEvent<Node, DefaultEdge> e) {}
+    @Override public void vertexAdded(GraphVertexChangeEvent<Node> e) {}
+    @Override public void vertexRemoved(GraphVertexChangeEvent<Node> e) {}
 }

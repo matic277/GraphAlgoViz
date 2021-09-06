@@ -87,13 +87,6 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     @Override
     public Point2D getLocation() { return new Point2D.Double(x, y); }
     
-    @Override
-    public String toString() {
-        // do not call getNeighbors() in here!
-        // produces StackOverflow when node is deleted
-        return "[N="+id+"]{"+"}";
-    }
-    
     public State getState() { return this.states.get(AlgorithmController.currentStateIndex); }
     
     public void addState(State state) { this.states.add(state); }
@@ -124,5 +117,12 @@ public class Node extends Ellipse2D.Double implements Drawable, Selectable {
     
     public void setPosition(org.jgrapht.alg.drawing.model.Point2D p) {
         this.x = p.getX(); this.y = p.getY();
+    }
+    
+    @Override
+    public String toString() {
+        // do not call getNeighbors() in here!
+        // produces StackOverflow when node is deleted
+        return "[N="+id+"]{"+"}";
     }
 }

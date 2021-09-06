@@ -1,11 +1,21 @@
 package core;
 
-public interface GraphChangeObserver extends Observer {
+import impl.Node;
+import org.jgrapht.event.GraphEdgeChangeEvent;
+import org.jgrapht.event.GraphListener;
+import org.jgrapht.graph.DefaultEdge;
+
+public interface GraphChangeObserver extends GraphListener<Node, DefaultEdge> {
     
-    void onNodeAdded();
-    void onNodeDeleted();
-    void onEdgeAdded();
+    // Inherited from GraphListener<>:
+    //   edgeRemoved
+    //   edgeAdded
+    //   vertexAdded
+    //   vertexRemoved
+    
+    void onGraphClear();
+    void onGraphImport();
+    
     void onNewInformedNode();
     void onNewUninformedNode();
-    void onGraphClear();
 }

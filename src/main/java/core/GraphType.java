@@ -7,17 +7,16 @@ import impl.panels.importPanels.graphOptionPanels.*;
 public enum GraphType {
     
     // testing purposes
-    STATIC_TEST(0, "STATIC_TEST", StaticTestGraphOptionPanel.getInstance(), new StaticTestGraphBuilder()),
+    STATIC_TEST(0, "STATIC_TEST",              StaticTestGraphOptionPanel.getInstance(), new StaticTestGraphBuilder()),
+    RANDOM(     1, "Random graph",             RandomGraphOptionPanel.getInstance(),     new RandomGraphBuilder()),
+    FILE(       2, "Load from file",           FileGraphOptionPanel.getInstance(),       new FileGraphBuilder()),
+    USER(       3, "Create your own",          UserGraphOptionPanel.getInstance(),       new EmptyGraphBuilder()),
+    CLIQUE(     4, "Fully connected (clique)", CliqueGraphOptionPanel.getInstance(),     new CliqueGraphBuilder());
     
-    RANDOM(1, "Random graph", RandomGraphOptionPanel.getInstance(), new RandomGraphBuilder()),
-    FILE(2, "Load from file", FileGraphOptionPanel.getInstance(), new FileGraphBuilder()),
-    USER(3, "Create your own", UserGraphOptionPanel.getInstance(), new EmptyGraphBuilder()),
-    CLIQUE(4, "Fully connected (clique)", CliqueGraphOptionPanel.getInstance(), new CliqueGraphBuilder());
-    
-    private int id;
-    private String description;
-    private OptionPanel panel;
-    private GraphBuilder builder;
+    private final int id;
+    private final String description;
+    private final OptionPanel panel;
+    private final GraphBuilder builder;
     
     GraphType(int id, String desc, OptionPanel panel, GraphBuilder builder) {
         this.id = id;

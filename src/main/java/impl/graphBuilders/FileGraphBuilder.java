@@ -13,7 +13,7 @@ import java.io.File;
 public class FileGraphBuilder extends GraphBuilder {
     
     public FileGraphBuilder() {
-        super();
+        super(); // TODO i don't remember these calls being necessary, remove clutter in all implementors
     }
     
     @Override
@@ -25,7 +25,6 @@ public class FileGraphBuilder extends GraphBuilder {
         
         // initialize nodes (informed or not)
         this.getNodeInformator().run();
-        
-        GraphBuilder.layoutTypeMap.get(GraphBuilder.layoutType).run();
+        GraphBuilder.layoutType.getLayoutExecutor().run();
     }
 }

@@ -59,9 +59,4 @@ public class BottomPanel extends JSplitPane {
     
     public StatsPanel getStatsPanel() { return this.statsPanel; }
     public TabsPanel getTabsPanel() { return this.tabPanel; }
-    
-    public void onNewGraphImport() {
-        tabPanel.onNewGraphImport();
-        statsPanel.onNewGraphImport();
-    }
 }

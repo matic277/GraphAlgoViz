@@ -28,114 +28,87 @@ public abstract class GraphBuilder {
     protected String fileName;
     
     public static LayoutType layoutType = LayoutType.values()[0]; // default
-    public static final Map<LayoutType, Runnable> layoutTypeMap = new HashMap<>(); static {
-        layoutTypeMap.put(LayoutType.CIRCULAR, circularLayout());
-        layoutTypeMap.put(LayoutType.RANDOM, randomLayout());
-        layoutTypeMap.put(LayoutType.TWO_LAYERED_BIPARTITE, twoLayeredBipartiteLayout());
-        layoutTypeMap.put(LayoutType.BARY_CENTER_GREEDY_TWO_LAYERED_BIPARTITE, barycenterGreedyBipartiteLayout());
-        layoutTypeMap.put(LayoutType.MEDIAN_GREEDY_TWO_LAYERED_BIPARTITE, medianGreedyBipartiteLayout());
-        layoutTypeMap.put(LayoutType.FR, frLayout());
-        layoutTypeMap.put(LayoutType.INDEXED_FR, indexedFrLayout());
-        
-        if (layoutTypeMap.size() != LayoutType.values().length)
-            throw new RuntimeException("Expected " + LayoutType.values().length +
-                                       " entries in typeMap, but found only " + layoutTypeMap.size() + ".");
-    }
     
     public GraphBuilder() { this.graph = MyGraph.getInstance(); }
     
     public abstract void buildGraph();
     
-    private static Runnable indexedFrLayout() {
-        return () -> {
-            // TODO
-            // Needs:
-            // Set<Node> partition, Comparator<Node> vertexComparator
-            LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
-            LayoutAlgorithm2D<Node, DefaultEdge> layout = new FRLayoutAlgorithm2D<>();
-            layout.layout(MyGraph.getInstance().getGraph(), model);
-            
-            // set positions from model to nodes
-            model.collect().forEach(Node::setPosition);
-        };
+    public static void indexedFrLayout() {
+        // TODO
+        // Needs:
+        // Set<Node> partition, Comparator<Node> vertexComparator
+        LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
+        LayoutAlgorithm2D<Node, DefaultEdge> layout = new FRLayoutAlgorithm2D<>();
+        layout.layout(MyGraph.getInstance().getGraph(), model);
+        
+        // set positions from model to nodes
+        model.collect().forEach(Node::setPosition);
     }
     
-    private static Runnable frLayout() {
-        return () -> {
-            // TODO
-            // Needs:
-            // Set<Node> partition, Comparator<Node> vertexComparator
-            LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
-            LayoutAlgorithm2D<Node, DefaultEdge> layout = new FRLayoutAlgorithm2D<>();
-            layout.layout(MyGraph.getInstance().getGraph(), model);
-            
-            // set positions from model to nodes
-            model.collect().forEach(Node::setPosition);
-        };
+    public static void frLayout() {
+        // TODO
+        // Needs:
+        // Set<Node> partition, Comparator<Node> vertexComparator
+        LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
+        LayoutAlgorithm2D<Node, DefaultEdge> layout = new FRLayoutAlgorithm2D<>();
+        layout.layout(MyGraph.getInstance().getGraph(), model);
+        
+        // set positions from model to nodes
+        model.collect().forEach(Node::setPosition);
     }
     
-    private static Runnable medianGreedyBipartiteLayout() {
-        return () -> {
-            // TODO
-            // Needs:
-            // Set<Node> partition, Comparator<Node> vertexComparator
-            LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
-            LayoutAlgorithm2D<Node, DefaultEdge> layout = new MedianGreedyTwoLayeredBipartiteLayout2D<>();
-            layout.layout(MyGraph.getInstance().getGraph(), model);
-            
-            // set positions from model to nodes
-            model.collect().forEach(Node::setPosition);
-        };
+    public static void medianGreedyBipartiteLayout() {
+        // TODO
+        // Needs:
+        // Set<Node> partition, Comparator<Node> vertexComparator
+        LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
+        LayoutAlgorithm2D<Node, DefaultEdge> layout = new MedianGreedyTwoLayeredBipartiteLayout2D<>();
+        layout.layout(MyGraph.getInstance().getGraph(), model);
+        
+        // set positions from model to nodes
+        model.collect().forEach(Node::setPosition);
     }
     
-    private static Runnable barycenterGreedyBipartiteLayout() {
-        return () -> {
-            // TODO
-            // Needs:
-            // Set<Node> partition, Comparator<Node> vertexComparator
-            LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
-            LayoutAlgorithm2D<Node, DefaultEdge> layout = new BarycenterGreedyTwoLayeredBipartiteLayout2D<>();
-            layout.layout(MyGraph.getInstance().getGraph(), model);
-            
-            // set positions from model to nodes
-            model.collect().forEach(Node::setPosition);
-        };
+    public static void barycenterGreedyBipartiteLayout() {
+        // TODO
+        // Needs:
+        // Set<Node> partition, Comparator<Node> vertexComparator
+        LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
+        LayoutAlgorithm2D<Node, DefaultEdge> layout = new BarycenterGreedyTwoLayeredBipartiteLayout2D<>();
+        layout.layout(MyGraph.getInstance().getGraph(), model);
+        
+        // set positions from model to nodes
+        model.collect().forEach(Node::setPosition);
     }
     
-    private static Runnable twoLayeredBipartiteLayout() {
-        return () -> {
-            // TODO
-            // Needs:
-            // Set<Node> partition, Comparator<Node> vertexComparator
-            LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
-            LayoutAlgorithm2D<Node, DefaultEdge> layout = new TwoLayeredBipartiteLayout2D<>();
-            layout.layout(MyGraph.getInstance().getGraph(), model);
-            
-            // set positions from model to nodes
-            model.collect().forEach(Node::setPosition);
-        };
+    public static void twoLayeredBipartiteLayout() {
+        // TODO
+        // Needs:
+        // Set<Node> partition, Comparator<Node> vertexComparator
+        LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
+        LayoutAlgorithm2D<Node, DefaultEdge> layout = new TwoLayeredBipartiteLayout2D<>();
+        layout.layout(MyGraph.getInstance().getGraph(), model);
+        
+        // set positions from model to nodes
+        model.collect().forEach(Node::setPosition);
     }
     
-    private static Runnable randomLayout() {
-        return () -> {
-            LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
-            LayoutAlgorithm2D<Node, DefaultEdge> layout = new RandomLayoutAlgorithm2D<>();
-            layout.layout(MyGraph.getInstance().getGraph(), model);
-            
-            // set positions from model to nodes
-            model.collect().forEach(Node::setPosition);
-        };
+    public static void randomLayout() {
+        LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
+        LayoutAlgorithm2D<Node, DefaultEdge> layout = new RandomLayoutAlgorithm2D<>();
+        layout.layout(MyGraph.getInstance().getGraph(), model);
+        
+        // set positions from model to nodes
+        model.collect().forEach(Node::setPosition);
     }
     
-    private static Runnable circularLayout() {
-        return () -> {
-            LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
-            LayoutAlgorithm2D<Node, DefaultEdge> layout = new CircularLayoutAlgorithm2D<>(390);
-            layout.layout(MyGraph.getInstance().getGraph(), model);
-    
-            // set positions from model to nodes
-            model.collect().forEach(Node::setPosition);
-        };
+    public static void circularLayout() {
+        LayoutModel2D<Node> model = new MapLayoutModel2D<>(new Box2D(1000, 800));
+        LayoutAlgorithm2D<Node, DefaultEdge> layout = new CircularLayoutAlgorithm2D<>(390);
+        layout.layout(MyGraph.getInstance().getGraph(), model);
+
+        // set positions from model to nodes
+        model.collect().forEach(Node::setPosition);
     }
     
     public void arrangeNodesInGridLayout(int columns) {
@@ -204,13 +177,14 @@ public abstract class GraphBuilder {
                         alreadyInformed.add(randId);
                         this.graph.getNodeById(randId).states.get(0).setState(1);
                     }
-                } :
+                }
+                :
                 // inform based on probability (randomly)
                 () -> {
                     this.graph.getNodes().forEach(n -> {
-                            boolean inform = Tools.RAND.nextInt(100) <= informedProbability;
-                            if (inform) this.initiallyInformedNodesNum++;
-                            n.getState().setState(inform ? 1 : 0);
+                        boolean inform = Tools.RAND.nextInt(100) <= informedProbability;
+                        if (inform) this.initiallyInformedNodesNum++;
+                        n.getState().setState(inform ? 1 : 0);
                     });
                 };
     }

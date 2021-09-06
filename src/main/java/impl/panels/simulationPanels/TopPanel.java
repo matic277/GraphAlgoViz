@@ -60,9 +60,4 @@ public class TopPanel extends JPanel {
     public SimulationPanel getSimulationPanel() { return this.simPanel; }
     
     public MainPanel getMainPanel() { return this.parent; }
-    
-    public void onNewGraphImport() {
-        simPanel.onNewGraphImport();
-        menuPanel.onNewGraphImport();
-    }
 }

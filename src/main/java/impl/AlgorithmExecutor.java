@@ -55,4 +55,6 @@ public class AlgorithmExecutor implements Runnable {
     public String stateToString() {
         return name + " -> " + nodes.size();
     }
+    
+    public synchronized void addNewNodeToProcess(Node n) { nodes.add(n); }
 }

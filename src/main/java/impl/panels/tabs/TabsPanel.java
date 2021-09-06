@@ -48,9 +48,4 @@ public class TabsPanel extends JTabbedPane {
     }
     
     public StateHistoryTab getStateHistoryTab() { return this.historyTab; }
-    
-    public void onNewGraphImport() {
-        historyTab.onNewGraphImport();
-        visualizationTab.onNewGraphImport();
-    }
 }

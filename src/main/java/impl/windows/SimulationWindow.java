@@ -42,6 +42,7 @@ public class SimulationWindow extends Window {
     //   many more things need to be done on graph change
     //   buttons, history!, listeners, ...
     //   algorithmController needs to be re-inited (workers need new nodes)
+    // BUILDER IS NULLABLE!!!
     public void onNewGraphImport(GraphBuilder builder) {
         // Completable future,
         // on large graph imports, this makes sure GUI doesn't freeze
@@ -50,16 +51,17 @@ public class SimulationWindow extends Window {
             AlgorithmController.totalStates = 1;
             AlgorithmController.currentStateIndex = 0;
             
-            this.graph.clearGraph();
-            builder.buildGraph();
-            this.graph.drawEdges(true);
-            
-            algoController.onNewGraphImport(graph);
+            // when this is called with null
+            // one node was added by hand
+            // so there is nothing to clear and/or build
+            if (builder != null) {
+                this.graph.clearGraph();
+                builder.buildGraph();
+                this.graph.setNumberOfInformedNodes(builder.getNumberOfInitiallyInformedNodes());
+            }
             
             // re-enables buttons and such
-            mainPanel.onNewGraphImport();
-    
-            this.graph.setNumberOfInformedNodes(builder.getNumberOfInitiallyInformedNodes());
+            this.graph.onGraphImport();
         });
         
         // This stops working if inside completableFuture

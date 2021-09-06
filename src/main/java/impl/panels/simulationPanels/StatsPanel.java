@@ -2,7 +2,11 @@ package impl.panels.simulationPanels;
 
 import core.GraphChangeObserver;
 import impl.MyGraph;
+import impl.Node;
 import impl.tools.Tools;
+import org.jgrapht.event.GraphEdgeChangeEvent;
+import org.jgrapht.event.GraphVertexChangeEvent;
+import org.jgrapht.graph.DefaultEdge;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -11,6 +15,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.function.Function;
 
 public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     
@@ -30,9 +35,9 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
         // In order to change ordering displayed in GUI, simply swap rows here!
         NODES_NUMBER(0, "Number of nodes"),
         EDGES_NUMBER(1, "Number of edges"),
-        //INFORMED_NODES(2, "Number of informed nodes"),
-        //UNINFORMED_NODES(3, "Number of uninformed nodes"),
-        //INFORMED_PERCENTAGE(4, "Percentage of informed nodes"),
+        INFORMED_NODES(2, "Number of informed nodes"),
+        UNINFORMED_NODES(3, "Number of uninformed nodes"),
+        INFORMED_PERCENTAGE(4, "Percentage of informed nodes"),
         ;
         
         int id; String displayStr;
@@ -41,7 +46,7 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     
     public StatsPanel(BottomPanel parent) {
         this.parent = parent;
-        graph.addObserver(this);
+        MyGraph.getInstance().addObserver(this);
         
         Dimension panelSize = new Dimension(Tools.MAXIMUM_STATS_PANEL_WIDTH, parent.getHeight());
         this.setSize(panelSize);
@@ -116,35 +121,44 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
 //        table.getTableHeader().getColumnModel().getColumn(1).setPreferredWidth(75);
     }
     
-    public void onNewGraphImport() {
-        table.setValueAt(graph.getGraph().vertexSet().size(), TableKey.NODES_NUMBER.id, 1);
-        table.setValueAt(graph.getGraph().edgeSet().size(), TableKey.EDGES_NUMBER.id, 1);
-        
-        double informed = graph.getNumberOfInformedNodes();
-        double uninformed = graph.getGraph().vertexSet().size() - informed;
-        double perc = uninformed == 0 ? 1 : informed / uninformed;
-        
-        //table.setValueAt((int)informed, TableKey.INFORMED_NODES.id, 1);
-        //table.setValueAt(perc, TableKey.INFORMED_PERCENTAGE.id, 1);
-        //table.setValueAt((int)uninformed, TableKey.UNINFORMED_NODES.id, 1);
-        
-        table.repaint();
+    // Would be "safer" to call graph.vertexSet.size
+    // but this is more performant, probably ...
+    @Override
+    public void edgeAdded(GraphEdgeChangeEvent<Node, DefaultEdge> e) {
+        updateValueInTable(TableKey.EDGES_NUMBER, INCREMENT);
+    }
+    @Override
+    public void edgeRemoved(GraphEdgeChangeEvent<Node, DefaultEdge> e) {
+        updateValueInTable(TableKey.EDGES_NUMBER, DECREMENT);
+    }
+    @Override
+    public void vertexAdded(GraphVertexChangeEvent<Node> e) {
+        updateValueInTable(TableKey.NODES_NUMBER, INCREMENT);
+        onNewInformedNode(); // TODO these calls might not be the best
+    }
+    @Override
+    public void vertexRemoved(GraphVertexChangeEvent<Node> e) {
+        updateValueInTable(TableKey.NODES_NUMBER, DECREMENT);
+        onNewInformedNode();
     }
     
-    @Override
-    public void onNodeAdded() {
-        table.setValueAt(graph.getGraph().vertexSet().size(), TableKey.NODES_NUMBER.id, 1);
-        table.repaint();
-    }
-    
-    @Override
-    public void onNodeDeleted() {
-        onNodeAdded();
-    }
-    
-    @Override
-    public void onEdgeAdded() {
-        table.setValueAt(graph.getGraph().edgeSet().size(), TableKey.EDGES_NUMBER.id, 1);
+    private static final Function<Integer, Integer> INCREMENT = x -> x + 1;
+    private static final Function<Integer, Integer> DECREMENT = x -> x - 1;
+    private void updateValueInTable(TableKey tabKey, Function<Integer, Integer> operation) {
+        int currentValue;
+        Object value = table.getValueAt(TableKey.NODES_NUMBER.id, 1);
+        
+        // TODO WTF
+        // scenarios:
+        //  - run program                                 (table has set nodes number = 0), add node -> table.getValue returns String "0"
+        //  - run program, import some graph, press clear (table has set nodes number = 0), add node -> table.getValue returns Integer 0
+        if      (value instanceof String  s) currentValue = Integer.parseInt(s);
+        else if (value instanceof Integer i) currentValue = i;
+        else throw new RuntimeException("What is this: \"" + value + "\" of type " + value.getClass());
+        
+        int newValue = operation.apply(currentValue);
+        
+        table.setValueAt(newValue, tabKey.id, 1);
         table.repaint();
     }
     
@@ -166,16 +180,32 @@ public class StatsPanel extends JScrollPane implements GraphChangeObserver {
     public void onNewUninformedNode() {
         onNewInformedNode();
     }
+    
     @Override
     public void onGraphClear() {
-        table.setValueAt(0, TableKey.NODES_NUMBER.id, 1);
-        table.setValueAt(0, TableKey.EDGES_NUMBER.id, 1);
-        //table.setValueAt(0, TableKey.INFORMED_NODES.id, 1);
-        //table.setValueAt(0, TableKey.INFORMED_PERCENTAGE.id, 1);
-        //table.setValueAt(0, TableKey.UNINFORMED_NODES.id, 1);
+        table.setValueAt(0, TableKey.NODES_NUMBER.id,        1);
+        table.setValueAt(0, TableKey.EDGES_NUMBER.id,        1);
+        table.setValueAt(0, TableKey.INFORMED_NODES.id,      1);
+        table.setValueAt(0, TableKey.INFORMED_PERCENTAGE.id, 1);
+        table.setValueAt(0, TableKey.UNINFORMED_NODES.id,    1);
         
         table.repaint();
-        System.out.println("cleared");
+    }
+    
+    @Override
+    public void onGraphImport() {
+        table.setValueAt(graph.getGraph().vertexSet().size(), TableKey.NODES_NUMBER.id, 1);
+        table.setValueAt(graph.getGraph().edgeSet().size(),   TableKey.EDGES_NUMBER.id, 1);
+    
+        double informed = graph.getNumberOfInformedNodes();
+        double uninformed = graph.getGraph().vertexSet().size() - informed;
+        double perc = uninformed == 0 ? 1 : informed / uninformed;
+    
+        table.setValueAt((int)informed,  TableKey.INFORMED_NODES.id,      1);
+        table.setValueAt(perc,           TableKey.INFORMED_PERCENTAGE.id, 1);
+        table.setValueAt((int)uninformed,TableKey.UNINFORMED_NODES.id,    1);
+        
+        table.repaint();
     }
     
     private JLabel dummySeparator() {

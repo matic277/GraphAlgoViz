@@ -1,20 +1,28 @@
 package core;
 
+import impl.graphBuilders.GraphBuilder;
+
 public enum LayoutType {
     
-    CIRCULAR(0, "Circular"),
-    RANDOM(1, "Random"),
-    TWO_LAYERED_BIPARTITE(2, "Two layered bipartite"),
-    BARY_CENTER_GREEDY_TWO_LAYERED_BIPARTITE(3, "Barycenter greedy two layered biparite"),
-    MEDIAN_GREEDY_TWO_LAYERED_BIPARTITE(4, "Median greedy two layered bipartite"),
-    FR(5, "FR"),
-    INDEXED_FR(6, "Indexed FR"),
+    CIRCULAR(  0, "Circular",   GraphBuilder::circularLayout),
+    RANDOM(    1, "Random",     GraphBuilder::randomLayout),
+    FR(        2, "FR",         GraphBuilder::frLayout),
+    INDEXED_FR(3, "Indexed FR", GraphBuilder::indexedFrLayout),
+    
+    TWO_LAYERED_BIPARTITE(                   4, "Two layered bipartite",                  GraphBuilder::twoLayeredBipartiteLayout),
+    BARY_CENTER_GREEDY_TWO_LAYERED_BIPARTITE(5, "Barycenter greedy two layered biparite", GraphBuilder::barycenterGreedyBipartiteLayout),
+    MEDIAN_GREEDY_TWO_LAYERED_BIPARTITE(     6, "Median greedy two layered bipartite",    GraphBuilder::medianGreedyBipartiteLayout)
     ;
     
-    int id;
-    String displayValue;
+    private final int id;
+    private final String displayValue;
+    private final Runnable layoutExecutor; // this calls the layout emthods on graph
     
-    LayoutType(int id_, String displayValue_) { id = id_; displayValue = displayValue_; }
+    LayoutType(int id_, String displayValue_, Runnable layExec_) { id=id_; displayValue=displayValue_; layoutExecutor=layExec_; }
+    
+    public int getId() { return id; }
+    public String getDisplayValue() { return displayValue; }
+    public Runnable getLayoutExecutor() { return layoutExecutor; }
     
     @Override
     public String toString() { return displayValue; }

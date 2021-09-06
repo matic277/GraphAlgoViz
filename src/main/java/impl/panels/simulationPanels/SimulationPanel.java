@@ -1,9 +1,13 @@
 package impl.panels.simulationPanels;
 
+import core.GraphChangeObserver;
 import impl.*;
 import impl.listeners.SimulationPanelListener;
 import impl.tools.Tools;
 import impl.windows.SimulationWindow;
+import org.jgrapht.event.GraphEdgeChangeEvent;
+import org.jgrapht.event.GraphVertexChangeEvent;
+import org.jgrapht.graph.DefaultEdge;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +17,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class SimulationPanel extends JPanel {
+public class SimulationPanel extends JPanel implements GraphChangeObserver {
     
     TopPanel parent;
     MyGraph graph;
@@ -166,8 +170,20 @@ public class SimulationPanel extends JPanel {
     
     public SimulationWindow getSimulationWindow() { return this.parent.getSimulationWindow(); }
     
-    public void onNewGraphImport() {
-        this.repaint();
-        this.listener.onNewGraphImport();
+    @Override
+    public void onGraphClear() {
+    
     }
+    
+    @Override
+    public void onGraphImport() {
+        this.repaint();
+    }
+    
+    @Override public void onNewInformedNode() {}
+    @Override public void onNewUninformedNode() {}
+    @Override public void edgeAdded(GraphEdgeChangeEvent<Node, DefaultEdge> e) {}
+    @Override public void edgeRemoved(GraphEdgeChangeEvent<Node, DefaultEdge> e) {}
+    @Override public void vertexAdded(GraphVertexChangeEvent<Node> e) {}
+    @Override public void vertexRemoved(GraphVertexChangeEvent<Node> e) {}
 }

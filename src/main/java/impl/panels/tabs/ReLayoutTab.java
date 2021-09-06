@@ -74,7 +74,7 @@ public class ReLayoutTab extends JPanel {
                     processingLbl.setPreferredSize(new Dimension(155, 26));
                     processingLbl.setVisible(true);
                     
-                    GraphBuilder.layoutTypeMap.get(selectedLayout).run();
+                    selectedLayout.getLayoutExecutor().run();
                     
                     processingLbl.setPreferredSize(new Dimension(75, 26));
                     processingLbl.setText(" Done!");
