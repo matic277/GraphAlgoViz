@@ -8,13 +8,15 @@ import impl.windows.SimulationWindow;
 
 
 import javax.swing.*;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
+        
+        // TODO
+        // probably don't need these fonts anymore...
+        // using "Segoe UI" now
         try {
             // Roboto Mono SemiBold
             // Roboto Mono Medium
@@ -63,15 +65,25 @@ public class Main {
 //            System.out.println(a.toString());
 //            System.out.println(b.toString());
 //        });
-        
-        
-        // Change nimbus coloring to lighter
-        //UIManager.put("nimbusBase", new ColorUIResource(150, 150, 150));
+
         
 //        SwingUtilities.invokeLater(ImportGraphWindow::new);
-        SwingUtilities.invokeLater(() -> new SimulationWindow(getAlgorithm()));
+    
+        
+        // Load class via reflection...
+        // Performance penalties? Probably only on class load,
+        // not when method is being executed by workers...
+        try {
+            Class<Algorithm> algorithmClass = (Class<Algorithm>) Class.forName("AlgorithmImpl");
+            Algorithm algorithmInstance = algorithmClass.getDeclaredConstructor().newInstance();
+            
+            SwingUtilities.invokeLater(() -> new SimulationWindow(algorithmInstance));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
+    @Deprecated
     public static Algorithm getAlgorithm() {
         return vertex -> {
             // if you have info, don't do anything

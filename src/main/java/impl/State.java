@@ -4,7 +4,7 @@ import java.util.List;
 
 public class State {
     
-    int info;
+    public int info;
     
     public State(int info) {
         this.info = info;
