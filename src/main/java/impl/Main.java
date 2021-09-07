@@ -70,6 +70,10 @@ public class Main {
 //        SwingUtilities.invokeLater(ImportGraphWindow::new);
     
         
+        // TODO: make it so that the program is started without giving it the
+        //       algorithm, and fix the interface so that it allows for the class to be specified
+        //       and loaded dynamically at runtime.
+        
         // Load class via reflection...
         // Performance penalties? Probably only on class load,
         // not when method is being executed by workers...
