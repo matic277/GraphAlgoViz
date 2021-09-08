@@ -15,7 +15,7 @@ public class TabsPanel extends JTabbedPane {
     MyGraph graph;
     
     StateHistoryTab historyTab;
-    ReLayoutTab layoutTab;
+    GraphOptionsTab layoutTab;
     VisualizationTab visualizationTab;
     
     public TabsPanel(BottomPanel parent) {
@@ -26,7 +26,7 @@ public class TabsPanel extends JTabbedPane {
         this.addTab("State history", historyTab);
         //this.setBackgroundAt(0, Tools.GRAY3);
     
-        layoutTab = new ReLayoutTab(this);
+        layoutTab = new GraphOptionsTab(this);
         this.addTab("Graph layout", layoutTab);
         //this.setBackgroundAt(1, Tools.GRAY3);
     

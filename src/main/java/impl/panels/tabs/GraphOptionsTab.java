@@ -2,7 +2,7 @@ package impl.panels.tabs;
 
 import core.LayoutType;
 import impl.MyGraph;
-import impl.graphBuilders.GraphBuilder;
+import impl.layouts.VerticalFlowLayout;
 import impl.tools.Tools;
 
 import javax.swing.*;
@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ReLayoutTab extends JPanel {
+public class GraphOptionsTab extends JPanel {
     
     TabsPanel parent;
     MyGraph graph;
@@ -18,22 +18,32 @@ public class ReLayoutTab extends JPanel {
     JComboBox<LayoutType> layoutTypeDropdown;
     JButton doLayoutBtn;
     
+    JTextField inputfield;
+    JButton reinformBtn;
+    
     LayoutType selectedLayout = LayoutType.values()[0];
     
-    public ReLayoutTab(TabsPanel parent) {
+    public GraphOptionsTab(TabsPanel parent) {
         this.parent = parent;
         this.graph = MyGraph.getInstance();
         
         //this.setBackground(Tools.GRAY3);
-        this.setLayout(new FlowLayout(FlowLayout.LEFT));
+        //this.setLayout(new FlowLayout(FlowLayout.LEFT));
+    
+        //this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new VerticalFlowLayout(VerticalFlowLayout.LEFT, VerticalFlowLayout.TOP));
         
-        initInterface();
+        initGraphLayoutOption();
+        initGraphInformatorOption();
     }
     
     private static final AtomicInteger THREADS_DOING_LAYOUT = new AtomicInteger(0);
     
-    private void initInterface() {
-        JLabel info = new JLabel(" Select type of layout:");
+    private void initGraphLayoutOption() {
+        JPanel container = new JPanel();
+        container.setLayout(new FlowLayout(FlowLayout.LEFT));
+        
+        JLabel info = new JLabel("  Select type of layout:            "); // TODO fix alignment
         info.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         layoutTypeDropdown = new JComboBox<>(LayoutType.values());
@@ -46,16 +56,21 @@ public class ReLayoutTab extends JPanel {
         // creating borders makes label visible even when
         // visibility is set to FALSE; -> swing bug??
 //        errorLabel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, Tools.RED));
-        errorlbl.setFont(Tools.getMonospacedFont(14));
+//        errorlbl.setFont(Tools.getMonospacedFont(14));
         errorlbl.setForeground(Tools.RED);
         errorlbl.setVisible(true); // off by default
 
         JLabel processingLbl = new JLabel();
-        processingLbl.setFont(Tools.getMonospacedFont(14));
+        //processingLbl.setFont(Tools.getMonospacedFont(14));
         processingLbl.setForeground(Tools.GREEN);
         processingLbl.setVisible(true); // off by default
         
         doLayoutBtn = new JButton("Apply");
+        
+        // TODO there has got to be a more straight forward
+        // way to do this. Also, make a class out of this
+        // so it can be used by and button click that
+        // gives feedback
         doLayoutBtn.addActionListener(a -> {
                 // Only 1 thread can be doing layout at once!
                 synchronized (THREADS_DOING_LAYOUT) {
@@ -71,12 +86,12 @@ public class ReLayoutTab extends JPanel {
                     // signal status with processing label
                     processingLbl.setText(" Doing layout...");
                     processingLbl.setBorder(new Tools.RoundBorder(Tools.GREEN, new BasicStroke(2), 10));
-                    processingLbl.setPreferredSize(new Dimension(155, 26));
+                    processingLbl.setPreferredSize(new Dimension(100, 24));
                     processingLbl.setVisible(true);
                     
                     selectedLayout.getLayoutExecutor().run();
                     
-                    processingLbl.setPreferredSize(new Dimension(75, 26));
+                    processingLbl.setPreferredSize(new Dimension(58, 24));
                     processingLbl.setText(" Done!");
                     doLayoutBtn.setEnabled(true);
                 }).thenApply((x) -> {
@@ -105,12 +120,67 @@ public class ReLayoutTab extends JPanel {
                 });
         });
         
-        this.add(info);
-        this.add(layoutTypeDropdown);
-        this.add(doLayoutBtn);
-        this.add(errorlbl);
-        this.add(processingLbl);
+        container.add(info);
+        container.add(layoutTypeDropdown);
+        container.add(doLayoutBtn);
+        container.add(errorlbl);
+        container.add(processingLbl);
+    
+        //container.setPreferredSize(new Dimension(800, 100));
+        //container.setMaximumSize(new Dimension(800, 100));
+        //container.setAlignmentX(RIGHT_ALIGNMENT);
+        //container.setBackground(Color.black);
         
-        this.repaint();
+        this.add(container);
+    
+        this.doLayout();
+        container.doLayout();
+    }
+    
+    private void initGraphInformatorOption() {
+        JPanel container = new JPanel();
+        container.setLayout(new FlowLayout(FlowLayout.LEFT));
+        
+        JLabel info = new JLabel("  Randomly re-inform nodes:");
+        info.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JLabel errorlbl = new JLabel();
+        // creating borders makes label visible even when
+        // visibility is set to FALSE; -> swing bug??
+//        errorLabel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, Tools.RED));
+        errorlbl.setFont(Tools.getMonospacedFont(14));
+        errorlbl.setForeground(Tools.RED);
+        errorlbl.setVisible(true); // off by default
+        
+        JLabel processingLbl = new JLabel();
+        processingLbl.setFont(Tools.getMonospacedFont(14));
+        processingLbl.setForeground(Tools.GREEN);
+        processingLbl.setVisible(true); // off by default
+    
+        inputfield = new JTextField();
+        
+        reinformBtn = new JButton("Apply");
+        reinformBtn.addActionListener(a -> { /* TODO */ });
+        
+        container.add(info);
+        container.add(inputfield);
+        container.add(reinformBtn);
+        container.add(errorlbl);
+        container.add(processingLbl);
+    
+        //container.setPreferredSize(new Dimension(800, 100));
+        //container.setMaximumSize(new Dimension(800, 100));
+        //container.setAlignmentX(RIGHT_ALIGNMENT);
+        //container.setBackground(Color.yellow);
+        
+        this.add(container);
+    
+        // this must be called in order for
+        // JComponent.getBounds() to be calculated properly
+        this.doLayout();
+        container.doLayout();
+        
+        // Resize to match width fo upper component
+        inputfield.setPreferredSize(new Dimension(layoutTypeDropdown.getWidth(), inputfield.getHeight()));
     }
 }
