@@ -2,7 +2,7 @@ package impl.panels.importPanels.graphOptionPanels;
 
 import core.GraphType;
 import impl.graphBuilders.GraphBuilder;
-import impl.tools.*;
+import impl.nodeinformator.NodeInformatorProperties;
 import impl.windows.ImportGraphWindow;
 
 import javax.swing.*;
@@ -71,11 +71,14 @@ public class FileGraphOptionPanel extends OptionPanel {
             // Close window
             importWindow.setVisible(false);
             importWindow.dispose();
+    
+            NodeInformatorProperties informatorProperties = new NodeInformatorProperties();
+            informatorProperties.setTotalNodesToInform(isPercentage ? null : nodesToInform);
+            informatorProperties.setInformedProbability(isPercentage ? (double)nodesToInform : null);
             
             GraphBuilder builder = type.getGraphBuilder()
                     .setFileName(inputField.getText())
-                    .setInformedProbability(isPercentage ? (double)nodesToInform : null)
-                    .setTotalInformed(isPercentage ? null : nodesToInform);
+                    .setInformatorProperties(informatorProperties);
             super.simWindow.onNewGraphImport(builder);
         };
     }

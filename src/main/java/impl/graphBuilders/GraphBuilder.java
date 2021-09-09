@@ -3,15 +3,15 @@ package impl.graphBuilders;
 import core.LayoutType;
 import impl.MyGraph;
 import impl.Node;
+import impl.nodeinformator.NodeInformator;
+import impl.nodeinformator.NodeInformatorProperties;
 import impl.tools.Tools;
-import impl.tools.Vector;
 import org.jgrapht.alg.drawing.*;
 import org.jgrapht.alg.drawing.model.Box2D;
 import org.jgrapht.alg.drawing.model.LayoutModel2D;
 import org.jgrapht.alg.drawing.model.MapLayoutModel2D;
 import org.jgrapht.graph.DefaultEdge;
 
-import java.awt.*;
 import java.util.*;
 
 public abstract class GraphBuilder {
@@ -19,6 +19,9 @@ public abstract class GraphBuilder {
     protected MyGraph graph;
     protected int totalNodes;
     protected double edgeProbability;
+    
+    protected NodeInformatorProperties informatorProperties;
+    protected NodeInformator nodeInformator;
     
     protected Double informedProbability;
     protected Integer totalInformed;
@@ -124,6 +127,11 @@ public abstract class GraphBuilder {
         }
     }
     
+    public GraphBuilder setInformatorProperties(NodeInformatorProperties properties) {
+        this.informatorProperties = properties;
+        return this;
+    }
+    
     public GraphBuilder setNumberOfNodes(int nodes) {
         this.totalNodes = nodes;
         return this;
@@ -154,39 +162,7 @@ public abstract class GraphBuilder {
     // This is slow in some cases
     // TODO optimize when creating nodes in the first place
     public Runnable getNodeInformator() {
-        // If user specified:
-        //  number of informed nodes = 100
-        //  but graph has less than 100 nodes
-        //  then this must be corrected !!!
-        //  (otherwise this runnable hangs)
-        if (this.totalInformed != null && this.totalInformed > graph.getNodes().size()) {
-            this.totalInformed = Math.min(graph.getNodes().size(), this.totalInformed);
-        }
-        
-        return totalInformed != null ?
-                // inform number of nodes (randomly)
-                () -> {
-                    this.initiallyInformedNodesNum = totalInformed;
-                    Set<Integer> alreadyInformed = new HashSet<>(totalInformed);
-                    while (totalInformed-- > 0) {
-                        int randId = Tools.RAND.nextInt(this.graph.getNodes().size());
-                        if (alreadyInformed.contains(randId)) {
-                            totalInformed++;
-                            continue;
-                        }
-                        alreadyInformed.add(randId);
-                        this.graph.getNodeById(randId).states.get(0).setState(1);
-                    }
-                }
-                :
-                // inform based on probability (randomly)
-                () -> {
-                    this.graph.getNodes().forEach(n -> {
-                        boolean inform = Tools.RAND.nextInt(100) <= informedProbability;
-                        if (inform) this.initiallyInformedNodesNum++;
-                        n.getState().setState(inform ? 1 : 0);
-                    });
-                };
+        return new NodeInformator(this.informatorProperties);
     }
     
     protected void arrangeNodesInCircularLayoutJGraphT(){};

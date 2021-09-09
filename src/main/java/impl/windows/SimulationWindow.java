@@ -8,10 +8,8 @@ import impl.panels.simulationPanels.MainPanel;
 import impl.panels.simulationPanels.SimulationPanel;
 import impl.tools.Tools;
 
-import javax.print.attribute.standard.DocumentName;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.util.concurrent.CompletableFuture;
 
 public class SimulationWindow extends Window {
@@ -23,6 +21,8 @@ public class SimulationWindow extends Window {
     MyGraph graph;
     
     final int menuWidth = 150;
+    
+    JMenuBar menuBar = new JMenuBar();
     
     public SimulationWindow(Algorithm algo) {
         super(new Dimension(Tools.INITIAL_WINDOW_WIDTH, Tools.INITIAL_WINDOW_HEIGHT));
@@ -36,6 +36,19 @@ public class SimulationWindow extends Window {
         this.algoController.addObserver(this.mainPanel.getBottomPanel().getTabsPanel().getStateHistoryTab());
         
         this.controllerThread = new Thread(algoController);
+        
+        JMenu menu1 = new JMenu("Menu1");
+        JMenuItem menuItem1 = new JMenuItem("First");
+        JMenuItem menuItem2 = new JMenuItem("Second");
+        menu1.add(menuItem1);
+        menu1.add(menuItem2);
+        
+        JMenu menu2 = new JMenu("Menu2");
+        
+        menuBar.add(menu1);
+        menuBar.add(menu2);
+        
+        this.frame.setJMenuBar(menuBar);
     }
     
     // TODO

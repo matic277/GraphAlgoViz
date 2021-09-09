@@ -20,11 +20,11 @@ public class CliqueGraphBuilder extends GraphBuilder {
         
         // TODO
         // instead of every (almost )implementor having to call this
-        // something better could be written, but i'm lazy right now
+        // something better could be written, but i'm lazy right now...
         // or maybe not, since on empty/static import graph implementors
         // there is no point. but maybe these two lines should be a method
         // in abstract class GraphBuilder, and the implementing classes
-        // and overwrite with empty method body so nothing happens?
+        // can overwrite with empty method body so nothing happens?
         // (in this case whoever is calling this method must also call this new method mentioned above)
         this.getNodeInformator().run();
         GraphBuilder.layoutType.getLayoutExecutor().run();

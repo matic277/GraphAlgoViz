@@ -8,6 +8,6 @@ public class EmptyGraphBuilder extends GraphBuilder {
     
     @Override
     public void buildGraph() {
-    
+        // Do nothing
     }
 }

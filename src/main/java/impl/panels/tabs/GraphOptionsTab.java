@@ -2,7 +2,11 @@ package impl.panels.tabs;
 
 import core.LayoutType;
 import impl.MyGraph;
+import impl.Pair;
 import impl.layouts.VerticalFlowLayout;
+import impl.nodeinformator.NodeInformator;
+import impl.nodeinformator.NodeInformatorProperties;
+import impl.tools.InputHelpers;
 import impl.tools.Tools;
 
 import javax.swing.*;
@@ -160,7 +164,7 @@ public class GraphOptionsTab extends JPanel {
         inputfield = new JTextField();
         
         reinformBtn = new JButton("Apply");
-        reinformBtn.addActionListener(a -> { /* TODO */ });
+        reinformBtn.addActionListener(a -> onReinformButton());
         
         container.add(info);
         container.add(inputfield);
@@ -182,5 +186,27 @@ public class GraphOptionsTab extends JPanel {
         
         // Resize to match width fo upper component
         inputfield.setPreferredSize(new Dimension(layoutTypeDropdown.getWidth(), inputfield.getHeight()));
+    }
+    
+    private void onReinformButton() {
+        Pair<Number, Boolean> informedInfo = null;
+        try {
+            informedInfo = InputHelpers.performInputValidationDoubleOrInteger(inputfield.getText());
+        } catch (RuntimeException re) {
+            System.out.println("Input examples: \"10\" or \"10%\".");
+            return;
+        }
+        
+        boolean isPercentage = informedInfo.getB();
+        Number informedNodes = informedInfo.getA();
+    
+        NodeInformatorProperties informatorProperties = new NodeInformatorProperties();
+        informatorProperties.setTotalNodesToInform(isPercentage ? null : informedNodes.intValue());
+        informatorProperties.setInformedProbability(isPercentage ? informedNodes.doubleValue() : null);
+        
+        // before running informator, make all nodes uninformed!
+        MyGraph.getInstance().getGraph().vertexSet().forEach(v -> v.states.get(0).setState(0));
+        
+        new NodeInformator(informatorProperties).run();
     }
 }

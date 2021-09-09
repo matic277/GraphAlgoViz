@@ -4,15 +4,13 @@ import impl.Pair;
 import impl.graphBuilders.GraphBuilder;
 import core.GraphType;
 import impl.graphBuilders.CliqueGraphBuilder;
-import impl.tools.Tools;
+import impl.nodeinformator.NodeInformatorProperties;
+import impl.tools.InputHelpers;
 import impl.windows.ImportGraphWindow;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class CliqueGraphOptionPanel extends OptionPanel {
     
@@ -71,7 +69,7 @@ public class CliqueGraphOptionPanel extends OptionPanel {
         return a -> {
             int numberOfNodes;
             try {
-                numberOfNodes = performInputValidationInteger(nodesInput.getText());
+                numberOfNodes = InputHelpers.performInputValidationInteger(nodesInput.getText());
             } catch (RuntimeException re) {
                 signalBadInput(re.getLocalizedMessage(), nodesError);
                 return;
@@ -79,7 +77,7 @@ public class CliqueGraphOptionPanel extends OptionPanel {
             
             Pair<Number, Boolean> informedInfo;
             try {
-                informedInfo = performInputValidationDoubleOrInteger(informedNodesInput.getText());
+                informedInfo = InputHelpers.performInputValidationDoubleOrInteger(informedNodesInput.getText());
             } catch (RuntimeException re) {
                 signalBadInput(re.getLocalizedMessage(), informedNodesError);
                 return;
@@ -90,11 +88,14 @@ public class CliqueGraphOptionPanel extends OptionPanel {
             // Close window
             importWindow.setVisible(false);
             importWindow.dispose();
+    
+            NodeInformatorProperties informatorProperties = new NodeInformatorProperties();
+            informatorProperties.setTotalNodesToInform(isPercentage ? null : informedNodes.intValue());
+            informatorProperties.setInformedProbability(isPercentage ? informedNodes.doubleValue() : null);
             
             GraphBuilder builder = new CliqueGraphBuilder()
-                    .setNumberOfNodes(numberOfNodes)
-                    .setInformedProbability(isPercentage ? informedNodes.doubleValue() : null)
-                    .setTotalInformed(isPercentage ? null : informedNodes.intValue());
+                    .setNumberOfNodes(numberOfNodes) // TODO is this necessary?
+                    .setInformatorProperties(informatorProperties);
             super.simWindow.onNewGraphImport(builder);
         };
     }

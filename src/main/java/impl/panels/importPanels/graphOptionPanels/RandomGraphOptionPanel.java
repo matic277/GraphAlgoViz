@@ -1,9 +1,8 @@
 package impl.panels.importPanels.graphOptionPanels;
 
 import core.GraphType;
-import impl.Pair;
 import impl.graphBuilders.GraphBuilder;
-import impl.tools.Tools;
+import impl.nodeinformator.NodeInformatorProperties;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,11 +87,14 @@ public class RandomGraphOptionPanel extends OptionPanel {
             importWindow.setVisible(false);
             importWindow.dispose();
             
+            NodeInformatorProperties informatorProperties = new NodeInformatorProperties();
+            informatorProperties.setTotalNodesToInform(isPercentage ? null : nodesToInform);
+            informatorProperties.setInformedProbability(isPercentage ? (double)nodesToInform : null);
+            
             GraphBuilder builder = type.getGraphBuilder()
                     .setEdgeProbability(Double.parseDouble(edgesInput.getText()))
                     .setNumberOfNodes(Integer.parseInt(nodesInput.getText()))
-                    .setInformedProbability(isPercentage ? (double)nodesToInform : null)
-                    .setTotalInformed(isPercentage ? null : nodesToInform);
+                    .setInformatorProperties(informatorProperties);
             super.simWindow.onNewGraphImport(builder);
         };
     }
